@@ -1,0 +1,286 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTitleSize">0dp</item>
+        <item name="windowActionBar">false</item> <!-- for 2.x version -->
+        <item name="selectableItemBackground">@android:color/transparent</item>
+        <item name="actionButtonStyle">@style/ActionButton</item>
+        <item name="switchStyle">@style/Switch</item>
+        <item name="android:dropDownListViewStyle">@style/PopupMenuListView</item>
+        <!--  It should be true otherwise action mode will not overlay toolbar -->
+        <item name="windowActionModeOverlay">true</item>
+        <!--<item name="actionModeCloseDrawable">@drawable/headerbackarrow</item>-->
+        <!--<item name="android:actionModeCloseDrawable">@drawable/headerbackarrow</item>-->
+        <item name="colorControlNormal">#919191</item>
+    </style>
+
+    <style name="AppThemeNoBackground" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTitleSize">0dp</item>
+        <item name="windowActionBar">false</item> <!-- for 2.x version -->
+        <item name="selectableItemBackground">@android:color/transparent</item>
+        <item name="actionButtonStyle">@style/ActionButton</item>
+        <item name="switchStyle">@style/Switch</item>
+        <item name="android:dropDownListViewStyle">@style/PopupMenuListView</item>
+        <!--  It should be true otherwise action mode will not overlay toolbar -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="colorControlNormal">#919191</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--以下是設定editText的underline-->
+    <!--<item name="colorControlNormal">#919191</item>-->
+    <!--<item name="colorControlActivated">#919191</item>-->
+    <!--<item name="colorControlHighlight">#919191</item>-->
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- ActionBarStyle -->
+    <style name="ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">#f9f9f9</item>
+        <item name="actionButtonStyle">@style/ActionButton</item>
+    </style>
+
+    <style name="ActionButton" parent="@style/Widget.AppCompat.ActionButton">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:minWidth">20dip</item>
+        <item name="android:maxWidth">40dip</item>
+        <item name="android:paddingLeft">0dip</item>
+        <item name="android:paddingRight">0dip</item>
+    </style>
+
+    <style name="Border">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#c8c7cc</item>
+    </style>
+
+    <!-- Switch -->
+    <style name="Switch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+        <item name="showText">false</item>
+    </style>
+
+    <style name="ActionModeTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">#000</item>
+    </style>
+
+    <style name="PopupMenuListView" parent="@style/Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">#cdced2</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyCustomTabText</item>
+        <item name="tabSelectedTextColor">#FF7402</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">scrollable</item>
+        <!--<item name="tabIndicatorColor">@android:color/transparent</item>-->
+        <item name="tabIndicatorColor">#FF7402</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabPaddingStart">10dp</item>
+        <item name="tabPaddingEnd">10dp</item>
+        <item name="tabMinWidth">10dp</item>
+    </style>
+
+    <style name="MyCustomTabText" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#808080</item>
+    </style>
+
+    <!--商品詳細頁面 -->
+    <style name="StoreDetailRemain">
+        <item name="android:textColor">#ff8800</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--首頁中熱門排行榜的Topxxx字體大小-->
+    <style name="home_hot_ranking_title">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--熱門排行榜更多的Topxxx字體大小-->
+    <style name="hot_ranking_title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--訂單查詢優惠票卷＆宅配購物字體大小＆顏色-->
+    <style name="order_query_title_color">
+        <item name="android:textColor">#0066ff</item>
+    </style>
+
+    <!--核銷成功dialog之核銷張數字體大小＆顏色-->
+    <style name="ticket_count_color">
+        <item name="android:textColor">#ff3100</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <!--核銷成功dialog之核銷張數字體大小＆顏色-->
+    <style name="write_off_title_color">
+        <item name="android:textColor">#ff3b30</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="BikestoreWalletFragmentDetailsTextAppearance">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="BikestoreWalletFragmentDetailsHeaderTextAppearance" parent="BikestoreWalletFragmentDetailsTextAppearance">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="home_cat_item">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#333333</item>
+    </style>
+
+
+    <style name="history_gift_point_text">
+        <item name="android:textColor">#439ee7</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+
+    <!-- ES Splash page -->
+    <style name="es_splash_circle_text">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="es_splash_comment_text">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:shadowColor">#000</item>
+        <item name="android:shadowRadius">10</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+    </style>
+
+    <style name="es_splash_taiwan_card_text">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:shadowColor">#000</item>
+        <item name="android:shadowRadius">10</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+    </style>
+
+    <style name="es_splash_not_shown_text">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="es_splash_discount_text">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:rotation">30</item>
+    </style>
+
+    <!-- ES List page tabs -->
+    <style name="es_category_list_tabs_ticket">
+        <item name="android:textColor">#ff8800</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="es_category_list_tabs_ticket_discount">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="es_category_list_tabs_hotel">
+        <item name="android:textColor">#333333</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+
+    <style name="BottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorBackground">#00000000</item>
+    </style>
+
+
+    <style name="Order">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">#000</item>
+    </style>
+
+    <style name="Order.Border">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#c8c7cc</item>
+    </style>
+
+
+    <style name="specialPositionCountDownText_small">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TabLayoutFixed">
+        <item name="tabMode">fixed</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabSelectedTextColor">@android:color/black</item>
+        <item name="tabTextColor">@android:color/black</item>
+        <item name="tabIndicatorColor">#ff8800</item>
+        <item name="tabRippleColor">@null</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabTextAppearance">@style/TabText_15</item>
+    </style>
+
+    <style name="TabText_15" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- 預約時的提醒注意事項 -->
+    <style name="BookingNoticeAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">#9B9B9B</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 月曆的標題 -->
+    <style name="CalendarTitleAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">#4A4A4A</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- 月曆的星期幾 -->
+    <style name="CalendarWeekDayAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">#797979</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Takeaway_RadioButton">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:buttonTint">#3296FB</item>
+<!--        #3296FB #1559fe-->
+    </style>
+
+    <!-- 外帶時的提醒注意事項 -->
+    <style name="TakeawayNoticeAppearance">
+        <item name="android:textColor">#4a4a4a</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>
