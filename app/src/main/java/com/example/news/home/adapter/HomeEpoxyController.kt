@@ -6,26 +6,40 @@ import com.airbnb.epoxy.EpoxyController
 import com.example.news.epoxy.LoadingFooterModel_
 import com.example.news.model.ArticlesBean
 import com.example.news.model.NewsData
+import com.example.news.model.domainList
 import com.example.news.util.getTotalPage
 
-class HomeEpoxyController : EpoxyController() {
+class HomeEpoxyController(val mCallback: HomeEpoxyCallback) : EpoxyController() {
 
     companion object {
         const val TAG = "HomeEpoxyController"
     }
 
     private var mNewsData: NewsData? = null
+    private var isSelectDomainMode = false
 
     @AutoModel
     lateinit var loadingLoadingFooterModel: LoadingFooterModel_
 
     override fun buildModels() {
 
+        if (isSelectDomainMode) {
+            domainList.forEachIndexed { index, domain ->
+                DomainModel_()
+                    .id(domain + index)
+                    .domain(domain)
+                    .listener(mCallback)
+                    .addTo(this)
+            }
+            return
+        }
+
         val articles = mNewsData?.articles ?: emptyList()
         articles.forEachIndexed { index, articlesBean ->
             SimpleNewsModel_()
                 .id(index)
                 .articlesBean(articlesBean)
+                .listener(mCallback)
                 .addTo(this)
         }
 
@@ -46,6 +60,18 @@ class HomeEpoxyController : EpoxyController() {
             it.currentPage = newsData.currentPage
             it.articles?.addAll(newsData.articles ?: emptyList())
         } ?: run { mNewsData = newsData }
+        requestModelBuild()
+    }
+
+    fun clearNewsData() {
+        mNewsData = null
+        isSelectDomainMode = false
+        requestModelBuild()
+    }
+
+    fun changeMode() {
+        Log.d(TAG, "changeMode.")
+        isSelectDomainMode = !isSelectDomainMode
         requestModelBuild()
     }
 

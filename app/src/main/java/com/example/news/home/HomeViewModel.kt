@@ -77,7 +77,7 @@ class HomeViewModel(
                 }
 
                 override fun onError(t: Throwable?) {
-                    Log.d(TAG, "onError = $t")
+                    Log.e(TAG, "onError = $t")
                 }
 
                 override fun onComplete() {
@@ -107,5 +107,10 @@ class HomeViewModel(
             mCurrentPage++
             getEverythingByDomain(mCurrentDomain)
         }
+    }
+
+    fun resetDataPage() {
+        mCurrentPage = 1
+        mTotalResults = 0
     }
 }

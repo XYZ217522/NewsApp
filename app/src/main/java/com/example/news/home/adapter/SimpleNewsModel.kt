@@ -17,13 +17,17 @@ abstract class SimpleNewsModel : EpoxyModelWithHolder<SimpleNewsModel.Holder>() 
     @EpoxyAttribute
     var articlesBean: ArticlesBean? = null
 
+    @EpoxyAttribute
+    var listener: HomeEpoxyCallback? = null
+
     override fun getDefaultLayout() = R.layout.adapter_simple_news
 
     override fun bind(holder: Holder) {
-        articlesBean?.let {
-            holder.ivNews.loadUrl(it.urlToImage)
-            holder.tvTitle.setTextOrGone(it.title)
-            holder.tvPublished.setTextOrGone(it.publishedAt)
+        articlesBean?.let { article: ArticlesBean ->
+            holder.ivNews.loadUrl(article.urlToImage)
+            holder.tvTitle.setTextOrGone(article.title)
+            holder.tvPublished.setTextOrGone(article.publishedAt)
+            holder.view.setOnClickListener { listener?.onArticleClick(article) }
         }
     }
 
