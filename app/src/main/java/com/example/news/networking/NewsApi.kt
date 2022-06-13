@@ -1,4 +1,4 @@
-package com.example.news
+package com.example.news.networking
 
 import com.example.news.model.NewsData
 import io.reactivex.Single
@@ -22,7 +22,7 @@ interface NewsApi {
      */
     @GET("everything")
     fun getEverything(
-        @Query("domains") domains: String // e.g. wsj.com
+        @Query("domains") domains: String// e.g. wsj.com
     ): Single<NewsData>
 
     /**

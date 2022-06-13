@@ -1,6 +1,6 @@
 package com.example.news.repository
 
-import com.example.news.NewsApi
+import com.example.news.networking.NewsApi
 import com.example.news.model.NewsData
 import com.example.news.sharepreferences.Preferences
 import io.reactivex.Single
