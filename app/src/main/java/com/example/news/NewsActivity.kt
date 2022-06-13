@@ -18,6 +18,5 @@ class NewsActivity : AppCompatActivity() {
         NewsHomeFragment.newInstance().let {
             supportFragmentManager.beginTransaction().replace(R.id.root, it, "HOME").commit()
         }
-
     }
 }

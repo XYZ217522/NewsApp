@@ -2,9 +2,11 @@ package com.example.news.model
 
 data class NewsData(
     val status: String?,
-    val totalResults: Int?,
-    val articles: List<ArticlesBean>?
-)
+    val totalResults: Int,
+    val articles: MutableList<ArticlesBean>?
+) {
+    var currentPage: Int = 0
+}
 
 data class ArticlesBean(
     val source: SourceBean?,

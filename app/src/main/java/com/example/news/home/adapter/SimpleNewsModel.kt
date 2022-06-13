@@ -5,7 +5,6 @@ import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
-import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.model.ArticlesBean
 import com.example.news.util.KotlinEpoxyHolder

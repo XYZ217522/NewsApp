@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.databinding.FragmentNewsHomeBinding
 import com.example.news.home.adapter.HomeEpoxyController
+import com.example.news.util.EndlessScrollListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsHomeFragment : Fragment() {
@@ -29,7 +30,7 @@ class NewsHomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         viewGroup: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, viewGroup, savedInstanceState)
         mBinding = DataBindingUtil.inflate(
@@ -53,20 +54,38 @@ class NewsHomeFragment : Fragment() {
 
         mBinding.rvHome.apply {
             this.adapter = mHomeEpoxyController.adapter
-            this.layoutManager = LinearLayoutManager(activity)
+            val layoutManager = LinearLayoutManager(activity)
+            this.layoutManager = layoutManager
+            this.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
+                override fun onLoadMore(currentPage: Int) {
+                    mHomeViewModel.loadMore()
+                }
+            })
+        }
+
+        dataBinding()
+    }
+
+    private fun dataBinding() {
+
+        mHomeViewModel.titleLiveData.observe(viewLifecycleOwner) {
+            Log.d(TAG, "title = $it")
+            it ?: return@observe
+            mBinding.tvTitle.text = it
         }
 
         mHomeViewModel.newsEverythingLiveData.observe(viewLifecycleOwner) {
             Log.d(TAG, "data = $it")
             it ?: return@observe
-            mHomeEpoxyController.mNewsData = it
+            mHomeEpoxyController.setNewsData(it)
         }
 
         mHomeViewModel.subscribe()
     }
 
-//    override fun onDestroyView() {
-//        super.onDestroyView()
+    override fun onDestroyView() {
+        super.onDestroyView()
 //        mHomeViewModel.unsubscribe()
-//    }
+        mBinding.rvHome.clearOnScrollListeners()
+    }
 }

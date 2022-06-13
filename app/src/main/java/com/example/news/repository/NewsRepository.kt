@@ -7,14 +7,20 @@ import io.reactivex.Single
 
 open class NewsRepository(private val mNewsApi: NewsApi, private val mPreferences: Preferences) {
 
-    // techcrunch , us , business
-    fun getTopHeadlines(sources: String, country: String, category: String): Single<NewsData> {
-        return mNewsApi
-            .getTopHeadlines(sources, country, category)
+    companion object {
+        const val PAGE_SIZE = 20 // The number of results to return per page.
     }
 
-    // wsj.com
-    fun getEverything(domains: String): Single<NewsData> = mNewsApi.getEverything(domains)
+
+    fun getTopHeadlines(category: String, page: Int): Single<NewsData> {
+        return mNewsApi
+            .getTopHeadlines(category, page, PAGE_SIZE)
+    }
+
+    // apple.com
+    fun getEverything(domains: String, page: Int): Single<NewsData> {
+        return mNewsApi.getEverything(domains, page, PAGE_SIZE)
+    }
 
     //  tesla , 2022-05-22, publishedAt
     fun search(query: String, from: String, sortBy: String): Single<NewsData> {
