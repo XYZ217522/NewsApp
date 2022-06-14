@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.news.NewsActivity">
+    <item
+        android:id="@+id/tab_everything"
+        android:icon="@drawable/selector_icon_main"
+        android:title="everything" />
+
+    <item
+        android:id="@+id/tab_popularity"
+        android:icon="@drawable/selector_icon_popular"
+        android:title="popularity" />
+
+</menu>

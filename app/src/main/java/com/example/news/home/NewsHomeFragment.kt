@@ -7,17 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
+import com.example.news.base.BaseFragment
 import com.example.news.databinding.FragmentNewsHomeBinding
 import com.example.news.home.adapter.HomeEpoxyCallback
 import com.example.news.home.adapter.HomeEpoxyController
 import com.example.news.model.ArticlesBean
 import com.example.news.util.EndlessScrollListener
+import com.example.news.util.setAnimation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewsHomeFragment : Fragment(), HomeEpoxyCallback {
+class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
 
     companion object {
         const val TAG = "NewsHomeFragment"
@@ -25,9 +26,12 @@ class NewsHomeFragment : Fragment(), HomeEpoxyCallback {
     }
 
     private val mHomeViewModel: HomeViewModel by viewModel()
+
     private lateinit var mBinding: FragmentNewsHomeBinding
 
     private val mHomeEpoxyController by lazy { HomeEpoxyController(this) }
+
+    override var navigationVisibility = View.VISIBLE
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +69,9 @@ class NewsHomeFragment : Fragment(), HomeEpoxyCallback {
             })
         }
 
-        mBinding.tvTitle.setOnClickListener { mHomeEpoxyController.changeMode() }
+        mBinding.tvTitle.setOnClickListener {
+            mHomeEpoxyController.changeMode().let { mBinding.rvHome.setAnimation(it) }
+        }
 
         dataBinding()
     }
@@ -76,6 +82,7 @@ class NewsHomeFragment : Fragment(), HomeEpoxyCallback {
             Log.d(TAG, "title = $it")
             it ?: return@observe
             mBinding.tvTitle.text = it
+            mHomeEpoxyController.mSelectDomain = it
         }
 
         mHomeViewModel.newsEverythingLiveData.observe(viewLifecycleOwner) {
@@ -84,8 +91,6 @@ class NewsHomeFragment : Fragment(), HomeEpoxyCallback {
             mHomeEpoxyController.setNewsData(it)
             if (it.currentPage == 1) mBinding.rvHome.scrollToPosition(0)
         }
-
-        mHomeViewModel.subscribe()
     }
 
     override fun onDestroyView() {

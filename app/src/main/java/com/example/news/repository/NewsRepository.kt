@@ -11,7 +11,6 @@ open class NewsRepository(private val mNewsApi: NewsApi, private val mPreference
         const val PAGE_SIZE = 20 // The number of results to return per page.
     }
 
-
     fun getTopHeadlines(category: String, page: Int): Single<NewsData> {
         return mNewsApi
             .getTopHeadlines(category, page, PAGE_SIZE)

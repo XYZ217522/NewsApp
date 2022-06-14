@@ -3,6 +3,7 @@ package com.example.news.home.adapter
 import android.util.Log
 import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
+import com.example.news.R
 import com.example.news.epoxy.LoadingFooterModel_
 import com.example.news.model.ArticlesBean
 import com.example.news.model.NewsData
@@ -17,6 +18,7 @@ class HomeEpoxyController(val mCallback: HomeEpoxyCallback) : EpoxyController() 
 
     private var mNewsData: NewsData? = null
     private var isSelectDomainMode = false
+    var mSelectDomain = ""
 
     @AutoModel
     lateinit var loadingLoadingFooterModel: LoadingFooterModel_
@@ -28,6 +30,7 @@ class HomeEpoxyController(val mCallback: HomeEpoxyCallback) : EpoxyController() 
                 DomainModel_()
                     .id(domain + index)
                     .domain(domain)
+                    .isSelected(mSelectDomain == domain)
                     .listener(mCallback)
                     .addTo(this)
             }
@@ -69,10 +72,11 @@ class HomeEpoxyController(val mCallback: HomeEpoxyCallback) : EpoxyController() 
         requestModelBuild()
     }
 
-    fun changeMode() {
+    fun changeMode(): Int {
         Log.d(TAG, "changeMode.")
         isSelectDomainMode = !isSelectDomainMode
         requestModelBuild()
+        return if (isSelectDomainMode) R.anim.slide_down else R.anim.slide_up
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.news.model
 
-val domainList = listOf<String>(
+val domainList = listOf(
     "apple.com",
     "www.google.com",
     "youtube.com",
@@ -14,4 +14,4 @@ val domainList = listOf<String>(
     "line.me",
     "imdb.com",
     "adobe.com"
-    )
+)

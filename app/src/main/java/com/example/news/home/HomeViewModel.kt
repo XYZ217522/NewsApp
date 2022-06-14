@@ -33,12 +33,8 @@ class HomeViewModel(
     val newsEverythingLiveData = MutableLiveData<NewsData>()
     val titleLiveData = MutableLiveData<String>()
 
-//    init {
-//        subscribe()
-//    }
-
-    fun subscribe() {
-        Log.d(TAG, "subscribe.")
+    init {
+        Log.d(TAG,"init.")
         getEverythingByDomain()
     }
 

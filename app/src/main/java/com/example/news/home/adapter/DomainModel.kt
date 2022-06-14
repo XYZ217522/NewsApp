@@ -1,16 +1,13 @@
 package com.example.news.home.adapter
 
 import android.graphics.Color
-import android.widget.ImageView
+import android.util.Log
 import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
-import com.example.news.model.ArticlesBean
 import com.example.news.util.KotlinEpoxyHolder
-import com.example.news.util.loadUrl
-import com.example.news.util.setTextOrGone
 
 @EpoxyModelClass
 abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {
@@ -20,7 +17,7 @@ abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {
 
     @JvmField
     @EpoxyAttribute
-    var isSelected = false
+    var isSelected: Boolean = false
 
     @EpoxyAttribute
     var listener: HomeEpoxyCallback? = null
@@ -28,10 +25,11 @@ abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {
     override fun getDefaultLayout() = R.layout.adapter_single_text
 
     override fun bind(holder: Holder) {
+        val color = if (isSelected) Color.parseColor("#ff8800") else Color.BLACK
         holder.tvDomain.apply {
             domain?.let {
                 this.text = it
-                this.setTextColor(if (isSelected) Color.YELLOW else Color.BLACK)
+                this.setTextColor(color)
                 this.setOnClickListener { listener?.onDomainClick(domain!!) }
             }
         }
