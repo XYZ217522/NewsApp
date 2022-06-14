@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.base.BaseFragment
+import com.example.news.base.NewsWebViewFragment
 import com.example.news.databinding.FragmentNewsHomeBinding
 import com.example.news.home.adapter.HomeEpoxyCallback
 import com.example.news.home.adapter.HomeEpoxyController
@@ -33,6 +35,10 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
 
     override var navigationVisibility = View.VISIBLE
 
+    override var isRootFragment = true
+
+    override fun getSupportActionBar(): Toolbar = mBinding.homeActionbar
+
     override fun onCreateView(
         inflater: LayoutInflater,
         viewGroup: ViewGroup?,
@@ -51,12 +57,6 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        with(mBinding.homeActionbar) {
-            this.title = ""
-//            this?.setNavigationIcon(R.drawable.back_arrow)
-            (activity as AppCompatActivity).setSupportActionBar(this)
-        }
 
         mBinding.rvHome.apply {
             this.adapter = mHomeEpoxyController.adapter
@@ -89,7 +89,7 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
             Log.d(TAG, "data = $it")
             it ?: return@observe
             mHomeEpoxyController.setNewsData(it)
-            if (it.currentPage == 1) mBinding.rvHome.scrollToPosition(0)
+            if (it.currentPage == 1) mBinding.rvHome.scrollToPosition(0) //todo
         }
     }
 
@@ -108,5 +108,10 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
 
     override fun onArticleClick(articlesBean: ArticlesBean) {
         Log.d(TAG, "onArticleClick articlesBean:$articlesBean")
+        val url = articlesBean.url ?: run {
+            Toast.makeText(activity, "gg", Toast.LENGTH_SHORT).show()
+            return
+        }
+        pushFragment(NewsWebViewFragment.newInstance(url, articlesBean.title))
     }
 }

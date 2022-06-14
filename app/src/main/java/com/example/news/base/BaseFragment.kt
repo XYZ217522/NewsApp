@@ -2,17 +2,33 @@ package com.example.news.base
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.news.NewsActivity
+import com.example.news.R
 
 abstract class BaseFragment : Fragment() {
 
     protected open var navigationVisibility = View.GONE
 
+    protected open var isRootFragment = false
+
+    protected open fun getSupportActionBar(): Toolbar? {
+        return null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is NewsActivity) {
             (activity as NewsActivity).setBottomNavigationVisibility(navigationVisibility)
+        }
+
+        // toolbar setting
+        getSupportActionBar()?.let {
+            it.title = ""
+            (activity as AppCompatActivity).setSupportActionBar(it)
+            if (!isRootFragment) it.setNavigationIcon(R.drawable.back_arrow)
         }
     }
 

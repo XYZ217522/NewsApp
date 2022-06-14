@@ -1,6 +1,7 @@
 package com.example.news
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -23,7 +24,6 @@ class NewsActivity : AppCompatActivity() {
     private val newsHomeFragment: BaseFragment by lazy { NewsHomeFragment.newInstance() }
     private val popularityFragment: Fragment by lazy { Fragment() } //todo PopularityFragment.newInstance()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_news)
@@ -36,6 +36,13 @@ class NewsActivity : AppCompatActivity() {
             true
         }
         activityMainBinding.navigationView.selectedItemId = R.id.tab_everything
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun pushFragment(fragment: Fragment, isRootFragment: Boolean = false) {
@@ -52,7 +59,6 @@ class NewsActivity : AppCompatActivity() {
     }
 
     fun setBottomNavigationVisibility(visibility: Int) {
-        // get the reference of the bottomNavigationView and set the visibility.
         activityMainBinding.navigationView.visibility = visibility
     }
 }
