@@ -3,6 +3,7 @@ package com.example.news.home
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
@@ -36,6 +37,8 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     override var navigationVisibility = View.VISIBLE
 
     override var isRootFragment = true
+
+    override var optionsMenuId: Int? = R.menu.home_menu
 
     override fun getSupportActionBar(): Toolbar = mBinding.homeActionbar
 
@@ -110,6 +113,14 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
         super.onDestroyView()
 //        mHomeViewModel.unsubscribe()
         mBinding.rvHome.clearOnScrollListeners()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_search) {
+            Log.d(TAG, "onOptionsItemSelected menu_search.")
+            // todo
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDomainClick(domain: String) {

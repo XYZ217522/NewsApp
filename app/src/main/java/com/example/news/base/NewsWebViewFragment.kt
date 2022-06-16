@@ -4,8 +4,13 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.webkit.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -32,6 +37,8 @@ class NewsWebViewFragment : BaseFragment() {
     }
 
     private lateinit var mBinding: FragmentWebviewBinding
+
+    override var optionsMenuId: Int? = R.menu.web_menu
 
     override fun getSupportActionBar(): Toolbar = mBinding.webActionbar
 
@@ -66,9 +73,7 @@ class NewsWebViewFragment : BaseFragment() {
         // 設定進度條的顏色
         // https://stackoverflow.com/questions/56716093/setcolorfilter-is-deprecated-on-api29/56717316
         mBinding.pbLoading.progressDrawable?.colorFilter = BlendModeColorFilterCompat
-            .createBlendModeColorFilterCompat(
-                Color.rgb(50, 150, 251), BlendModeCompat.SRC_IN
-            )
+            .createBlendModeColorFilterCompat(Color.parseColor("#3296fb"), BlendModeCompat.SRC_IN)
 
         mBinding.webView.settings.apply {
             this.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
@@ -93,5 +98,13 @@ class NewsWebViewFragment : BaseFragment() {
         arguments?.getString(ARGS_URL, "")?.let {
             mBinding.webView.loadUrl(it)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_share) {
+            Log.d(TAG, "onOptionsItemSelected menu_share.")
+            // todo
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

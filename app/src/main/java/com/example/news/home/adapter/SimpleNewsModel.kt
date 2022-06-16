@@ -11,8 +11,6 @@ import com.example.news.model.ArticlesBean
 import com.example.news.util.formatStringToDate
 import com.example.news.util.loadUrl
 import com.example.news.util.setTextOrGone
-import java.lang.StringBuilder
-import java.util.*
 
 @EpoxyModelClass
 abstract class SimpleNewsModel : EpoxyModelWithHolder<SimpleNewsModel.Holder>() {

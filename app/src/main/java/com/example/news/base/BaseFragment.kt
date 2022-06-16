@@ -1,6 +1,8 @@
 package com.example.news.base
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +17,17 @@ abstract class BaseFragment : Fragment() {
 
     protected open var isRootFragment = false
 
+    protected open var optionsMenuId: Int? = null
+
     protected open fun getSupportActionBar(): Toolbar? {
         return null
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (optionsMenuId != null) {
+            setHasOptionsMenu(true)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +49,12 @@ abstract class BaseFragment : Fragment() {
         if (activity is NewsActivity) {
             (activity as NewsActivity).setBottomNavigationVisibility(navigationVisibility)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        val menuId = optionsMenuId ?: return
+        inflater.inflate(menuId, menu)
     }
 
     fun pushFragment(fragment: BaseFragment) {
