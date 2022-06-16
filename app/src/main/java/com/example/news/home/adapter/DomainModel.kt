@@ -1,13 +1,12 @@
 package com.example.news.home.adapter
 
 import android.graphics.Color
-import android.util.Log
 import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
-import com.example.news.util.KotlinEpoxyHolder
+import com.example.news.epoxy.KotlinEpoxyHolder
 
 @EpoxyModelClass
 abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {

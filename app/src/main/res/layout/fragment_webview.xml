@@ -21,11 +21,15 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ellipsize="end"
             android:gravity="center"
+            android:singleLine="true"
             android:textColor="@drawable/item_selector"
             android:textSize="16sp"
+            android:layout_marginLeft="44dp"
+            android:layout_marginRight="44dp"
             app:layout_constraintBottom_toBottomOf="@+id/web_actionbar"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -52,11 +56,10 @@
         <!--最上方的loading-->
         <ProgressBar
             android:id="@+id/pb_loading"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/web_actionbar"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/web_actionbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

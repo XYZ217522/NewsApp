@@ -10,7 +10,7 @@ import com.example.news.model.NewsData
 import com.example.news.model.domainList
 import com.example.news.util.getTotalPage
 
-class HomeEpoxyController(val mCallback: HomeEpoxyCallback) : EpoxyController() {
+class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyController() {
 
     companion object {
         const val TAG = "HomeEpoxyController"
@@ -59,6 +59,7 @@ class HomeEpoxyController(val mCallback: HomeEpoxyCallback) : EpoxyController() 
     }
 
     fun setNewsData(newsData: NewsData) {
+        Log.d(TAG,"setNewsData:${newsData.currentPage}")
         mNewsData?.let {
             it.currentPage = newsData.currentPage
             it.articles?.addAll(newsData.articles ?: emptyList())

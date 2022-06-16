@@ -2,6 +2,7 @@ package com.example.news.base
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -43,5 +44,15 @@ abstract class BaseFragment : Fragment() {
         if (activity is NewsActivity) {
             (activity as NewsActivity).pushFragment(fragment)
         }
+    }
+
+    fun messageDialog(msg: String?, title: String? = null): AlertDialog? {
+        msg ?: return null
+        val context = activity ?: return null
+        return AlertDialog.Builder(context)
+            .setMessage(msg)
+            .setTitle(title)
+            .setNegativeButton(R.string.btn_confirm) { dialog, _ -> dialog.cancel() }
+            .create()
     }
 }

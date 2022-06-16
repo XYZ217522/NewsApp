@@ -3,9 +3,11 @@ package com.example.news.home
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.news.util.ViewStatus
 import com.example.news.model.NewsData
 import com.example.news.repository.NewsRepository
 import com.example.news.sharepreferences.Preferences
+import com.example.news.util.Event
 import com.example.news.util.SwitchSchedulers
 import com.example.news.util.getTotalPage
 import io.reactivex.Flowable
@@ -30,17 +32,20 @@ class HomeViewModel(
     private var mTotalResults = 0
     private var mCurrentDomain: String? = null
 
-    val newsEverythingLiveData = MutableLiveData<NewsData>()
+    // 若使用Event<T>，只會送一次，之後送null
+    val newsEverythingLiveData = MutableLiveData<Event<NewsData>>()
     val titleLiveData = MutableLiveData<String>()
+    val viewStatusLiveData = MutableLiveData<Event<ViewStatus>>()
 
     init {
-        Log.d(TAG,"init.")
+        Log.d(TAG, "init.")
         getEverythingByDomain()
     }
 
     fun getEverythingByDomain(requestDomain: String? = null) {
         Log.d(TAG, "getEverythingByDomain domain=$requestDomain")
-        val domainFlowable = if (mCurrentDomain != null && mCurrentDomain == requestDomain) {
+        val isDefaultDomain = mCurrentDomain != null && mCurrentDomain == requestDomain
+        val domainFlowable = if (isDefaultDomain) {
             Flowable.empty() // 此情況直接回傳Flowable.empty()，不觸發onNext()
         } else {
             getDomainFlowable(requestDomain ?: mCurrentDomain).cache()
@@ -60,20 +65,18 @@ class HomeViewModel(
                     request(1)
                 }
 
-                override fun onNext(t: Any?) {
+                override fun onNext(t: Any) {
                     Log.d(TAG, "onNext = $t")
                     request(1)
                     when (t) {
                         is String -> titleLiveData.value = t
-                        is NewsData -> {
-                            mTotalResults = t.totalResults
-                            newsEverythingLiveData.value = t
-                        }
+                        is NewsData -> t.handleNewsData(isDefaultDomain)
                     }
                 }
 
                 override fun onError(t: Throwable?) {
                     Log.e(TAG, "onError = $t")
+                    viewStatusLiveData.value = Event(ViewStatus.ShowDialog(t.toString()))
                 }
 
                 override fun onComplete() {
@@ -81,7 +84,18 @@ class HomeViewModel(
                 }
 
             }).addTo(compositeDisposable)
+    }
 
+    private fun NewsData.handleNewsData(defaultDomain: Boolean) {
+        if (this.currentPage == 1 && this.articles.isNullOrEmpty()) {
+            viewStatusLiveData.value = Event(ViewStatus.ShowDialog("Articles Empty."))
+            return
+        }
+
+        mTotalResults = this.totalResults
+        newsEverythingLiveData.value = Event(this)
+        viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
+        if (!defaultDomain) viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
     }
 
     private fun getDomainFlowable(requestDomain: String? = null): Flowable<String> {

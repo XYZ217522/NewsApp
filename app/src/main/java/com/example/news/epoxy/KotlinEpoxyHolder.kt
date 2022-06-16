@@ -1,4 +1,4 @@
-package com.example.news.util
+package com.example.news.epoxy
 
 import android.view.View
 import com.airbnb.epoxy.EpoxyHolder

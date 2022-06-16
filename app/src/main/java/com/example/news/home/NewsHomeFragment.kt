@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +16,7 @@ import com.example.news.home.adapter.HomeEpoxyCallback
 import com.example.news.home.adapter.HomeEpoxyController
 import com.example.news.model.ArticlesBean
 import com.example.news.util.EndlessScrollListener
+import com.example.news.util.ViewStatus
 import com.example.news.util.setAnimation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -67,16 +67,17 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
                     mHomeViewModel.loadMore()
                 }
             })
+            mHomeEpoxyController.requestModelBuild()//t
         }
 
         mBinding.tvTitle.setOnClickListener {
             mHomeEpoxyController.changeMode().let { mBinding.rvHome.setAnimation(it) }
         }
 
-        dataBinding()
+        binding()
     }
 
-    private fun dataBinding() {
+    private fun binding() {
 
         mHomeViewModel.titleLiveData.observe(viewLifecycleOwner) {
             Log.d(TAG, "title = $it")
@@ -87,9 +88,21 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
 
         mHomeViewModel.newsEverythingLiveData.observe(viewLifecycleOwner) {
             Log.d(TAG, "data = $it")
-            it ?: return@observe
-            mHomeEpoxyController.setNewsData(it)
-            if (it.currentPage == 1) mBinding.rvHome.scrollToPosition(0) //todo
+            val newsData = it?.getContentIfNotHandled() ?: return@observe
+            mHomeEpoxyController.setNewsData(newsData)
+        }
+
+        mHomeViewModel.viewStatusLiveData.observe(viewLifecycleOwner) {
+            Log.d(TAG, "view status = $it")
+            val viewStatus = it?.getContentIfNotHandled() ?: return@observe
+            when (viewStatus) {
+                is ViewStatus.ShowDialog -> messageDialog(viewStatus.msg, viewStatus.title)?.show()
+                is ViewStatus.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
+                is ViewStatus.GetDataSuccess -> mBinding.rvHome.visibility = View.VISIBLE
+                is ViewStatus.GetDataFail -> Log.d(TAG, "GetDataFail:${viewStatus.msg}")
+                is ViewStatus.Loading -> {} // not implement
+                is ViewStatus.ShowToast -> {} // not implement
+            }
         }
     }
 
@@ -109,7 +122,7 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     override fun onArticleClick(articlesBean: ArticlesBean) {
         Log.d(TAG, "onArticleClick articlesBean:$articlesBean")
         val url = articlesBean.url ?: run {
-            Toast.makeText(activity, "gg", Toast.LENGTH_SHORT).show()
+            messageDialog("url not founded")?.show()
             return
         }
         pushFragment(NewsWebViewFragment.newInstance(url, articlesBean.title))

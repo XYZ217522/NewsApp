@@ -21,6 +21,7 @@ class NewsActivity : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityNewsBinding
 
+    // root fragments
     private val newsHomeFragment: BaseFragment by lazy { NewsHomeFragment.newInstance() }
     private val popularityFragment: Fragment by lazy { Fragment() } //todo PopularityFragment.newInstance()
 

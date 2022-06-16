@@ -4,22 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class Preferences(context: Context) {
-    private val preferences: SharedPreferences =
-        context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
-
-//
-//    private fun storeFragmentContent(content: String) {
-//        preferences.edit().putString(fragmentContentKey, content).apply()
-//    }
-//
-//    fun getFragmentContent(): String? {
-//        return preferences.getString(fragmentContentKey, "")
-//    }
+    private val preferences = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
 
     fun getStringValue(key: String, defaultValue: String): String {
         return preferences.getString(key, defaultValue) ?: defaultValue
     }
-
 
     fun <T> getValue(key: String, defaultValue: T): T {
         return when (defaultValue) {
@@ -42,6 +31,5 @@ class Preferences(context: Context) {
             is Float -> edit.putFloat(key, value).apply()
         }
     }
-
 
 }
