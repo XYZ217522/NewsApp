@@ -35,6 +35,20 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    def apiKey = rootProject.ext.newsApiKey
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            buildConfigField "boolean", "IS_INTERNAL", "true"
+            buildConfigField "String", "API_KEY", '\"'+apiKey+'\"'
+        }
+
+        pub {
+            buildConfigField "boolean", "IS_INTERNAL", "false"
+            buildConfigField "String", "API_KEY", '\"'+apiKey+'\"'
+        }
+    }
 }
 
 kapt {

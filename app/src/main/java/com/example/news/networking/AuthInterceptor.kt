@@ -3,11 +3,14 @@ package com.example.news.networking
 import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.Response
+import com.example.news.BuildConfig
+
+
 
 class AuthInterceptor : Interceptor {
 
     companion object {
-        const val API_KEY = ""
+        const val API_KEY = BuildConfig.API_KEY
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {
