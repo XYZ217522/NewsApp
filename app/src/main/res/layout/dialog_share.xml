@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/root_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <ImageView
+                android:id="@+id/iv_share_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:src="@drawable/line_icon"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_share_fb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:src="@drawable/facebook_icon"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_share_messenger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:src="@drawable/messenger_icon"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_chrome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:src="@drawable/chrome_icon"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_copy_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:src="@drawable/share_copy_link_icon"
+                android:visibility="visible" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

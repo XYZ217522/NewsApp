@@ -37,7 +37,7 @@ abstract class SimpleNewsModel : EpoxyModelWithHolder<SimpleNewsModel.Holder>() 
         val sb = StringBuilder()
         article.author?.let { sb.append("author : $it") }
         article.source?.name?.let {
-            if (sb.isNotEmpty()) sb.append(" , source : $it")
+            if (sb.isNotEmpty()) sb.append(" , source : $it") else sb.append("source : $it")
         }
         return sb.toString()
     }

@@ -18,6 +18,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.databinding.DataBindingUtil
 import com.example.news.R
 import com.example.news.databinding.FragmentWebviewBinding
+import com.example.news.util.shareDialog
 
 class NewsWebViewFragment : BaseFragment() {
 
@@ -37,6 +38,8 @@ class NewsWebViewFragment : BaseFragment() {
     }
 
     private lateinit var mBinding: FragmentWebviewBinding
+
+    private lateinit var mTitle: String
 
     override var optionsMenuId: Int? = R.menu.web_menu
 
@@ -67,8 +70,8 @@ class NewsWebViewFragment : BaseFragment() {
     @SuppressLint("SetJavaScriptEnabled")
     private fun initView() {
         Log.i(TAG, "initView.")
-
-        mBinding.tvTitle.text = arguments?.getString(ARGS_TITLE, "Title") ?: "Title"
+        mTitle = arguments?.getString(ARGS_TITLE, "Title") ?: "Title"
+        mBinding.tvTitle.text = mTitle
 
         // 設定進度條的顏色
         // https://stackoverflow.com/questions/56716093/setcolorfilter-is-deprecated-on-api29/56717316
@@ -103,7 +106,10 @@ class NewsWebViewFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_share) {
             Log.d(TAG, "onOptionsItemSelected menu_share.")
-            // todo
+            mBinding.webView.url?.let {
+                val fakeShareContent = "share From NewsApp!!!"
+                activity?.shareDialog(it, mTitle, fakeShareContent)?.show()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

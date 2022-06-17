@@ -1,14 +1,21 @@
 package com.example.news.util
 
+import android.content.Context
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
+import java.time.Duration
 
+fun Context?.showToast(text: String, duration: Int = Toast.LENGTH_SHORT) {
+    this ?: return
+    Toast.makeText(this, text, duration).show()
+}
 
 fun TextView?.setTextOrGone(text: String?) {
     val textView = this ?: return
