@@ -1,4 +1,4 @@
-package com.example.news.home.adapter
+package com.example.news.epoxy
 
 import android.widget.ImageView
 import android.widget.TextView
@@ -6,7 +6,7 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
-import com.example.news.epoxy.KotlinEpoxyHolder
+import com.example.news.home.adapter.HomeEpoxyCallback
 import com.example.news.model.ArticlesBean
 import com.example.news.util.formatStringToDate
 import com.example.news.util.loadUrl
@@ -19,7 +19,7 @@ abstract class SimpleNewsModel : EpoxyModelWithHolder<SimpleNewsModel.Holder>() 
     var articlesBean: ArticlesBean? = null
 
     @EpoxyAttribute
-    var listener: HomeEpoxyCallback? = null
+    var listener: BaseNewsEpoxyCallback? = null
 
     override fun getDefaultLayout() = R.layout.adapter_simple_news
 

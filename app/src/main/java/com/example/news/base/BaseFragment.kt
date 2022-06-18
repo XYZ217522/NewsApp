@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.news.NewsActivity
 import com.example.news.R
+import com.example.news.model.ArticlesBean
+import com.example.news.util.messageDialog
 
 abstract class BaseFragment : Fragment() {
 
@@ -63,13 +64,11 @@ abstract class BaseFragment : Fragment() {
         }
     }
 
-    fun messageDialog(msg: String?, title: String? = null): AlertDialog? {
-        msg ?: return null
-        val context = activity ?: return null
-        return AlertDialog.Builder(context)
-            .setMessage(msg)
-            .setTitle(title)
-            .setNegativeButton(R.string.btn_confirm) { dialog, _ -> dialog.cancel() }
-            .create()
+    fun pushWebViewFragment(articlesBean: ArticlesBean) {
+        val url = articlesBean.url ?: run {
+            activity?.messageDialog("url not founded")?.show()
+            return
+        }
+        pushFragment(NewsWebViewFragment.newInstance(url, articlesBean.title))
     }
 }

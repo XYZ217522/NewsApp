@@ -1,7 +1,10 @@
 package com.example.news.util
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import com.example.news.repository.NewsRepository
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -29,5 +32,13 @@ fun String.formatStringToDate(): String? {
     } catch (e: Exception) {
         Log.e("tag","$e")
         null
+    }
+}
+
+fun Activity?.hideKeyboard() {
+    this ?: return
+    val inputManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    this.currentFocus?.let {
+        inputManager.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 }

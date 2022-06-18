@@ -10,6 +10,15 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.news.R
 
+fun Context.messageDialog(msg: String?, title: String? = null): AlertDialog? {
+    msg ?: return null
+    return AlertDialog.Builder(this)
+        .setMessage(msg)
+        .setTitle(title)
+        .setNegativeButton(R.string.btn_confirm) { dialog, _ -> dialog.cancel() }
+        .create()
+}
+
 fun Context.shareDialog(url: String, title: String, content: String): AlertDialog {
 
     val titleView = LayoutInflater.from(this).inflate(R.layout.dialog_title, null)

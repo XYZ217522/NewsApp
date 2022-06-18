@@ -1,6 +1,5 @@
-package com.example.news.home.adapter
+package com.example.news.search.adapter
 
-import android.graphics.Color
 import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
@@ -9,27 +8,21 @@ import com.example.news.R
 import com.example.news.epoxy.KotlinEpoxyHolder
 
 @EpoxyModelClass
-abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {
+abstract class HistoryTextModel : EpoxyModelWithHolder<HistoryTextModel.Holder>() {
 
     @EpoxyAttribute
-    var domain: String? = null
-
-    @JvmField
-    @EpoxyAttribute
-    var isSelected: Boolean = false
+    var historyText: String? = null
 
     @EpoxyAttribute
-    var listener: HomeEpoxyCallback? = null
+    var listener: SearchEpoxyCallback? = null
 
     override fun getDefaultLayout() = R.layout.adapter_single_text
 
     override fun bind(holder: Holder) {
-        val color = if (isSelected) Color.parseColor("#ff8800") else Color.BLACK
         holder.tvDomain.apply {
-            domain?.let {
+            historyText?.let {
                 this.text = it
-                this.setTextColor(color)
-                this.setOnClickListener { listener?.onDomainClick(domain!!) }
+                this.setOnClickListener { listener?.onHistoryTextClick(historyText!!) }
             }
         }
     }

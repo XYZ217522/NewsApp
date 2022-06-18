@@ -32,4 +32,8 @@ class Preferences(context: Context) {
         }
     }
 
+    fun remove(key: String) {
+        preferences.edit().remove(key).apply()
+    }
+
 }

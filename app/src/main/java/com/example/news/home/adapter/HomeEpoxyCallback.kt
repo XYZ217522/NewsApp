@@ -1,10 +1,8 @@
 package com.example.news.home.adapter
 
-import com.example.news.model.ArticlesBean
+import com.example.news.epoxy.BaseNewsEpoxyCallback
 
-interface HomeEpoxyCallback {
+interface HomeEpoxyCallback : BaseNewsEpoxyCallback {
 
     fun onDomainClick(domain: String)
-
-    fun onArticleClick(articlesBean: ArticlesBean)
 }

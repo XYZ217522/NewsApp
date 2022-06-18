@@ -6,6 +6,7 @@ import com.example.news.networking.provideNewsApi
 import com.example.news.networking.provideOkHttpClient
 import com.example.news.networking.provideRetrofit
 import com.example.news.repository.NewsRepository
+import com.example.news.search.SearchViewModel
 import com.example.news.sharepreferences.Preferences
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -20,6 +21,7 @@ val networkModule = module {
 
 val viewModelModule = module {
     viewModel { HomeViewModel(get(), get()) }
+    viewModel { SearchViewModel(get(), get()) }
 }
 
 val repoModule = module {

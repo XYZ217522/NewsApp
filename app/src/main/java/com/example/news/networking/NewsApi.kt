@@ -47,7 +47,7 @@ interface NewsApi {
     fun search(
         @Query("q") q: String, // e.g. tesla
         @Query("from") from: String, // e.g. 2022-05-22
-        @Query("sortBy") sortBy: String, // e.g. publishedAt
+        @Query("pageSize") pageSize: Int = 50, // e.g. publishedAt
     ): Single<NewsData>
 
     /**
@@ -57,7 +57,6 @@ interface NewsApi {
     fun searchPopularity(
         @Query("q") q: String, // e.g. apple
         @Query("from") from: String, // e.g. 2022-05-22
-        @Query("to") to: String, // e.g. 2022-05-23
         @Query("sortBy") sortBy: String = "popularity", // e.g. popularity
     ): Single<NewsData>
 }

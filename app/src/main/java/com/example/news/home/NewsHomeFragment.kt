@@ -16,8 +16,10 @@ import com.example.news.databinding.FragmentNewsHomeBinding
 import com.example.news.home.adapter.HomeEpoxyCallback
 import com.example.news.home.adapter.HomeEpoxyController
 import com.example.news.model.ArticlesBean
+import com.example.news.search.SearchFragment
 import com.example.news.util.EndlessScrollListener
 import com.example.news.util.ViewStatus
+import com.example.news.util.messageDialog
 import com.example.news.util.setAnimation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,7 +56,7 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
             viewGroup,
             false
         )
-        mBinding.lifecycleOwner = this
+        mBinding.lifecycleOwner = viewLifecycleOwner
         return mBinding.root
     }
 
@@ -99,12 +101,14 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
             Log.d(TAG, "view status = $it")
             val viewStatus = it?.getContentIfNotHandled() ?: return@observe
             when (viewStatus) {
-                is ViewStatus.ShowDialog -> messageDialog(viewStatus.msg, viewStatus.title)?.show()
                 is ViewStatus.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
                 is ViewStatus.GetDataSuccess -> mBinding.rvHome.visibility = View.VISIBLE
-                is ViewStatus.GetDataFail -> Log.d(TAG, "GetDataFail:${viewStatus.msg}")
-                is ViewStatus.Loading -> {} // not implement
-                is ViewStatus.ShowToast -> {} // not implement
+                is ViewStatus.ShowDialog -> {
+                    activity?.messageDialog(viewStatus.msg, viewStatus.title)?.show()
+                }
+                is ViewStatus.GetDataFail -> Log.d(TAG, "not implement.")
+                is ViewStatus.Loading -> Log.d(TAG, "not implement.")
+                is ViewStatus.ShowToast -> Log.d(TAG, "not implement.")
             }
         }
     }
@@ -118,7 +122,7 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.menu_search) {
             Log.d(TAG, "onOptionsItemSelected menu_search.")
-            // todo
+            pushFragment(SearchFragment.newInstance())
         }
         return super.onOptionsItemSelected(item)
     }
@@ -132,10 +136,6 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
 
     override fun onArticleClick(articlesBean: ArticlesBean) {
         Log.d(TAG, "onArticleClick articlesBean:$articlesBean")
-        val url = articlesBean.url ?: run {
-            messageDialog("url not founded")?.show()
-            return
-        }
-        pushFragment(NewsWebViewFragment.newInstance(url, articlesBean.title))
+        pushWebViewFragment(articlesBean)
     }
 }

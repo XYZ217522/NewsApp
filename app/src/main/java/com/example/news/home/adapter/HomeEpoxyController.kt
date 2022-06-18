@@ -5,6 +5,7 @@ import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import com.example.news.R
 import com.example.news.epoxy.LoadingFooterModel_
+import com.example.news.epoxy.SimpleNewsModel_
 import com.example.news.model.ArticlesBean
 import com.example.news.model.NewsData
 import com.example.news.model.domainList

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.news.util.ViewStatus
 import com.example.news.model.NewsData
 import com.example.news.repository.NewsRepository
+import com.example.news.sharepreferences.PreferenceConst.SELECT_DOMAIN
 import com.example.news.sharepreferences.Preferences
 import com.example.news.util.Event
 import com.example.news.util.SwitchSchedulers
@@ -22,7 +23,6 @@ class HomeViewModel(
 
     companion object {
         const val TAG = "HomeViewModel"
-        const val SP_SELECT_DOMAIN = "SP_SELECT_DOMAIN"
         const val DEFAULT_DOMAIN = "apple.com"
     }
 
@@ -100,8 +100,8 @@ class HomeViewModel(
 
     private fun getDomainFlowable(requestDomain: String? = null): Flowable<String> {
         return Flowable
-            .just(requestDomain ?: preferences.getValue(SP_SELECT_DOMAIN, DEFAULT_DOMAIN))
-            .doOnNext { mCurrentDomain = run { preferences.setValue(SP_SELECT_DOMAIN, it);it } }
+            .just(requestDomain ?: preferences.getValue(SELECT_DOMAIN, DEFAULT_DOMAIN))
+            .doOnNext { mCurrentDomain = run { preferences.setValue(SELECT_DOMAIN, it);it } }
     }
 
     fun unsubscribe() {
