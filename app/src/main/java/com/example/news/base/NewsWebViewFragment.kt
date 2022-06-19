@@ -8,9 +8,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
+import android.webkit.*
 import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -57,7 +55,7 @@ class NewsWebViewFragment : BaseFragment() {
             viewGroup,
             false
         )
-        mBinding.lifecycleOwner = this
+        mBinding.lifecycleOwner = viewLifecycleOwner
         return mBinding.root
     }
 
@@ -96,6 +94,14 @@ class NewsWebViewFragment : BaseFragment() {
                     mBinding.pbLoading.progress = newProgress
                 }
             }
+        }
+
+        // https://stackoverflow.com/questions/33048945/denied-starting-an-intent-without-a-user-gesture-webview-android
+        mBinding.webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?,
+            ): Boolean = false
         }
 
         arguments?.getString(ARGS_URL, "")?.let {

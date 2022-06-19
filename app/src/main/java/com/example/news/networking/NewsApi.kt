@@ -24,10 +24,9 @@ interface NewsApi {
      */
     @GET("top-headlines")
     fun getTopHeadlines(
+        @Query("country") country: String, // e.g. us
         @Query("category") category: String, // e.g. business
-        @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int,
-        @Query("country") country: String = "tw", // e.g. us
+        @Query("pageSize") pageSize: Int = 50,
     ): Single<NewsData>
 
     /**
@@ -56,7 +55,9 @@ interface NewsApi {
     @GET("everything")
     fun searchPopularity(
         @Query("q") q: String, // e.g. apple
-        @Query("from") from: String, // e.g. 2022-05-22
-        @Query("sortBy") sortBy: String = "popularity", // e.g. popularity
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("language") language: String,
+        @Query("sortBy") sortBy: String = "popularity",
     ): Single<NewsData>
 }

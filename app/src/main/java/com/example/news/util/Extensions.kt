@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import com.example.news.model.ArticlesBean
 import com.example.news.repository.NewsRepository
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -30,7 +31,7 @@ fun String.formatStringToDate(): String? {
         val formatter = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.US)
         formatter.format(date)
     } catch (e: Exception) {
-        Log.e("tag","$e")
+        Log.e("tag", "$e")
         null
     }
 }

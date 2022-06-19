@@ -13,9 +13,9 @@ open class NewsRepository(private val mNewsApi: NewsApi, private val mPreference
         const val PAGE_SIZE = 20 // The number of results to return per page.
     }
 
-    fun getTopHeadlines(category: String, page: Int): Single<NewsData> {
-        return mNewsApi
-            .getTopHeadlines(category, page, PAGE_SIZE)
+    fun getTopHeadlines(country: String, category: String): Single<NewsData> {
+        Log.d(TAG, "getTopHeadlines,country:$country,category:$category")
+        return mNewsApi.getTopHeadlines(country, category)
     }
 
     // apple.com
@@ -31,7 +31,9 @@ open class NewsRepository(private val mNewsApi: NewsApi, private val mPreference
     }
 
     // apple, 2022-05-22, 2022-05-23,
-    fun searchPopularity(query: String, from: String): Single<NewsData> {
-        return mNewsApi.searchPopularity(query, from)
+    fun searchPopularity(query: String, page: Int, country: String?): Single<NewsData> {
+        Log.d(TAG, "searchPopularity,query:$query,page:$page,country:$country")
+        val language = if (country == "tw") "zh" else ""
+        return mNewsApi.searchPopularity(query, page, PAGE_SIZE, language)
     }
 }

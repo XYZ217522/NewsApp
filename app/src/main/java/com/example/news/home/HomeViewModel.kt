@@ -61,9 +61,8 @@ class HomeViewModel(
         Flowable.concat(domainFlowable, getEverythingObservable)
             .compose(SwitchSchedulers.applyFlowableSchedulers())
             .subscribeWith(object : ResourceSubscriber<Any>() {
-                override fun onStart() {
-                    request(1)
-                }
+
+                override fun onStart() = request(1)
 
                 override fun onNext(t: Any) {
                     Log.d(TAG, "onNext = $t")

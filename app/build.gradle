@@ -36,7 +36,8 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-    def apiKey = rootProject.ext.newsApiKey
+
+    def apiKey = rootProject.ext.newsApiKey // You have to register a API KEY,url = https://newsapi.org/account
     flavorDimensions "default"
     productFlavors {
         dev {

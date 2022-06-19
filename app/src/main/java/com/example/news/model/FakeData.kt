@@ -15,3 +15,58 @@ val domainList = listOf(
     "imdb.com",
     "adobe.com"
 )
+
+val categoryList = listOf(
+    "entertainment",
+    "business",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology"
+)
+
+val countryList = listOf(
+    "tw",
+    "ar",
+    "at",
+    "au",
+    "be",
+    "br",
+    "ca",
+    "ch",
+    "cn",
+    "cu",
+    "de",
+    "eg",
+    "fr",
+    "gr",
+    "hk",
+    "hu",
+    "id",
+    "in",
+    "it",
+    "jp",
+    "kr",
+    "lt",
+    "ma",
+    "my",
+    "ng",
+    "nl",
+    "no",
+    "nz",
+    "ph",
+    "pl",
+    "pt",
+    "rs",
+    "ru",
+    "sa",
+    "se",
+    "sg",
+    "th",
+    "tr",
+    "ua",
+    "us",
+    "ve",
+    "za"
+)

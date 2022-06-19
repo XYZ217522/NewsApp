@@ -3,4 +3,7 @@
     <string name="btn_confirm">OK</string>
     <string name="plz_input_keyword">plz input keyword</string>
     <string name="clear_search_history">clear search history</string>
+    <string name="done">done</string>
+    <string name="country">country</string>
+    <string name="category">category</string>
 </resources>

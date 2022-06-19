@@ -5,6 +5,7 @@ import com.example.news.networking.AuthInterceptor
 import com.example.news.networking.provideNewsApi
 import com.example.news.networking.provideOkHttpClient
 import com.example.news.networking.provideRetrofit
+import com.example.news.popularity.PopularityViewModel
 import com.example.news.repository.NewsRepository
 import com.example.news.search.SearchViewModel
 import com.example.news.sharepreferences.Preferences
@@ -22,6 +23,7 @@ val networkModule = module {
 val viewModelModule = module {
     viewModel { HomeViewModel(get(), get()) }
     viewModel { SearchViewModel(get(), get()) }
+    viewModel { PopularityViewModel(get(), get()) }
 }
 
 val repoModule = module {
