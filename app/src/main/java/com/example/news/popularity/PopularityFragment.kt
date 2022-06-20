@@ -134,7 +134,8 @@ class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
 
             // btnDone setVisibility
             run { if (R.anim.slide_down == animationId) View.VISIBLE else View.GONE }
-                .apply { mBinding.btnDone.setBottomViewVisibilityAnimation(this) }
+                .let { mBinding.btnDone.setBottomViewVisibilityAnimation(it); it == View.GONE }
+                .let { if (it) mPopularityViewModel.restoreTitlePairData() }
         }
     }
 

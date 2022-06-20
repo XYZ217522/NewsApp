@@ -36,7 +36,7 @@ abstract class GridCellModel : EpoxyModelWithHolder<GridCellModel.Holder>() {
         // 選中時改變顏色
         val timeColor = if (isSelected) Color.WHITE else Color.parseColor("#3296FB")
         holder.tvLabel.setTextColor(timeColor)
-        holder.tvLabel.text = cellName ?: ""
+        holder.tvLabel.text = cellName
 
         // 根據螢幕寬度調整item寬度，固定是顯示4.5個 (70 = 10*4(item) + 15*2(recyclerView) )
 //        context.resources?.displayMetrics?.let {

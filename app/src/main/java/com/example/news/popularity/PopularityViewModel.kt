@@ -72,11 +72,11 @@ class PopularityViewModel(
                     request(1)
                     when (t) {
                         is Pair<*, *> -> titleLiveData.value = t as Pair<String, String>
-                        is TopHeadlinesData -> {
-                            topHeadLineLiveData.value = Event(t)
+                        is TopHeadlinesData -> topHeadLineLiveData.value = Event(t)
+                        is NewsData -> {
+                            t.handleNewsData()
                             viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
                         }
-                        is NewsData -> t.handleNewsData()
                     }
                 }
 
@@ -149,7 +149,7 @@ class PopularityViewModel(
         val nextPage = mCurrentPage + 1
         val totalPage = mTotalResults.getTotalPage()
         if (nextPage <= totalPage && nextPage <= MAX_POPULARITY_PAGE) {
-            Log.d(HomeViewModel.TAG, "loadMore，fetch next page data!")
+            Log.d(TAG, "loadMore，fetch next page data!")
             mCurrentPage++
             getPopularitySingle()
                 .compose(SwitchSchedulers.applySingleSchedulers())
@@ -174,5 +174,10 @@ class PopularityViewModel(
         resetDataPage()
         fetchDataByApi(selectCountry, selectCategory)
         return true
+    }
+
+    fun restoreTitlePairData() {
+        val pairData = titleLiveData.value ?: return
+        titleLiveData.value = pairData
     }
 }
