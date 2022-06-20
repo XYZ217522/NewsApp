@@ -2,9 +2,8 @@ package com.example.news.popularity.adapter
 
 import com.airbnb.epoxy.EpoxyAdapter
 import com.example.news.model.ArticlesBean
-import com.example.news.popularity.BigTopHeadLineModel_
 
-class TopHeadLineAdapter(
+class TopHeadlinesAdapter(
     articles: List<ArticlesBean>,
     startNumber: Int,
     isBigType: Boolean,
@@ -20,10 +19,11 @@ class TopHeadLineAdapter(
 
         var start = startNumber
         articles.forEach { it: ArticlesBean ->
-            BigTopHeadLineModel_()
+            TopHeadLineModel_()
                 .id(TAG + start)
                 .rank(start)
                 .articlesBean(it)
+                .isBigType(isBigType)
                 .listener(listener)
                 .let { addModel(it) }
             start++

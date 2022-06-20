@@ -1,15 +1,23 @@
 package com.example.news.popularity.adapter
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.style.TextAppearanceSpan
 import android.util.Log
 import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import com.example.news.R
 import com.example.news.epoxy.LoadingFooterModel_
 import com.example.news.epoxy.SimpleNewsModel_
+import com.example.news.epoxy.SingleTextModel_
 import com.example.news.home.adapter.HomeEpoxyController
 import com.example.news.model.*
 import com.example.news.popularity.PopularityViewModel.Companion.MAX_POPULARITY_PAGE
+import com.example.news.util.createSpannableString
+import com.example.news.util.dp
 import com.example.news.util.getTotalPage
+import org.koin.core.component.getScopeId
 
 class PopularityEpoxyController(
     private val mCallback: PopularityEpoxyCallback,
@@ -17,11 +25,14 @@ class PopularityEpoxyController(
 
     companion object {
         private const val TAG = "PopularityEpoxyController"
+        private const val NEWS_HEADLINES = "NEWS HEADLINES"
+        private const val TITLE_PREFIX = "Popularity"
+        private const val TITLE = " NEWS"
         const val COUNTRY = "Country"
         const val CATEGORY = "Category"
     }
 
-    private var mTopHeadLineData: TopHeadLineData? = null
+    private var mTopHeadlinesData: TopHeadlinesData? = null
     private var mPopularityData: NewsData? = null
     var isSelectMode = false
 
@@ -40,62 +51,82 @@ class PopularityEpoxyController(
     lateinit var loadingLoadingFooterModel: LoadingFooterModel_
 
     @AutoModel
-    lateinit var countryGridGroupModel: GridGroupModel_
+    lateinit var gridGroupModel: GridGroupModel_
 
     @AutoModel
-    lateinit var gridGroupModel: GridGroupModel_
+    lateinit var singleTextModel: SingleTextModel_
 
     private val countryPair by lazy { Pair(COUNTRY, countryList) }
     private val categoryPair by lazy { Pair(CATEGORY, categoryList) }
+    private val titleSpan by lazy {
+        TextAppearanceSpan(null,
+            Typeface.BOLD,
+            17.dp(),
+            ColorStateList.valueOf(Color.parseColor("#3296fb")),
+            null
+        )
+    }
 
     override fun buildModels() {
 
         if (isSelectMode) {
             gridGroupModel
-                .countryAdapter(getAdapter(countryPair, mSelectCountry))
-                .categoryAdapter(getAdapter(categoryPair, mSelectCategory))
+                .countryAdapter(GridCellAdapter(countryPair, mSelectCountry, mCallback))
+                .categoryAdapter(GridCellAdapter(categoryPair, mSelectCategory, mCallback))
                 .addTo(this)
             return
         }
 
         /** TopHeadLine */
-        mTopHeadLineData?.let {
+        mTopHeadlinesData?.let {
             if (it.firstGroup.isNotEmpty()) {
-                HoriScrollModel_()
-                    .id(HoriScrollModel::class.java.simpleName + "firstGroup")
-                    .adapter(getTopHeadLineAdapter(it.firstGroup, 1, true))
-                    .title("Top Head Line Top1~10")
+                HorizontalScrollModel_()
+                    .id(HorizontalScrollModel::class.java.simpleName + "firstGroup")
+                    .adapter(getTopHeadlinesAdapter(it.firstGroup, 1, true))
+                    .title("$NEWS_HEADLINES 1~10")
                     .addTo(this)
             }
             if (it.secondGroup.isNotEmpty()) {
-                HoriScrollModel_()
-                    .id(HoriScrollModel::class.java.simpleName + "secondGroup")
-                    .adapter(getTopHeadLineAdapter(it.secondGroup, 11))
-                    .title("Top Head Line Top11~20")
+                HorizontalScrollModel_()
+                    .id(HorizontalScrollModel::class.java.simpleName + "secondGroup")
+                    .adapter(getTopHeadlinesAdapter(it.secondGroup, 11))
+                    .title("$NEWS_HEADLINES 11~20")
                     .addTo(this)
             }
             if (it.thirdGroup.isNotEmpty()) {
-                HoriScrollModel_()
-                    .id(HoriScrollModel::class.java.simpleName + "thirdGroup")
-                    .adapter(getTopHeadLineAdapter(it.thirdGroup, 21))
-                    .title("Top Head Line Top21~30")
+                HorizontalScrollModel_()
+                    .id(HorizontalScrollModel::class.java.simpleName + "thirdGroup")
+                    .adapter(getTopHeadlinesAdapter(it.thirdGroup, 21))
+                    .title("$NEWS_HEADLINES 21~30")
                     .addTo(this)
             }
             if (it.fourthGroup.isNotEmpty()) {
-                HoriScrollModel_()
-                    .id(HoriScrollModel::class.java.simpleName + "fourthGroup")
-                    .adapter(getTopHeadLineAdapter(it.thirdGroup, 31))
-                    .title("Top Head Line Top31~40")
+                HorizontalScrollModel_()
+                    .id(HorizontalScrollModel::class.java.simpleName + "fourthGroup")
+                    .adapter(getTopHeadlinesAdapter(it.thirdGroup, 31))
+                    .title("NEWS HEADLINES 31~40")
                     .addTo(this)
             }
 
             if (it.others.isNotEmpty()) {
-                // single text model
+                it.others.forEachIndexed { index, articlesBean ->
+                    HeadLineTextModel_()
+                        .id(HeadLineTextModel::class.java.simpleName + index)
+                        .articlesBean(articlesBean)
+                        .listener(mCallback)
+                        .addTo(this)
+                }
+
             }
         }
 
         /** newsData */
         val articles = mPopularityData?.articles ?: emptyList()
+
+        singleTextModel
+            .spannableString(titleSpan.createSpannableString(Pair(TITLE_PREFIX, TITLE)))
+            .addIf(articles.isNotEmpty(), this)
+
         articles.forEachIndexed { index, articlesBean ->
             SimpleNewsModel_()
                 .id(index)
@@ -107,15 +138,11 @@ class PopularityEpoxyController(
         loadingLoadingFooterModel.addIf(checkIsLoading(articles), this)
     }
 
-    private fun getAdapter(pair: Pair<String, List<String>>, selectItem: String): GridCellAdapter {
-        return GridCellAdapter(pair, selectItem, mCallback)
-    }
-
-    private fun getTopHeadLineAdapter(
+    private fun getTopHeadlinesAdapter(
         articles: List<ArticlesBean>,
         startNumber: Int,
         isBigType: Boolean = false,
-    ): TopHeadLineAdapter = TopHeadLineAdapter(articles, startNumber, isBigType, mCallback)
+    ): TopHeadlinesAdapter = TopHeadlinesAdapter(articles, startNumber, isBigType, mCallback)
 
 
     private fun checkIsLoading(articles: List<ArticlesBean>): Boolean {
@@ -137,7 +164,7 @@ class PopularityEpoxyController(
     }
 
     fun clearNewsData() {
-        mTopHeadLineData = null
+        mTopHeadlinesData = null
         mPopularityData = null
         isSelectMode = false
         requestModelBuild()
@@ -155,9 +182,20 @@ class PopularityEpoxyController(
         mSelectCategory = pair.second
     }
 
-    fun setTopHeadLineData(topHeadLineData: TopHeadLineData) {
-        Log.d(TAG,"setTopHeadLineData = $topHeadLineData")
-        mTopHeadLineData = topHeadLineData
+    fun setTopHeadLineData(topHeadlinesData: TopHeadlinesData) {
+        Log.d(TAG, "setTopHeadLineData = $topHeadlinesData")
+        mTopHeadlinesData = topHeadlinesData
         requestModelBuild()
     }
+
+    fun resetHorizontalScrollModel(){
+        val modelCountBuiltSoFar = modelCountBuiltSoFar
+        for (i in 0 until modelCountBuiltSoFar) {
+            val model = adapter.getModelAtPosition(0)
+            if (model is HorizontalScrollModel) {
+                //todo  epoxyModel.restoreOriginalPosition()
+            }
+        }
+    }
+
 }

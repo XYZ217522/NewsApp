@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.news.home.HomeViewModel
 import com.example.news.model.NewsData
-import com.example.news.model.TopHeadLineData
+import com.example.news.model.TopHeadlinesData
 import com.example.news.model.topHeadLine
 import com.example.news.repository.NewsRepository
 import com.example.news.sharepreferences.PreferenceConst.SELECT_CATEGORY
@@ -42,7 +42,7 @@ class PopularityViewModel(
     private var mCategory: String? = null
 
     // 若使用Event<T>，只會送一次，之後送null
-    val topHeadLineLiveData = MutableLiveData<Event<TopHeadLineData>>()
+    val topHeadLineLiveData = MutableLiveData<Event<TopHeadlinesData>>()
     val popularityLiveData = MutableLiveData<Event<NewsData>>()
     val titleLiveData = MutableLiveData<Pair<String, String>>()
     val viewStatusLiveData = MutableLiveData<Event<ViewStatus>>()
@@ -52,18 +52,18 @@ class PopularityViewModel(
         fetchDataByApi()
     }
 
-    fun fetchDataByApi(country: String? = null, category: String? = null) {
+    private fun fetchDataByApi(country: String? = null, category: String? = null) {
+
         val titleFlowable = getTitleFlowable(country, category).cache()
         val topHeadlinesFlowable = titleFlowable
             .defaultSinglePair()
             .flatMap { repository.getTopHeadlines(it.first, it.second) }
             .map { it.topHeadLine() }
             .toFlowable()
+        val popularityFlowable = getPopularitySingle(titleFlowable).toFlowable()
 
         Flowable
-            .concat(titleFlowable,
-                topHeadlinesFlowable,
-                getPopularityFlowable(titleFlowable).toFlowable())
+            .concat(titleFlowable, topHeadlinesFlowable, popularityFlowable)
             .compose(SwitchSchedulers.applyFlowableSchedulers())
             .subscribeWith(object : ResourceSubscriber<Any>() {
                 override fun onStart() = request(1)
@@ -72,13 +72,17 @@ class PopularityViewModel(
                     request(1)
                     when (t) {
                         is Pair<*, *> -> titleLiveData.value = t as Pair<String, String>
-                        is TopHeadLineData -> topHeadLineLiveData.value = Event(t)
+                        is TopHeadlinesData -> {
+                            topHeadLineLiveData.value = Event(t)
+                            viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
+                        }
                         is NewsData -> t.handleNewsData()
                     }
                 }
 
                 override fun onError(t: Throwable?) {
                     Log.e(TAG, t.toString())
+                    viewStatusLiveData.value = Event(ViewStatus.ShowDialog(t.toString()))
                 }
 
                 override fun onComplete() {
@@ -96,7 +100,6 @@ class PopularityViewModel(
 
         mTotalResults = this.totalResults
         popularityLiveData.value = Event(this)
-        viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
     }
 
     private fun getTitleFlowable(
@@ -116,8 +119,9 @@ class PopularityViewModel(
             }
     }
 
-    private fun getPopularityFlowable(titleFlowable: Flowable<Pair<String, String>>? = null): Single<NewsData> {
-        return titleFlowable.defaultSinglePair()
+    private fun getPopularitySingle(titleFlowable: Flowable<Pair<String, String>>? = null): Single<NewsData> {
+        val single = titleFlowable?.defaultSinglePair() ?: getTitleFlowable().single(DEFAULT_PAIR)
+        return single
             .flatMap { repository.searchPopularity(it.second, mCurrentPage, it.first) }
             .map { it.currentPage = mCurrentPage;it }
     }
@@ -147,7 +151,7 @@ class PopularityViewModel(
         if (nextPage <= totalPage && nextPage <= MAX_POPULARITY_PAGE) {
             Log.d(HomeViewModel.TAG, "loadMore，fetch next page data!")
             mCurrentPage++
-            getPopularityFlowable()
+            getPopularitySingle()
                 .compose(SwitchSchedulers.applySingleSchedulers())
                 .subscribe(
                     { popularityLiveData.value = Event(it) },
@@ -157,8 +161,18 @@ class PopularityViewModel(
         }
     }
 
-    fun resetDataPage() {
+    private fun resetDataPage() {
         mCurrentPage = 1
         mTotalResults = 0
+    }
+
+    fun checkValueAfterFetchData(selectCountry: String, selectCategory: String): Boolean {
+        val pairData = titleLiveData.value ?: return true // not happen
+        if (pairData.first == selectCountry && pairData.second == selectCategory) {
+            return false
+        }
+        resetDataPage()
+        fetchDataByApi(selectCountry, selectCategory)
+        return true
     }
 }

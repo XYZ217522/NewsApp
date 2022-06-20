@@ -29,7 +29,7 @@ abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {
             domain?.let {
                 this.text = it
                 this.setTextColor(color)
-                this.setOnClickListener { listener?.onDomainClick(domain!!) }
+                holder.view.setOnClickListener { listener?.onDomainClick(domain!!) }
             }
         }
     }

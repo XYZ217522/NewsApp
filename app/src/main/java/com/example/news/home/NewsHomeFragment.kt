@@ -114,9 +114,11 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     }
 
     override fun onDestroyView() {
+        mBinding.rvHome.adapter = null
+        mBinding.rvHome.clearOnScrollListeners()
         super.onDestroyView()
 //        mHomeViewModel.unsubscribe()
-        mBinding.rvHome.clearOnScrollListeners()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

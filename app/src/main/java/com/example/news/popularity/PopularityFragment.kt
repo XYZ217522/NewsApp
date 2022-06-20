@@ -64,29 +64,32 @@ class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
                     mPopularityViewModel.loadMore()
                 }
             })
-            mPopularityEpoxyController.requestModelBuild()//t
+//            mPopularityEpoxyController.requestModelBuild()
         }
 
-        mBinding.tvTitle.setOnClickListener {
-            mPopularityEpoxyController.changeMode().let {
-                mBinding.rvPopularity.setAnimation(it)
-                run { if (R.anim.slide_down == it) View.VISIBLE else View.GONE }
-                    .apply { mBinding.btnDone.setBottomViewVisibilityAnimation(this) }
-            }
-        }
+        mBinding.tvTitle.setOnClickListener { changeModeWithAnimation() }
 
         mBinding.btnDone.apply {
             visibility = if (mPopularityEpoxyController.isSelectMode) View.VISIBLE else View.GONE
             setOnClickListener {
                 this.setBottomViewVisibilityAnimation(View.GONE)
-                mPopularityEpoxyController.let {
-                    it.clearNewsData()
-                    mPopularityViewModel.fetchDataByApi(it.mSelectCountry, it.mSelectCategory)
+                val selectCountry = mPopularityEpoxyController.mSelectCountry
+                val selectCategory = mPopularityEpoxyController.mSelectCategory
+                if (mPopularityViewModel.checkValueAfterFetchData(selectCountry, selectCategory)) {
+                    mPopularityEpoxyController.clearNewsData()
+                } else {
+                    changeModeWithAnimation()
                 }
             }
         }
 
         binding()
+    }
+
+    override fun onDestroyView() {
+        mBinding.rvPopularity.adapter = null
+        mBinding.rvPopularity.clearOnScrollListeners()
+        super.onDestroyView()
     }
 
     private fun binding() {
@@ -120,6 +123,18 @@ class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
                 }
                 else -> Log.d(TAG, "not implement.")
             }
+        }
+    }
+
+    private fun changeModeWithAnimation() {
+        mPopularityEpoxyController.changeMode().let { animationId: Int ->
+
+            // recycleView change data with animation
+            mBinding.rvPopularity.setAnimation(animationId)
+
+            // btnDone setVisibility
+            run { if (R.anim.slide_down == animationId) View.VISIBLE else View.GONE }
+                .apply { mBinding.btnDone.setBottomViewVisibilityAnimation(this) }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.news.popularity
+package com.example.news.popularity.adapter
 
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,13 +9,12 @@ import com.example.news.R
 import com.example.news.epoxy.KotlinEpoxyHolder
 import com.example.news.model.ArticlesBean
 import com.example.news.model.getExtraInfoText
-import com.example.news.popularity.adapter.PopularityEpoxyCallback
 import com.example.news.util.formatStringToDate
 import com.example.news.util.loadUrl
 import com.example.news.util.setTextOrGone
 
 @EpoxyModelClass
-abstract class BigTopHeadLineModel : EpoxyModelWithHolder<BigTopHeadLineModel.Holder>() {
+abstract class TopHeadLineModel : EpoxyModelWithHolder<TopHeadLineModel.Holder>() {
 
     @EpoxyAttribute
     var articlesBean: ArticlesBean? = null
@@ -27,7 +26,13 @@ abstract class BigTopHeadLineModel : EpoxyModelWithHolder<BigTopHeadLineModel.Ho
     @EpoxyAttribute
     var rank: Int = 0
 
-    override fun getDefaultLayout() = R.layout.adapter_big_tophead
+    @JvmField
+    @EpoxyAttribute
+    var isBigType = true
+
+    override fun getDefaultLayout(): Int {
+        return if (isBigType) R.layout.adapter_big_headlines else R.layout.adapter_small_headlines
+    }
 
     override fun bind(holder: Holder) {
         articlesBean?.let { article: ArticlesBean ->

@@ -2,7 +2,6 @@ package com.example.news.popularity.adapter
 
 import android.view.View
 import android.widget.TextView
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
@@ -11,19 +10,17 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
 import com.example.news.epoxy.KotlinEpoxyHolder
-import com.example.news.model.ArticlesBean
 
 @EpoxyModelClass
-abstract class HoriScrollModel : EpoxyModelWithHolder<HoriScrollModel.Holder>() {
+abstract class HorizontalScrollModel : EpoxyModelWithHolder<HorizontalScrollModel.Holder>() {
 
     @EpoxyAttribute
-    lateinit var adapter: TopHeadLineAdapter
+    lateinit var adapter: TopHeadlinesAdapter
 
     @EpoxyAttribute
     var title: String? = null
 
     override fun getDefaultLayout() = R.layout.adapter_horizontal_scroll
-
 
     override fun bind(holder: Holder) {
         holder.tvTitle.text = title ?: ""

@@ -40,10 +40,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!--以下是設定editText的underline-->
-    <!--<item name="colorControlNormal">#919191</item>-->
-    <!--<item name="colorControlActivated">#919191</item>-->
-    <!--<item name="colorControlHighlight">#919191</item>-->
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -104,34 +100,28 @@
         <item name="android:textColor">#808080</item>
     </style>
 
-    <!--商品詳細頁面 -->
     <style name="StoreDetailRemain">
         <item name="android:textColor">#ff8800</item>
         <item name="android:textSize">12sp</item>
     </style>
 
-    <!--首頁中熱門排行榜的Topxxx字體大小-->
     <style name="home_hot_ranking_title">
         <item name="android:textSize">14sp</item>
     </style>
 
-    <!--熱門排行榜更多的Topxxx字體大小-->
     <style name="hot_ranking_title">
         <item name="android:textSize">16sp</item>
     </style>
 
-    <!--訂單查詢優惠票卷＆宅配購物字體大小＆顏色-->
     <style name="order_query_title_color">
         <item name="android:textColor">#0066ff</item>
     </style>
 
-    <!--核銷成功dialog之核銷張數字體大小＆顏色-->
     <style name="ticket_count_color">
         <item name="android:textColor">#ff3100</item>
         <item name="android:textSize">22sp</item>
     </style>
 
-    <!--核銷成功dialog之核銷張數字體大小＆顏色-->
     <style name="write_off_title_color">
         <item name="android:textColor">#ff3b30</item>
         <item name="android:textSize">17sp</item>
@@ -158,8 +148,6 @@
         <item name="android:textSize">13sp</item>
     </style>
 
-
-    <!-- ES Splash page -->
     <style name="es_splash_circle_text">
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">24sp</item>
@@ -264,7 +252,6 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <!-- 月曆的星期幾 -->
     <style name="CalendarWeekDayAppearance" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">#797979</item>
         <item name="android:textSize">16sp</item>
@@ -274,13 +261,5 @@
         <item name="android:textColor">#000000</item>
         <item name="android:textSize">16sp</item>
         <item name="android:buttonTint">#3296FB</item>
-<!--        #3296FB #1559fe-->
     </style>
-
-    <!-- 外帶時的提醒注意事項 -->
-    <style name="TakeawayNoticeAppearance">
-        <item name="android:textColor">#4a4a4a</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
 </resources>

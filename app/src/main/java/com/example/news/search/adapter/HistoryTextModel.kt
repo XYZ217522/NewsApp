@@ -22,7 +22,7 @@ abstract class HistoryTextModel : EpoxyModelWithHolder<HistoryTextModel.Holder>(
         holder.tvDomain.apply {
             historyText?.let {
                 this.text = it
-                this.setOnClickListener { listener?.onHistoryTextClick(historyText!!) }
+                holder.view.setOnClickListener { listener?.onHistoryTextClick(historyText!!) }
             }
         }
     }

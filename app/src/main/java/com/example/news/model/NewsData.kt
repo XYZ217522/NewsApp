@@ -21,7 +21,7 @@ data class ArticlesBean(
 
 data class SourceBean(val id: String?, val name: String?)
 
-data class TopHeadLineData(
+data class TopHeadlinesData(
     var firstGroup: MutableList<ArticlesBean> = mutableListOf(),
     var secondGroup: MutableList<ArticlesBean> = mutableListOf(),
     var thirdGroup: MutableList<ArticlesBean> = mutableListOf(),
@@ -29,8 +29,8 @@ data class TopHeadLineData(
     var others: MutableList<ArticlesBean> = mutableListOf(),
 )
 
-fun NewsData.topHeadLine(): TopHeadLineData {
-    val data = TopHeadLineData()
+fun NewsData.topHeadLine(): TopHeadlinesData {
+    val data = TopHeadlinesData()
     val articles = this.articles ?: return data
     val groupMaxCount = 10
     for (articlesBean in articles) {
