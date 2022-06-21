@@ -122,8 +122,8 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
         search(historyText)
     }
 
-    override fun clearHistory() {
-        Log.d(TAG, "clearHistory.")
+    override fun onClearHistoryClick() {
+        Log.d(TAG, "onClearHistoryClick.")
         mSearchViewModel.clearHistory()
     }
 

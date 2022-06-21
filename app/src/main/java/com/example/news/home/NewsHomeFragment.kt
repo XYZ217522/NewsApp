@@ -69,10 +69,10 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
             this.layoutManager = layoutManager
             this.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
                 override fun onLoadMore(currentPage: Int) {
-                    mHomeViewModel.loadMore()
+                    mHomeViewModel.loadMore(mHomeEpoxyController.isSelectDomainMode)
                 }
             })
-            mHomeEpoxyController.requestModelBuild()//t
+            mHomeEpoxyController.requestModelBuild()
         }
 
         mBinding.tvTitle.setOnClickListener {
@@ -102,10 +102,10 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
             val viewStatus = it?.getContentIfNotHandled() ?: return@observe
             when (viewStatus) {
                 is ViewStatus.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
-                is ViewStatus.GetDataSuccess -> mBinding.rvHome.visibility = View.VISIBLE
                 is ViewStatus.ShowDialog -> {
                     activity?.messageDialog(viewStatus.msg, viewStatus.title)?.show()
                 }
+                is ViewStatus.GetDataSuccess -> Log.d(TAG, "not implement.")
                 is ViewStatus.GetDataFail -> Log.d(TAG, "not implement.")
                 is ViewStatus.Loading -> Log.d(TAG, "not implement.")
                 is ViewStatus.ShowToast -> Log.d(TAG, "not implement.")

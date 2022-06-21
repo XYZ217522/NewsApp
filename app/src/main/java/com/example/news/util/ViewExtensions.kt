@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
-import java.time.Duration
 
 fun View.visible() {
     visibility = View.VISIBLE

@@ -60,12 +60,7 @@ fun TextAppearanceSpan.createSpannableString(pair: Pair<String, String>): Spanna
 
     return SpannableString(sFullText)
         .apply {
-            setSpan(
-                span,
-                indexStart,
-                indexEnd,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+            setSpan(span, indexStart, indexEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 }
 

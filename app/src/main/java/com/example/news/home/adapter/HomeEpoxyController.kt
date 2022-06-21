@@ -5,7 +5,7 @@ import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import com.example.news.R
 import com.example.news.epoxy.LoadingFooterModel_
-import com.example.news.epoxy.SimpleNewsModel_
+import com.example.news.epoxy.simpleNews
 import com.example.news.model.ArticlesBean
 import com.example.news.model.NewsData
 import com.example.news.model.domainList
@@ -18,7 +18,7 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
     }
 
     private var mNewsData: NewsData? = null
-    private var isSelectDomainMode = false
+    var isSelectDomainMode = false
     var mSelectDomain = ""
 
     @AutoModel
@@ -28,23 +28,23 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
 
         if (isSelectDomainMode) {
             domainList.forEachIndexed { index, domain ->
-                DomainModel_()
-                    .id(domain + index)
-                    .domain(domain)
-                    .isSelected(mSelectDomain == domain)
-                    .listener(mCallback)
-                    .addTo(this)
+                domain {
+                    id(domain + index)
+                    domain(domain)
+                    isSelected(mSelectDomain == domain)
+                    listener(mCallback)
+                }
             }
             return
         }
 
         val articles = mNewsData?.articles ?: emptyList()
         articles.forEachIndexed { index, articlesBean ->
-            SimpleNewsModel_()
-                .id(index)
-                .articlesBean(articlesBean)
-                .listener(mCallback)
-                .addTo(this)
+            simpleNews {
+                id(index)
+                articlesBean(articlesBean)
+                listener(mCallback)
+            }
         }
 
         loadingLoadingFooterModel.addIf(checkIsLoading(articles), this)
@@ -80,5 +80,4 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
         requestModelBuild()
         return if (isSelectDomainMode) R.anim.slide_down else R.anim.slide_up
     }
-
 }

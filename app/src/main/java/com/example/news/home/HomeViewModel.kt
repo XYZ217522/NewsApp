@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.news.util.ViewStatus
 import com.example.news.model.NewsData
+import com.example.news.popularity.PopularityViewModel
 import com.example.news.repository.NewsRepository
 import com.example.news.sharepreferences.PreferenceConst.SELECT_DOMAIN
 import com.example.news.sharepreferences.Preferences
@@ -93,7 +94,6 @@ class HomeViewModel(
 
         mTotalResults = this.totalResults
         newsEverythingLiveData.value = Event(this)
-        viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
         if (!defaultDomain) viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
     }
 
@@ -107,7 +107,8 @@ class HomeViewModel(
         compositeDisposable.clear()
     }
 
-    fun loadMore() {
+    fun loadMore(selectMode: Boolean) {
+        if (selectMode) run { Log.d(TAG, "is selectMode can't loadMore."); return }
         Log.d(TAG, "loadMore，mCurrentPage=$mCurrentPage")
         val nextPage = mCurrentPage + 1
         val totalPage = mTotalResults.getTotalPage()

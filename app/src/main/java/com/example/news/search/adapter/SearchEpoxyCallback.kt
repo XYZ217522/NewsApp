@@ -6,5 +6,5 @@ interface SearchEpoxyCallback : BaseNewsEpoxyCallback {
 
     fun onHistoryTextClick(historyText: String)
 
-    fun clearHistory()
+    fun onClearHistoryClick()
 }

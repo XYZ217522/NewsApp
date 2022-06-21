@@ -16,7 +16,7 @@ abstract class HistoryFooterModel : EpoxyModelWithHolder<HistoryFooterModel.Hold
     override fun getDefaultLayout() = R.layout.adapter_history_footer
 
     override fun bind(holder: Holder) {
-        holder.tvHistoryFooter.setOnClickListener { listener?.clearHistory() }
+        holder.tvHistoryFooter.setOnClickListener { listener?.onClearHistoryClick() }
     }
 
     class Holder : KotlinEpoxyHolder() {

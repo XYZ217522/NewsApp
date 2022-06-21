@@ -30,6 +30,8 @@ class SearchViewModel(
 
     private val compositeDisposable = CompositeDisposable()
 
+    private var mSearchText: String = ""
+
     private val mGson by lazy { Gson() }
     private val mTypeToken = object : TypeToken<List<String>>() {}.type
     private val mFirstDayOfMonth by lazy { LocalDate.now().withDayOfMonth(1).toString() }
@@ -66,34 +68,45 @@ class SearchViewModel(
         historyList = if (historyList.size <= MAX_RECORD_COUNTS) {
             historyList.toMutableList().apply { add(0, searchText) }
         } else {
-            historyList.toMutableList().apply { add(0, searchText);removeLast() }
+            historyList.toMutableList().apply { add(0, searchText) }.apply { removeLast() }
         }
         historyList = historyList.distinct().toList()
         historyLiveData.value = historyList
         return historyList
     }
 
-
     fun search(searchText: String) {
         Log.d(TAG, "search:$searchText")
+        // todo filter優化 .singleOrError()??
         Flowable
             .just(getToSaveList(searchText))
-            .map { preferences.setValue(SEARCH_HISTORY, mGson.toJson(it));searchText }
-            .single(searchText)
+            .map { preferences.setValue(SEARCH_HISTORY, mGson.toJson(it)).run { searchText } }
+            .filter { it != mSearchText }
+            .singleOrError()
             .flatMap { repository.search(it, mFirstDayOfMonth) }
-            .map { it.currentPage = 1;it }
+            .map { it.apply { this.currentPage = 1 }.apply { mSearchText = searchText } }
             .compose(SwitchSchedulers.applySingleSchedulers())
             .subscribe(
                 {
                     searchResultLiveData.value = Event(it)
                     viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
                 },
-                { Log.e(TAG, "error=$it");viewStatusLiveData.value = errorEvent(it) }
+                {
+                    Log.e(TAG, "error=$it")
+                    if (it is NoSuchElementException) {
+                        viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
+                        val result = searchResultLiveData.value?.peekContent() ?: return@subscribe
+                        searchResultLiveData.value = Event(result)
+                    } else {
+                        viewStatusLiveData.value = errorEvent(it)
+                    }
+                }
             )
             .addTo(compositeDisposable)
     }
 
     fun clearHistory() {
+        Log.d(TAG, "clearHistory.")
         preferences.remove(SEARCH_HISTORY)
         historyLiveData.value = emptyList()
     }

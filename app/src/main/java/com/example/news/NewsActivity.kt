@@ -17,7 +17,7 @@ import com.example.news.popularity.PopularityFragment
 class NewsActivity : AppCompatActivity() {
 
 //    private val preferences: Preferences by inject()
-//    private val exampleFragment: WeatherFragment by inject()
+//    private val exampleFragment: Fragment by inject()
 
     companion object {
         const val TAG = "NewsActivity"
