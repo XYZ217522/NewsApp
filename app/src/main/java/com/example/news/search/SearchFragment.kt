@@ -18,9 +18,7 @@ import com.example.news.databinding.FragmentSearchBinding
 import com.example.news.model.ArticlesBean
 import com.example.news.search.adapter.SearchEpoxyCallback
 import com.example.news.search.adapter.SearchEpoxyController
-import com.example.news.util.ViewStatus
-import com.example.news.util.hideKeyboard
-import com.example.news.util.messageDialog
+import com.example.news.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment(), SearchEpoxyCallback {
@@ -74,7 +72,7 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
             Log.d(TAG, "onEditorAction.")
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 val searchText = mBinding.edtSearch.editableText?.toString() ?: ""
-                search(searchText)
+                mSearchViewModel.search(searchText)
                 return@setOnEditorActionListener true
             }
             false
@@ -98,28 +96,33 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
         }
 
         mSearchViewModel.viewStatusLiveData.observe(viewLifecycleOwner) {
-            Log.d(TAG, "view status = $it")
+            Log.d(TAG, "view status = ${it.print()}")
             val viewStatus = it.getContentIfNotHandled() ?: return@observe
+            activity.hideKeyboard()
             when (viewStatus) {
                 is ViewStatus.ShowDialog -> {
                     activity?.messageDialog(viewStatus.msg, viewStatus.title)?.show()
                 }
-                is ViewStatus.GetDataSuccess -> activity.hideKeyboard()
+                is ViewStatus.ScrollToUp -> mBinding.rvSearch.scrollToPosition(0)
+                is ViewStatus.Loading -> showRecyclerView(false)
+                is ViewStatus.GetDataSuccess -> {
+                    showRecyclerView(true)
+                    mSearchEpoxyController.changeMode(false)
+                }
                 else -> Log.d(TAG, "not implement.")
             }
         }
-
     }
 
-    private fun search(searchText: String) {
-        mSearchEpoxyController.clearNewsData()
-        mSearchViewModel.search(searchText)
+    private fun showRecyclerView(show: Boolean) {
+        mBinding.rvSearch.apply { if (show) visible() else invisible() }
+        mBinding.pbLoading.apply { if (!show) visible() else gone() }
     }
 
     override fun onHistoryTextClick(historyText: String) {
         Log.d(TAG, "onHistoryTextClick historyText:$historyText")
         mBinding.edtSearch.setText(historyText)
-        search(historyText)
+        mSearchViewModel.search(historyText)
     }
 
     override fun onClearHistoryClick() {

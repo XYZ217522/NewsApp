@@ -13,8 +13,11 @@ import com.example.news.util.ViewStatus
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Flowable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import java.time.LocalDate
 
 
@@ -63,43 +66,44 @@ class SearchViewModel(
         return Event(ViewStatus.ShowDialog(throwable?.toString() ?: "unknown error."))
     }
 
-    private fun getToSaveList(searchText: String): List<String> {
-        var historyList = historyLiveData.value ?: emptyList()
-        historyList = if (historyList.size <= MAX_RECORD_COUNTS) {
-            historyList.toMutableList().apply { add(0, searchText) }
-        } else {
-            historyList.toMutableList().apply { add(0, searchText) }.apply { removeLast() }
+    private fun validation(searchText: String): Boolean {
+        val result = searchText != mSearchText
+        return result.apply {
+            val viewStatus = if (result) ViewStatus.Loading else ViewStatus.GetDataSuccess
+            viewStatusLiveData.value = Event(viewStatus)
         }
-        historyList = historyList.distinct().toList()
-        historyLiveData.value = historyList
-        return historyList
+    }
+
+    private fun getToSaveList(searchText: String): List<String> {
+        val historyList = historyLiveData.value ?: emptyList()
+        val removeLast = historyList.size > MAX_RECORD_COUNTS
+        return historyList.toMutableList()
+            .apply { add(0, searchText) }
+            .apply { if (removeLast) removeLast() }.distinct().toList()
+            .apply { historyLiveData.postValue(this) }
     }
 
     fun search(searchText: String) {
         Log.d(TAG, "search:$searchText")
-        // todo filter優化 .singleOrError()??
         Flowable
-            .just(getToSaveList(searchText))
+            .just(searchText)
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter { validation(searchText) }
+            .observeOn(Schedulers.io())
+            .map { getToSaveList(it) }
             .map { preferences.setValue(SEARCH_HISTORY, mGson.toJson(it)).run { searchText } }
-            .filter { it != mSearchText }
-            .singleOrError()
-            .flatMap { repository.search(it, mFirstDayOfMonth) }
-            .map { it.apply { this.currentPage = 1 }.apply { mSearchText = searchText } }
-            .compose(SwitchSchedulers.applySingleSchedulers())
+            .flatMap { repository.search(it, mFirstDayOfMonth).toFlowable() }
+            .map { it.apply { this.currentPage = 1 }.also { mSearchText = searchText } }
+            .compose(SwitchSchedulers.applyFlowableSchedulers())
             .subscribe(
                 {
                     searchResultLiveData.value = Event(it)
                     viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
+                    viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
                 },
                 {
                     Log.e(TAG, "error=$it")
-                    if (it is NoSuchElementException) {
-                        viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
-                        val result = searchResultLiveData.value?.peekContent() ?: return@subscribe
-                        searchResultLiveData.value = Event(result)
-                    } else {
-                        viewStatusLiveData.value = errorEvent(it)
-                    }
+                    viewStatusLiveData.value = errorEvent(it)
                 }
             )
             .addTo(compositeDisposable)

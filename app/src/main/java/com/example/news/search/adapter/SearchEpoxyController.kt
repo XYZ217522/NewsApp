@@ -21,9 +21,6 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
     @AutoModel
     lateinit var historyFooterModel: HistoryFooterModel_
 
-    @AutoModel
-    lateinit var loadingLoadingFooterModel: LoadingFooterModel_
-
     override fun buildModels() {
 
         if (isHistoryListMode) {
@@ -39,6 +36,7 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
             return
         }
 
+        // todo add search total count ,filter button by publish date
         val articles = mNewsData?.articles ?: emptyList()
         Log.d(TAG, "articles=$articles")
         articles.forEachIndexed { index, articlesBean ->
@@ -49,7 +47,7 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
             }
         }
 
-        loadingLoadingFooterModel.addIf(articles.isEmpty(), this)
+//        loadingLoadingFooterModel.addIf(articles.isEmpty(), this)
     }
 
     fun setHistoryData(historyList: List<String>) {
@@ -60,16 +58,8 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
 
     fun setNewsData(newsData: NewsData) {
         Log.d(TAG, "setNewsData:${newsData}")
-        mNewsData?.let {
-            it.currentPage = newsData.currentPage
-            it.articles?.addAll(newsData.articles ?: emptyList())
-        } ?: run { mNewsData = newsData }
+        mNewsData = newsData
         requestModelBuild()
-    }
-
-    fun clearNewsData() {
-        mNewsData = null
-        changeMode(false)
     }
 
     fun changeMode(isHistory: Boolean? = null) {
