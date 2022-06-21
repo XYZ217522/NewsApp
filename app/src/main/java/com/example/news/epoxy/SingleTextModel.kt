@@ -16,7 +16,7 @@ abstract class SingleTextModel : EpoxyModelWithHolder<SingleTextModel.Holder>() 
 
     @JvmField
     @EpoxyAttribute
-    var textColor = Color.parseColor("#0066ff") //#aaaaaa
+    var textColor = Color.parseColor("#0066ff")
 
     @JvmField
     @EpoxyAttribute

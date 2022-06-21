@@ -1,7 +1,6 @@
 package com.example.news.popularity.adapter
 
 import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyAttribute
@@ -13,21 +12,11 @@ import com.example.news.epoxy.KotlinEpoxyHolder
 @EpoxyModelClass
 abstract class GridGroupModel : EpoxyModelWithHolder<GridGroupModel.Holder>() {
 
-//    @EpoxyAttribute
-//    lateinit var adapter: GridCellAdapter
-
     @EpoxyAttribute
     lateinit var countryAdapter: GridCellAdapter
 
     @EpoxyAttribute
     lateinit var categoryAdapter: GridCellAdapter
-
-//    @EpoxyAttribute
-//    var title: String? = null
-
-//    @JvmField
-//    @EpoxyAttribute
-//    var spanCount = 0
 
     override fun getDefaultLayout() = R.layout.adapter_grid_selector
 

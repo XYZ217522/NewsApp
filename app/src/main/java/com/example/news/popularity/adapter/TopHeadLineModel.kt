@@ -10,6 +10,7 @@ import com.example.news.epoxy.KotlinEpoxyHolder
 import com.example.news.model.ArticlesBean
 import com.example.news.model.getExtraInfoText
 import com.example.news.util.formatStringToDate
+import com.example.news.util.gone
 import com.example.news.util.loadUrl
 import com.example.news.util.setTextOrGone
 
@@ -38,9 +39,11 @@ abstract class TopHeadLineModel : EpoxyModelWithHolder<TopHeadLineModel.Holder>(
         articlesBean?.let { article: ArticlesBean ->
             holder.ivNews.loadUrl(article.urlToImage)
             holder.tvTitle.setTextOrGone(article.title)
-            holder.tvPublished.setTextOrGone(article.publishedAt?.formatStringToDate())
             holder.tvExtraInfo.setTextOrGone(article.getExtraInfoText())
             holder.tvRank.text = "$rank"
+            holder.tvPublished.apply {
+                if (isBigType) setTextOrGone(article.publishedAt?.formatStringToDate()) else gone()
+            }
             holder.view.setOnClickListener { listener?.onArticleClick(article) }
         }
     }

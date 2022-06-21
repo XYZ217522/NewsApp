@@ -9,15 +9,14 @@ import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import com.example.news.R
 import com.example.news.epoxy.LoadingFooterModel_
-import com.example.news.epoxy.SimpleNewsModel_
+import com.example.news.epoxy.SimpleNewsModel
 import com.example.news.epoxy.SingleTextModel_
-import com.example.news.home.adapter.HomeEpoxyController
+import com.example.news.epoxy.simpleNews
 import com.example.news.model.*
 import com.example.news.popularity.PopularityViewModel.Companion.MAX_POPULARITY_PAGE
 import com.example.news.util.createSpannableString
 import com.example.news.util.dp
 import com.example.news.util.getTotalPage
-import org.koin.core.component.getScopeId
 
 class PopularityEpoxyController(
     private val mCallback: PopularityEpoxyCallback,
@@ -58,14 +57,8 @@ class PopularityEpoxyController(
 
     private val countryPair by lazy { Pair(COUNTRY, countryList) }
     private val categoryPair by lazy { Pair(CATEGORY, categoryList) }
-    private val titleSpan by lazy {
-        TextAppearanceSpan(null,
-            Typeface.BOLD,
-            17.dp(),
-            ColorStateList.valueOf(Color.parseColor("#3296fb")),
-            null
-        )
-    }
+    private val color by lazy { ColorStateList.valueOf(Color.parseColor("#3296fb")) }
+    private val titleSpan by lazy { TextAppearanceSpan(null, Typeface.BOLD, 17.dp(), color, null) }
 
     override fun buildModels() {
 
@@ -80,62 +73,67 @@ class PopularityEpoxyController(
         /** TopHeadLine */
         mTopHeadlinesData?.let {
             if (it.firstGroup.isNotEmpty()) {
-                HorizontalScrollModel_()
-                    .id(HorizontalScrollModel::class.java.simpleName + "firstGroup")
-                    .adapter(getTopHeadlinesAdapter(it.firstGroup, 1, true))
-                    .title("$NEWS_HEADLINES 1~10")
-                    .addTo(this)
+                horizontalScroll {
+                    id(HorizontalScrollModel::class.java.simpleName, "firstGroup")
+                    adapter(getTopHeadlinesAdapter(it.firstGroup, 1, true))
+                    title("$NEWS_HEADLINES 1~10")
+                }
             }
             if (it.secondGroup.isNotEmpty()) {
-                HorizontalScrollModel_()
-                    .id(HorizontalScrollModel::class.java.simpleName + "secondGroup")
-                    .adapter(getTopHeadlinesAdapter(it.secondGroup, 11))
-                    .title("$NEWS_HEADLINES 11~20")
-                    .addTo(this)
+                horizontalScroll {
+                    id(HorizontalScrollModel::class.java.simpleName, "secondGroup")
+                    adapter(getTopHeadlinesAdapter(it.secondGroup, 11))
+                    title("$NEWS_HEADLINES 11~20")
+                }
             }
             if (it.thirdGroup.isNotEmpty()) {
-                HorizontalScrollModel_()
-                    .id(HorizontalScrollModel::class.java.simpleName + "thirdGroup")
-                    .adapter(getTopHeadlinesAdapter(it.thirdGroup, 21))
-                    .title("$NEWS_HEADLINES 21~30")
-                    .addTo(this)
+                horizontalScroll {
+                    id(HorizontalScrollModel::class.java.simpleName, "thirdGroup")
+                    adapter(getTopHeadlinesAdapter(it.thirdGroup, 21))
+                    title("$NEWS_HEADLINES 21~30")
+                }
             }
+
             if (it.fourthGroup.isNotEmpty()) {
-                HorizontalScrollModel_()
-                    .id(HorizontalScrollModel::class.java.simpleName + "fourthGroup")
-                    .adapter(getTopHeadlinesAdapter(it.thirdGroup, 31))
-                    .title("NEWS HEADLINES 31~40")
-                    .addTo(this)
+                horizontalScroll {
+                    id(HorizontalScrollModel::class.java.simpleName, "fourthGroup")
+                    adapter(getTopHeadlinesAdapter(it.thirdGroup, 31))
+                    title("NEWS HEADLINES 31~40")
+                }
             }
 
             if (it.others.isNotEmpty()) {
                 it.others.forEachIndexed { index, articlesBean ->
-                    HeadLineTextModel_()
-                        .id(HeadLineTextModel::class.java.simpleName + index)
-                        .articlesBean(articlesBean)
-                        .listener(mCallback)
-                        .addTo(this)
+                    headLineText {
+                        id(HeadLineTextModel::class.java.simpleName + index)
+                        articlesBean(articlesBean)
+                        listener(mCallback)
+                    }
                 }
-
             }
         }
 
         /** newsData */
-        val articles = mPopularityData?.articles ?: emptyList()
+        mPopularityData?.let {
+            val articles = it.articles ?: emptyList()
 
-        singleTextModel
-            .spannableString(titleSpan.createSpannableString(Pair(TITLE_PREFIX, TITLE)))
-            .addIf(articles.isNotEmpty(), this)
+            singleTextModel
+                .spannableString(titleSpan.createSpannableString(Pair(TITLE_PREFIX, TITLE)))
+                .textColor(Color.parseColor("#3296fb"))
+                .addIf(articles.isNotEmpty(), this)
 
-        articles.forEachIndexed { index, articlesBean ->
-            SimpleNewsModel_()
-                .id(index)
-                .articlesBean(articlesBean)
-                .listener(mCallback)
-                .addTo(this)
+            articles.forEachIndexed { index, articlesBean ->
+                simpleNews {
+                    id(SimpleNewsModel::class.java.simpleName + index)
+                    articlesBean(articlesBean)
+                    listener(mCallback)
+                }
+            }
+
+            loadingLoadingFooterModel.addIf(checkIsLoading(articles), this)
         }
 
-        loadingLoadingFooterModel.addIf(checkIsLoading(articles), this)
+
     }
 
     private fun getTopHeadlinesAdapter(
@@ -149,7 +147,6 @@ class PopularityEpoxyController(
         if (articles.isEmpty()) return true
         return mPopularityData?.let {
             val totalPage = it.totalResults.getTotalPage()
-            Log.d(HomeEpoxyController.TAG, "totalPage=$totalPage")
             it.currentPage < totalPage && it.currentPage < MAX_POPULARITY_PAGE
         } ?: true
     }
@@ -171,7 +168,7 @@ class PopularityEpoxyController(
     }
 
     fun changeMode(): Int {
-        Log.d(HomeEpoxyController.TAG, "changeMode.")
+        Log.d(TAG, "changeMode.")
         isSelectMode = !isSelectMode
         requestModelBuild()
         return if (isSelectMode) R.anim.slide_down else R.anim.slide_up
@@ -188,7 +185,7 @@ class PopularityEpoxyController(
         requestModelBuild()
     }
 
-    fun resetHorizontalScrollModel(){
+    fun resetHorizontalScrollModel() {
         val modelCountBuiltSoFar = modelCountBuiltSoFar
         for (i in 0 until modelCountBuiltSoFar) {
             val model = adapter.getModelAtPosition(0)

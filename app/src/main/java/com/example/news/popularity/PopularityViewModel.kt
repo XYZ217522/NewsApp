@@ -49,6 +49,7 @@ class PopularityViewModel(
 
     init {
         Log.d(TAG, "init.")
+        viewStatusLiveData.value = Event(ViewStatus.Loading)
         fetchDataByApi()
     }
 
@@ -72,11 +73,11 @@ class PopularityViewModel(
                     request(1)
                     when (t) {
                         is Pair<*, *> -> titleLiveData.value = t as Pair<String, String>
-                        is TopHeadlinesData -> topHeadLineLiveData.value = Event(t)
-                        is NewsData -> {
-                            t.handleNewsData()
-                            viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
+                        is TopHeadlinesData -> {
+                            topHeadLineLiveData.value = Event(t)
+                            viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
                         }
+                        is NewsData -> t.handleNewsData()
                     }
                 }
 
@@ -144,8 +145,9 @@ class PopularityViewModel(
         compositeDisposable.clear()
     }
 
-    fun loadMore() {
+    fun loadMore(selectMode: Boolean) {
         Log.d(TAG, "loadMore，mCurrentPage=$mCurrentPage")
+        if (selectMode) run { Log.d(TAG, "is selectMode can't loadMore."); return }
         val nextPage = mCurrentPage + 1
         val totalPage = mTotalResults.getTotalPage()
         if (nextPage <= totalPage && nextPage <= MAX_POPULARITY_PAGE) {

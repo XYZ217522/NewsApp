@@ -12,6 +12,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
 import java.time.Duration
 
+fun View.visible() {
+    visibility = View.VISIBLE
+}
+
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
 fun Context?.showToast(text: String, duration: Int = Toast.LENGTH_SHORT) {
     this ?: return
     Toast.makeText(this, text, duration).show()
@@ -20,9 +32,9 @@ fun Context?.showToast(text: String, duration: Int = Toast.LENGTH_SHORT) {
 fun TextView?.setTextOrGone(text: String?) {
     val textView = this ?: return
     if (text.isNullOrEmpty()) {
-        textView.visibility = View.GONE
+        textView.gone()
     } else {
-        textView.visibility = View.VISIBLE
+        textView.visible()
         textView.text = text
     }
 }

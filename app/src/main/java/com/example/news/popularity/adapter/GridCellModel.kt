@@ -38,11 +38,6 @@ abstract class GridCellModel : EpoxyModelWithHolder<GridCellModel.Holder>() {
         holder.tvLabel.setTextColor(timeColor)
         holder.tvLabel.text = cellName
 
-        // 根據螢幕寬度調整item寬度，固定是顯示4.5個 (70 = 10*4(item) + 15*2(recyclerView) )
-//        context.resources?.displayMetrics?.let {
-//            holder.csBackground.minWidth = ((it.widthPixels - 70.dp()) / 4.5).toInt()
-//        }
-
         val bg = if (isSelected) R.drawable.country_cell_selected_bg else R.drawable.country_cell_bg
         holder.csBackground.apply {
             this.background = ContextCompat.getDrawable(context, bg)

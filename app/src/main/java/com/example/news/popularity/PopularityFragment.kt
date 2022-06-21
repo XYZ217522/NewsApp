@@ -61,10 +61,9 @@ class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
             this.layoutManager = layoutManager
             this.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
                 override fun onLoadMore(currentPage: Int) {
-                    mPopularityViewModel.loadMore()
+                    mPopularityViewModel.loadMore(mPopularityEpoxyController.isSelectMode)
                 }
             })
-//            mPopularityEpoxyController.requestModelBuild()
         }
 
         mBinding.tvTitle.setOnClickListener { changeModeWithAnimation() }
@@ -117,6 +116,8 @@ class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
             Log.d(TAG, "view status = $it")
             val viewStatus = it?.getContentIfNotHandled() ?: return@observe
             when (viewStatus) {
+                is ViewStatus.Loading -> mBinding.pbLoading.visible()
+                is ViewStatus.GetDataSuccess -> mBinding.pbLoading.gone()
                 is ViewStatus.ScrollToUp -> mBinding.rvPopularity.scrollToPosition(0)
                 is ViewStatus.ShowDialog -> {
                     activity?.messageDialog(viewStatus.msg, viewStatus.title)?.show()
