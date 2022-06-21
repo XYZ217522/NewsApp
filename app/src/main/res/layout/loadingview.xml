@@ -11,13 +11,15 @@
         android:orientation="horizontal">
 
         <ProgressBar
-            android:layout_width="20dp"
-            android:layout_height="30dp"
-            android:layout_gravity="top" />
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            android:layout_gravity="top"
+            android:indeterminateDrawable="@drawable/rotating_icon"
+            />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="39dp"
             android:layout_gravity="top"
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
