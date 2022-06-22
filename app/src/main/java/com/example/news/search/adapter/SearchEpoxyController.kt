@@ -3,7 +3,6 @@ package com.example.news.search.adapter
 import android.util.Log
 import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
-import com.example.news.epoxy.LoadingFooterModel_
 import com.example.news.epoxy.SimpleNewsModel
 import com.example.news.epoxy.simpleNews
 import com.example.news.model.NewsData
@@ -14,7 +13,7 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
         const val TAG = "SearchEpoxyController"
     }
 
-    private var historyList: List<String> = emptyList()
+    private var mHistoryList: List<String> = emptyList()
     private var mNewsData: NewsData? = null
     private var isHistoryListMode = true
 
@@ -24,7 +23,7 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
     override fun buildModels() {
 
         if (isHistoryListMode) {
-            historyList.forEachIndexed { index, text ->
+            mHistoryList.forEachIndexed { index, text ->
                 historyText {
                     id(HistoryTextModel::class.simpleName + index)
                     historyText(text)
@@ -32,7 +31,7 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
                 }
             }
 
-            historyFooterModel.listener(mCallback).addIf(historyList.isNotEmpty(), this)
+            historyFooterModel.listener(mCallback).addIf(mHistoryList.isNotEmpty(), this)
             return
         }
 
@@ -46,24 +45,23 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
                 listener(mCallback)
             }
         }
-
-//        loadingLoadingFooterModel.addIf(articles.isEmpty(), this)
     }
 
     fun setHistoryData(historyList: List<String>) {
         Log.d(TAG, "setHistoryData:${historyList}")
-        this.historyList = historyList
+        mHistoryList = historyList
         requestModelBuild()
     }
 
     fun setNewsData(newsData: NewsData) {
         Log.d(TAG, "setNewsData:${newsData}")
         mNewsData = newsData
+        isHistoryListMode = false
         requestModelBuild()
     }
 
-    fun changeMode(isHistory: Boolean? = null) {
-        isHistoryListMode = isHistory ?: !isHistoryListMode
+    fun changeMode(isHistory: Boolean) {
+        isHistoryListMode = isHistory
         requestModelBuild()
     }
 }

@@ -3,7 +3,6 @@ package com.example.news.popularity
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.news.home.HomeViewModel
 import com.example.news.model.NewsData
 import com.example.news.model.TopHeadlinesData
 import com.example.news.model.topHeadLine
@@ -83,7 +82,7 @@ class PopularityViewModel(
 
                 override fun onError(t: Throwable?) {
                     Log.e(TAG, t.toString())
-                    viewStatusLiveData.value = Event(ViewStatus.ShowDialog(t.toString()))
+                    viewStatusLiveData.value = errorEvent(t)
                 }
 
                 override fun onComplete() {
@@ -104,27 +103,25 @@ class PopularityViewModel(
     }
 
     private fun getTitleFlowable(
-        country: String? = null,
-        category: String? = null,
+        selectCountry: String? = null,
+        selectCategory: String? = null,
     ): Flowable<Pair<String, String>> {
-        val spCountry = saveSp(SELECT_COUNTRY, country) ?: mCountry
-        val spCategory = saveSp(SELECT_CATEGORY, category) ?: mCategory
-        val countryFlowable = Flowable
-            .just(spCountry ?: preferences.getValue(SELECT_COUNTRY, DEFAULT_COUNTRY))
-        val categoryFlowable = Flowable
-            .just(spCategory ?: preferences.getValue(SELECT_CATEGORY, DEFAULT_CATEGORY))
-        return Flowable
-            .zip(countryFlowable, categoryFlowable) { sCountry, sCategory ->
-                mCountry = sCountry;mCategory = sCategory
-                Pair(sCountry, sCategory)
-            }
+        var country = saveSp(SELECT_COUNTRY, selectCountry) ?: mCountry
+        var category = saveSp(SELECT_CATEGORY, selectCategory) ?: mCategory
+        country = (country ?: preferences.getValue(SELECT_COUNTRY, DEFAULT_COUNTRY)).also {
+            mCountry = it
+        }
+        category = category ?: preferences.getValue(SELECT_CATEGORY, DEFAULT_CATEGORY).also {
+            mCategory = it
+        }
+        return Flowable.just(Pair(country, category))
     }
 
     private fun getPopularitySingle(titleFlowable: Flowable<Pair<String, String>>? = null): Single<NewsData> {
         val single = titleFlowable?.defaultSinglePair() ?: getTitleFlowable().single(DEFAULT_PAIR)
         return single
             .flatMap { repository.searchPopularity(it.second, mCurrentPage, it.first) }
-            .map { it.currentPage = mCurrentPage;it }
+            .map { it.apply { currentPage = mCurrentPage } }
     }
 
     private fun Flowable<Pair<String, String>>?.defaultSinglePair(): Single<Pair<String, String>> {
@@ -174,6 +171,7 @@ class PopularityViewModel(
             return false
         }
         resetDataPage()
+        viewStatusLiveData.value = Event(ViewStatus.Loading)
         fetchDataByApi(selectCountry, selectCategory)
         return true
     }

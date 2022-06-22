@@ -72,6 +72,7 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
             Log.d(TAG, "onEditorAction.")
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 val searchText = mBinding.edtSearch.editableText?.toString() ?: ""
+                mSearchEpoxyController.changeMode(false)
                 mSearchViewModel.search(searchText)
                 return@setOnEditorActionListener true
             }
@@ -105,10 +106,7 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
                 }
                 is ViewStatus.ScrollToUp -> mBinding.rvSearch.scrollToPosition(0)
                 is ViewStatus.Loading -> showRecyclerView(false)
-                is ViewStatus.GetDataSuccess -> {
-                    showRecyclerView(true)
-                    mSearchEpoxyController.changeMode(false)
-                }
+                is ViewStatus.GetDataSuccess -> showRecyclerView(true)
                 else -> Log.d(TAG, "not implement.")
             }
         }
@@ -122,6 +120,7 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
     override fun onHistoryTextClick(historyText: String) {
         Log.d(TAG, "onHistoryTextClick historyText:$historyText")
         mBinding.edtSearch.setText(historyText)
+        mSearchEpoxyController.changeMode(false)
         mSearchViewModel.search(historyText)
     }
 

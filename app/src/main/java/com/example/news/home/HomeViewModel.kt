@@ -40,11 +40,12 @@ class HomeViewModel(
 
     init {
         Log.d(TAG, "init.")
-        getEverythingByDomain()
+        getEverythingByDomain(useLoading = true)
     }
 
-    fun getEverythingByDomain(requestDomain: String? = null) {
+    fun getEverythingByDomain(requestDomain: String? = null, useLoading: Boolean = false) {
         Log.d(TAG, "getEverythingByDomain domain=$requestDomain")
+        if (useLoading) viewStatusLiveData.value = Event(ViewStatus.Loading)
         val isDefaultDomain = mCurrentDomain != null && mCurrentDomain == requestDomain
         val domainFlowable = if (isDefaultDomain) {
             Flowable.empty() // 此情況直接回傳Flowable.empty()，不觸發onNext()
@@ -56,7 +57,7 @@ class HomeViewModel(
             .defaultIfEmpty(mCurrentDomain ?: "")
             .single(mCurrentDomain ?: "")
             .flatMap { repository.getEverything(it, mCurrentPage) }
-            .map { run { it.currentPage = mCurrentPage; it } }
+            .map { it.apply { currentPage = mCurrentPage } }
             .toFlowable()
 
         Flowable.concat(domainFlowable, getEverythingObservable)
@@ -76,7 +77,7 @@ class HomeViewModel(
 
                 override fun onError(t: Throwable?) {
                     Log.e(TAG, "onError = $t")
-                    viewStatusLiveData.value = Event(ViewStatus.ShowDialog(t.toString()))
+                    handleError(t.toString())
                 }
 
                 override fun onComplete() {
@@ -86,14 +87,21 @@ class HomeViewModel(
             }).addTo(compositeDisposable)
     }
 
+    private fun handleError(message: String?) {
+        val msg = message ?: "unknown error"
+        viewStatusLiveData.value = Event(ViewStatus.ShowDialog(msg))
+        viewStatusLiveData.value = Event(ViewStatus.GetDataFail(msg))
+    }
+
     private fun NewsData.handleNewsData(defaultDomain: Boolean) {
         if (this.currentPage == 1 && this.articles.isNullOrEmpty()) {
-            viewStatusLiveData.value = Event(ViewStatus.ShowDialog("Articles Empty."))
+            handleError("Articles Empty.")
             return
         }
 
         mTotalResults = this.totalResults
         newsEverythingLiveData.value = Event(this)
+        viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
         if (!defaultDomain) viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
     }
 

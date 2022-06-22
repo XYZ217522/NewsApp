@@ -38,16 +38,18 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
             return
         }
 
-        val articles = mNewsData?.articles ?: emptyList()
-        articles.forEachIndexed { index, articlesBean ->
-            simpleNews {
-                id(index)
-                articlesBean(articlesBean)
-                listener(mCallback)
+        mNewsData?.let {
+            val articles = mNewsData?.articles ?: emptyList()
+            articles.forEachIndexed { index, articlesBean ->
+                simpleNews {
+                    id(index)
+                    articlesBean(articlesBean)
+                    listener(mCallback)
+                }
             }
-        }
 
-        loadingLoadingFooterModel.addIf(checkIsLoading(articles), this)
+            loadingLoadingFooterModel.addIf(checkIsLoading(articles), this)
+        }
     }
 
     private fun checkIsLoading(articles: List<ArticlesBean>): Boolean {

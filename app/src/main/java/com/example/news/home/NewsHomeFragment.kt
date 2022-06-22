@@ -11,16 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.base.BaseFragment
-import com.example.news.base.NewsWebViewFragment
 import com.example.news.databinding.FragmentNewsHomeBinding
 import com.example.news.home.adapter.HomeEpoxyCallback
 import com.example.news.home.adapter.HomeEpoxyController
 import com.example.news.model.ArticlesBean
 import com.example.news.search.SearchFragment
-import com.example.news.util.EndlessScrollListener
-import com.example.news.util.ViewStatus
-import com.example.news.util.messageDialog
-import com.example.news.util.setAnimation
+import com.example.news.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
@@ -72,7 +68,7 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
                     mHomeViewModel.loadMore(mHomeEpoxyController.isSelectDomainMode)
                 }
             })
-            mHomeEpoxyController.requestModelBuild()
+//            mHomeEpoxyController.requestModelBuild()
         }
 
         mBinding.tvTitle.setOnClickListener {
@@ -98,19 +94,24 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
         }
 
         mHomeViewModel.viewStatusLiveData.observe(viewLifecycleOwner) {
-            Log.d(TAG, "view status = $it")
+            Log.d(TAG, "view status = ${it.print()}")
             val viewStatus = it?.getContentIfNotHandled() ?: return@observe
             when (viewStatus) {
-                is ViewStatus.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
                 is ViewStatus.ShowDialog -> {
                     activity?.messageDialog(viewStatus.msg, viewStatus.title)?.show()
                 }
-                is ViewStatus.GetDataSuccess -> Log.d(TAG, "not implement.")
-                is ViewStatus.GetDataFail -> Log.d(TAG, "not implement.")
-                is ViewStatus.Loading -> Log.d(TAG, "not implement.")
-                is ViewStatus.ShowToast -> Log.d(TAG, "not implement.")
+                is ViewStatus.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
+                is ViewStatus.Loading -> showRecyclerView(false)
+                is ViewStatus.GetDataSuccess -> showRecyclerView(true)
+                is ViewStatus.GetDataFail -> showRecyclerView(true)
+                else -> Log.d(TAG, "not implement.")
             }
         }
+    }
+
+    private fun showRecyclerView(show: Boolean) {
+        mBinding.rvHome.apply { if (show) visible() else invisible() }
+        mBinding.pbLoading.apply { if (!show) visible() else gone() }
     }
 
     override fun onDestroyView() {
@@ -133,7 +134,7 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
         Log.d(TAG, "onDomainClick domain:$domain")
         mHomeEpoxyController.clearNewsData()
         mHomeViewModel.resetDataPage()
-        mHomeViewModel.getEverythingByDomain(domain)
+        mHomeViewModel.getEverythingByDomain(domain, true)
     }
 
     override fun onArticleClick(articlesBean: ArticlesBean) {
