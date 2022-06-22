@@ -6,4 +6,6 @@
     <string name="done">done</string>
     <string name="country">country</string>
     <string name="category">category</string>
+    <string name="top_results">Top Results</string>
+    <string name="publish_date">publish_date</string>
 </resources>

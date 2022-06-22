@@ -50,6 +50,17 @@ fun String.formatStringToDate(): String? {
     }
 }
 
+fun String?.dateToStamp(locale: Locale = Locale.US): Long {
+    this ?: return 0L
+    return try {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", locale)
+        simpleDateFormat.parse(this)?.time ?: 0L
+    } catch (e: Exception) {
+        Log.e("tag", "$e")
+        0L
+    }
+}
+
 fun TextAppearanceSpan.createSpannableString(pair: Pair<String, String>): SpannableString {
     val span = this
     val frontText = pair.first

@@ -6,6 +6,7 @@ import com.airbnb.epoxy.EpoxyController
 import com.example.news.epoxy.SimpleNewsModel
 import com.example.news.epoxy.simpleNews
 import com.example.news.model.NewsData
+import com.example.news.util.dateToStamp
 
 class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyController() {
 
@@ -13,12 +14,21 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
         const val TAG = "SearchEpoxyController"
     }
 
+    var isSortByDESC: Boolean = false
+        set(value) {
+            field = value
+            requestModelBuild()
+        }
+
     private var mHistoryList: List<String> = emptyList()
     private var mNewsData: NewsData? = null
     private var isHistoryListMode = true
 
     @AutoModel
     lateinit var historyFooterModel: HistoryFooterModel_
+
+    @AutoModel
+    lateinit var searchResultStatusModel: SearchResultStatusModel_
 
     override fun buildModels() {
 
@@ -35,8 +45,17 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
             return
         }
 
-        // todo add search total count ,filter button by publish date
-        val articles = mNewsData?.articles ?: emptyList()
+        var articles = mNewsData?.articles ?: emptyList()
+
+        searchResultStatusModel
+            .isSortByDESC(isSortByDESC).listener(mCallback).addIf(articles.isNotEmpty(), this)
+
+        // sort articles
+        articles = if (isSortByDESC) {
+            articles.sortedByDescending { it.publishedAt?.dateToStamp() }
+        } else {
+            articles.sortedBy { it.publishedAt?.dateToStamp() }
+        }
         Log.d(TAG, "articles=$articles")
         articles.forEachIndexed { index, articlesBean ->
             simpleNews {

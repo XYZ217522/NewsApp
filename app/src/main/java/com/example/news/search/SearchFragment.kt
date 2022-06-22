@@ -129,6 +129,11 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
         mSearchViewModel.clearHistory()
     }
 
+    override fun onDataSortClick(isSortByDESC: Boolean) {
+        Log.d(TAG, "onDataSortClick isSortByDESC=$isSortByDESC")
+        mSearchEpoxyController.isSortByDESC = isSortByDESC
+    }
+
     override fun onArticleClick(articlesBean: ArticlesBean) {
         Log.d(TAG, "onArticleClick articlesBean:$articlesBean")
         pushWebViewFragment(articlesBean)

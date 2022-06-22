@@ -7,4 +7,6 @@ interface SearchEpoxyCallback : BaseNewsEpoxyCallback {
     fun onHistoryTextClick(historyText: String)
 
     fun onClearHistoryClick()
+
+    fun onDataSortClick(isSortByDESC: Boolean)
 }
