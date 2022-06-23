@@ -21,22 +21,13 @@ abstract class SearchResultStatusModel : EpoxyModelWithHolder<SearchResultStatus
 
     private val colorBlack by lazy { Color.parseColor("#000000") }
     private val colorBlue by lazy { Color.parseColor("#3296fb") }
+    private val mode = android.graphics.PorterDuff.Mode.SRC_ATOP
 
     override fun getDefaultLayout() = R.layout.adapter_serch_result_status
 
     override fun bind(holder: Holder) {
-
-        holder.ivPublishUp
-            .setColorFilter(
-                if (isSortByDESC) colorBlack else colorBlue,
-                android.graphics.PorterDuff.Mode.SRC_ATOP
-            )
-        holder.ivPublishDown
-            .setColorFilter(
-                if (isSortByDESC) colorBlue else colorBlack,
-                android.graphics.PorterDuff.Mode.SRC_ATOP
-            )
-
+        holder.ivPublishUp.setColorFilter(if (isSortByDESC) colorBlack else colorBlue, mode)
+        holder.ivPublishDown.setColorFilter(if (isSortByDESC) colorBlue else colorBlack, mode)
         holder.tvPublishedDate.setOnClickListener { listener?.onDataSortClick(!isSortByDESC) }
     }
 

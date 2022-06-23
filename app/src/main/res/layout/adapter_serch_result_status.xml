@@ -2,67 +2,66 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:textColor="#000000"
-        android:singleLine="true"
+        android:layout_margin="12dp"
         android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/top_results"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="12dp"
-        android:textStyle="bold"
-        android:text="@string/top_results"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_published_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="#3296fb"
-        android:singleLine="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/fl_publish"
-        android:text="@string/publish_date"
-        android:layout_marginRight="6dp"
         android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:singleLine="true"
+        android:text="@string/publish_date"
+        android:textColor="#3296fb"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/fl_publish"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="?android:attr/selectableItemBackground"
         />
 
     <LinearLayout
         android:id="@+id/fl_publish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical"
-        android:layout_marginRight="6dp"
-        android:layout_marginLeft="6dp"
         >
+
         <ImageView
             android:id="@+id/iv_publish_up"
             android:layout_width="7.5dp"
             android:layout_height="4.5dp"
+            android:layout_marginBottom="2dp"
             android:rotation="180"
-            android:src="@drawable/arrow_drakgray"
-            android:layout_marginBottom="2dp"/>
+            android:src="@drawable/arrow_drakgray" />
 
         <ImageView
             android:id="@+id/iv_publish_down"
             android:layout_width="7.5dp"
             android:layout_height="4.5dp"
-            android:src="@drawable/arrow_drakgray"
-            android:layout_marginTop="2dp"/>
+            android:layout_marginTop="2dp"
+            android:src="@drawable/arrow_drakgray" />
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,7 +14,7 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
         const val TAG = "SearchEpoxyController"
     }
 
-    var isSortByDESC: Boolean = false
+    var isSortByDESC: Boolean = true
         set(value) {
             field = value
             requestModelBuild()

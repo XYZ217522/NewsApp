@@ -3,14 +3,13 @@ package com.example.news.home
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.news.util.ViewStatus
 import com.example.news.model.NewsData
-import com.example.news.popularity.PopularityViewModel
 import com.example.news.repository.NewsRepository
 import com.example.news.sharepreferences.PreferenceConst.SELECT_DOMAIN
 import com.example.news.sharepreferences.Preferences
 import com.example.news.util.Event
 import com.example.news.util.SwitchSchedulers
+import com.example.news.util.ViewStatus
 import com.example.news.util.getTotalPage
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable

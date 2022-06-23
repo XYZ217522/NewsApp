@@ -24,7 +24,7 @@ abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {
     override fun getDefaultLayout() = R.layout.adapter_single_text
 
     override fun bind(holder: Holder) {
-        val color = if (isSelected) Color.parseColor("#ff8800") else Color.BLACK
+        val color = if (isSelected) Color.parseColor("#3296fb") else Color.BLACK
         holder.tvDomain.apply {
             domain?.let {
                 this.text = it

@@ -36,7 +36,7 @@ class SearchViewModel(
 
     private val mGson by lazy { Gson() }
     private val mTypeToken = object : TypeToken<List<String>>() {}.type
-    private val mFirstDayOfMonth by lazy { LocalDate.now().withDayOfMonth(1).toString() }
+    private val mSearchStartDay by lazy { LocalDate.now().minusMonths(1).toString() }
 
     val historyLiveData = MutableLiveData<List<String>>()
     val searchResultLiveData = MutableLiveData<Event<NewsData>>()
@@ -91,7 +91,7 @@ class SearchViewModel(
             .observeOn(Schedulers.io())
             .map { getToSaveList(it) }
             .map { preferences.setValue(SEARCH_HISTORY, mGson.toJson(it)).run { searchText } }
-            .flatMap { repository.search(it, mFirstDayOfMonth).toFlowable() }
+            .flatMap { repository.search(it, mSearchStartDay).toFlowable() }
             .map { it.apply { this.currentPage = 1 }.also { mSearchText = searchText } }
             .compose(SwitchSchedulers.applyFlowableSchedulers())
             .subscribe(

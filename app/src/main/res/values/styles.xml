@@ -100,11 +100,6 @@
         <item name="android:textColor">#808080</item>
     </style>
 
-    <style name="StoreDetailRemain">
-        <item name="android:textColor">#ff8800</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
     <style name="home_hot_ranking_title">
         <item name="android:textSize">14sp</item>
     </style>
@@ -126,22 +121,6 @@
         <item name="android:textColor">#ff3b30</item>
         <item name="android:textSize">17sp</item>
     </style>
-
-    <style name="BikestoreWalletFragmentDetailsTextAppearance">
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="BikestoreWalletFragmentDetailsHeaderTextAppearance" parent="BikestoreWalletFragmentDetailsTextAppearance">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="home_cat_item">
-        <item name="android:textSize">13sp</item>
-        <item name="android:textColor">#333333</item>
-    </style>
-
 
     <style name="history_gift_point_text">
         <item name="android:textColor">#439ee7</item>
@@ -180,12 +159,6 @@
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">11sp</item>
         <item name="android:rotation">30</item>
-    </style>
-
-    <!-- ES List page tabs -->
-    <style name="es_category_list_tabs_ticket">
-        <item name="android:textColor">#ff8800</item>
-        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="es_category_list_tabs_ticket_discount">
@@ -229,7 +202,7 @@
         <item name="tabIndicatorHeight">3dp</item>
         <item name="tabSelectedTextColor">@android:color/black</item>
         <item name="tabTextColor">@android:color/black</item>
-        <item name="tabIndicatorColor">#ff8800</item>
+        <item name="tabIndicatorColor">#3296fb</item>
         <item name="tabRippleColor">@null</item>
         <item name="tabPaddingStart">0dp</item>
         <item name="tabPaddingEnd">0dp</item>
@@ -238,23 +211,6 @@
 
     <style name="TabText_15" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:textSize">15sp</item>
-    </style>
-
-    <!-- 預約時的提醒注意事項 -->
-    <style name="BookingNoticeAppearance" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">#9B9B9B</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <!-- 月曆的標題 -->
-    <style name="CalendarTitleAppearance" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">#4A4A4A</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="CalendarWeekDayAppearance" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">#797979</item>
-        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Takeaway_RadioButton">

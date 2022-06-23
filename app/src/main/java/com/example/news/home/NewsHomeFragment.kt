@@ -88,7 +88,7 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
         }
 
         mHomeViewModel.newsEverythingLiveData.observe(viewLifecycleOwner) {
-            Log.d(TAG, "data = $it")
+            Log.d(TAG, "data = ${it.print()}")
             val newsData = it?.getContentIfNotHandled() ?: return@observe
             mHomeEpoxyController.setNewsData(newsData)
         }
