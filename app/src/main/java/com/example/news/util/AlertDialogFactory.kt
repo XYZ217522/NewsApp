@@ -23,11 +23,7 @@ fun Context.shareDialog(url: String, title: String, content: String): AlertDialo
 
     val titleView = LayoutInflater.from(this).inflate(R.layout.dialog_title, null)
     val contentView = LayoutInflater.from(this).inflate(R.layout.dialog_share, null)
-    val dialog = AlertDialog
-        .Builder(this)
-        .setCustomTitle(titleView)
-        .setView(contentView)
-        .create()
+    val dialog = AlertDialog.Builder(this).setCustomTitle(titleView).setView(contentView).create()
 
     titleView.findViewById<TextView>(R.id.tv_dialog_title).text = title
     titleView.findViewById<View>(R.id.fl_close).setOnClickListener { dialog.dismiss() }
@@ -38,19 +34,18 @@ fun Context.shareDialog(url: String, title: String, content: String): AlertDialo
         this.shareLine(content, url)
     }
 
-    /** Facebook */
-    contentView.findViewById<ImageView>(R.id.iv_share_fb).visibility = View.GONE
-//    contentView.findViewById<ImageView>(R.id.iv_share_fb).setOnClickListener {
-//        dialog.dismiss()
-//        this.shareFacebook(url)
-//    }
+    /** WhatsApp */
+    contentView.findViewById<ImageView>(R.id.iv_share_whatsapp).setOnClickListener {
+        dialog.dismiss()
+        this.shareWhatsApp(content, url)
+    }
 
-    /** FacebookMessage */
-    contentView.findViewById<ImageView>(R.id.iv_share_messenger).visibility = View.GONE
-//    contentView.findViewById<ImageView>(R.id.iv_share_messenger).setOnClickListener {
-//        dialog.dismiss()
-//        this.shareFacebookMessage(content, url)
-//    }
+    /** Facebook */
+    contentView.findViewById<ImageView>(R.id.iv_share_fb).setOnClickListener {
+        dialog.dismiss()
+        this.shareFacebook(content, url)
+    }
+
 
     /** chrome */
     contentView.findViewById<ImageView>(R.id.iv_chrome).setOnClickListener {
@@ -60,7 +55,7 @@ fun Context.shareDialog(url: String, title: String, content: String): AlertDialo
 
     /** copyTextToClipboard */
     contentView.findViewById<ImageView>(R.id.iv_copy_url).setOnClickListener {
-        this.copyTextToClipboard(url,"Link to this page Copy to Clipboard!")
+        this.copyTextToClipboard(url, "Link to this page Copy to Clipboard!")
     }
 
     return dialog

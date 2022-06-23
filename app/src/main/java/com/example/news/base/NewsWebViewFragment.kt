@@ -113,8 +113,8 @@ class NewsWebViewFragment : BaseFragment() {
         if (item.itemId == R.id.menu_share) {
             Log.d(TAG, "onOptionsItemSelected menu_share.")
             mBinding.webView.url?.let {
-                val fakeShareContent = "share From NewsApp!!!"
-                activity?.shareDialog(it, mTitle, fakeShareContent)?.show()
+                val fakeTitle = "Share"
+                activity?.shareDialog(it, fakeTitle, mTitle)?.show()
             }
         }
         return super.onOptionsItemSelected(item)

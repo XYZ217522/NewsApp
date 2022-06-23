@@ -35,6 +35,16 @@
                 android:visibility="visible" />
 
             <ImageView
+                android:id="@+id/iv_share_whatsapp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:src="@drawable/whatsapp_icon"
+                android:visibility="visible" />
+
+            <ImageView
                 android:id="@+id/iv_share_fb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,16 +52,6 @@
                 android:gravity="center"
                 android:minWidth="60dp"
                 android:src="@drawable/facebook_icon"
-                android:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/iv_share_messenger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                android:gravity="center"
-                android:minWidth="60dp"
-                android:src="@drawable/messenger_icon"
                 android:visibility="visible" />
 
             <ImageView
