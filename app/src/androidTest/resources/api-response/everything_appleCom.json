@@ -1,0 +1,266 @@
+{
+  "status": "ok",
+  "totalResults": 83,
+  "articles": [
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Meet the prototypers",
+      "description": "Creating a great app, game, or product takes work. Brainstorming ideas, thoughtful iteration, and — as Apple’s Prototyping team knows all too well — feedback. Constant feedback. “If we’re not getting feedback on something, we’re just not showing it to the rig…",
+      "url": "https://developer.apple.com/news/?id=97dgimaa",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/articles/images/50FFF0F8-048F-443D-A71E-09A686304EB3/2048.jpeg",
+      "publishedAt": "2022-06-20T22:00:09Z",
+      "content": "Creating a great app, game, or product takes work. Brainstorming ideas, thoughtful iteration, and as Apples Prototyping team knows all too well feedback. Constant feedback. If were not getting feedba… [+7586 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": "@apple",
+      "title": "Writing for interfaces",
+      "description": "The words and phrases you choose for your app matter. Whether you're writing an alert, building an onboarding experience, or describing...",
+      "url": "https://developer.apple.com/videos/play/wwdc2022/10037/",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/images/124/6530/6530_wide_250x141_2x.jpg",
+      "publishedAt": "2022-06-17T00:51:55Z",
+      "content": "Kaely Coon: Hi, my name is Kaely Coon. Jennifer Bush: And I'm Jennifer Bush. We're writers here at Apple, working as part of Human Interface design teams across Apple products and services. Today, we… [+20888 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": "John Gruber",
+      "title": "2022 Apple Design Awards",
+      "description": "‎Learn about collection Meet This Year’s Apple Design Award Winners featuring Procreate, Odio – AR Soundscapes, Halide Mark II - Pro Camera, and many more on Mac App Store. Enjoy these apps on your iPhone, iPad, and Mac.",
+      "url": "https://apps.apple.com/us/story/id1623414390",
+      "urlToImage": "https://is3-ssl.mzstatic.com/image/thumb/Features122/v4/b6/d4/b5/b6d4b509-68d9-97e4-4322-55d7658e2c2c/source/1028x630fo.jpg",
+      "publishedAt": "2022-06-15T16:59:30Z",
+      "content": "Each year, the Apple Design Awards celebrate the creative artistry and technical achievement of developers who reflect the best in design, innovation, and technology. Were thrilled to announce the wi… [+9400 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": "todsacerdoti",
+      "title": "Apple and MLS to present all MLS matches for 10 years, beginning in 2023",
+      "description": "Article URL: https://www.apple.com/newsroom/2022/06/apple-and-mls-to-present-all-mls-matches-for-10-years-beginning-in-2023/\nComments URL: https://news.ycombinator.com/item?id=31741421\nPoints: 4\n# Comments: 2",
+      "url": "https://www.apple.com/newsroom/2022/06/apple-and-mls-to-present-all-mls-matches-for-10-years-beginning-in-2023/",
+      "urlToImage": "https://www.apple.com/newsroom/images/product/apple-tv-plus/standard/Apple-MLS-partnership-June-2022.jpg.og.jpg?202206141602",
+      "publishedAt": "2022-06-14T16:05:34Z",
+      "content": "June 14, 2022\r\nPRESS RELEASE\r\nApple and Major League Soccer to present all MLS matches around the world for 10 years, beginning in 2023\r\nIn a historic first for sports, fans can stream every single M… [+5240 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Behind the Design WWDC22",
+      "description": "The Apple Design Awards honors excellence in innovation, ingenuity, and technical achievement in app and game design. Our award-winning designers take thoughtful and creative approaches to their apps and games, giving people new ways to work, play, or imagine…",
+      "url": "https://developer.apple.com/news/?id=b4kk777r",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/articles/images/7B9D7791-FE6B-4187-94DC-4B7E97953C75/2048.jpeg",
+      "publishedAt": "2022-06-13T17:00:13Z",
+      "content": "The Apple Design Awards honors excellence in innovation, ingenuity, and technical achievement in app and game design. Our award-winning designers take thoughtful and creative approaches to their apps… [+806 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": "tosh",
+      "title": "Web Push for Safari",
+      "description": "Article URL: https://developer.apple.com/videos/play/wwdc2022/10098/\nComments URL: https://news.ycombinator.com/item?id=31718068\nPoints: 6\n# Comments: 0",
+      "url": "https://developer.apple.com/videos/play/wwdc2022/10098/",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/images/124/6592/6592_wide_250x141_2x.jpg",
+      "publishedAt": "2022-06-12T20:41:26Z",
+      "content": "Brady Eidson: Hello. My name is Brady Eidson. I'm an engineer on the WebKit Architecture team. I am thrilled to introduce you to Web Push in Safari. Web Push lets you remotely send notifications to y… [+13487 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": "willswire",
+      "title": "Show HN: Speed Reader for Safari",
+      "description": "‎Speed Reader alters text on the web so that the most important parts of each word are bolded.  By directing a reader's gaze only to the initial highlighted letters, the brain is able to auto-complete the remaining part of the word.",
+      "url": "https://apps.apple.com/us/app/speed-reader-for-safari/id1629272336",
+      "urlToImage": "https://is2-ssl.mzstatic.com/image/thumb/Purple112/v4/ba/fb/26/bafb2686-072d-5941-7f93-93acb750fe41/AppIcon-0-0-85-220-0-0-0-0-4-0-0-0-2x-sRGB-0-0-0-0-0.png/1200x630wa.png",
+      "publishedAt": "2022-06-12T14:20:04Z",
+      "content": "The developer, William Walker, indicated that the apps privacy practices may include handling of data as described below. For more information, see the developers privacy policy.\r\nThe developer does … [+130 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Icon Maker - Generate app icons with ease",
+      "description": "‎App icon generator is an app to generate multiple size icons for Mobile Apps. \n\nFeatures:\n• Export icons for iOS, watchOS, and macOS applications",
+      "url": "https://apps.apple.com/gb/app/app-icon-generator-icon-maker/id1628134574",
+      "urlToImage": "https://is3-ssl.mzstatic.com/image/thumb/Purple112/v4/48/6e/cd/486ecd10-dbef-50f0-34f4-a76d2ec11be5/AppIcon-1x_U007emarketing-0-7-0-85-220.png/1200x630wa.png",
+      "publishedAt": "2022-06-12T12:30:00Z",
+      "content": "The developer, Digital Hole Pvt. Ltd., indicated that the apps privacy practices may include handling of data as described below. For more information, see the developers privacy policy.\r\nThe develop… [+138 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": "alpinegizmo",
+      "title": "Is it possible to disable iCloud K… | Apple Developer Forums",
+      "description": "We got an interesting question on the Developer Forums:\n> Is it possible to disable iCloud Keychain synchronization of passkeys?\n\nOur answer to this question is really important to understand. It gets to the heart of passkeys being a password replacement.",
+      "url": "https://developer.apple.com/forums/thread/707539",
+      "urlToImage": null,
+      "publishedAt": "2022-06-11T05:47:01Z",
+      "content": "Passkeys on Apple platforms require iCloud Keychain. One of the core goals of passkeys is to be a replacement for passwords. Despite their faults, one of the best properties of passwords is their inc… [+477 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "WWDC22 resources and survey",
+      "description": "Thank you to everyone who joined us for an amazing week. We hope you found value, connection, and fun. You can continue to:<ul>\n<li>Watch sessions at any time.</li>\n<li>Read about newly announced technologies.</li>\n<li>Get sample code from sessions.</li>\n<li>…",
+      "url": "https://developer.apple.com/news/?id=h6tsfrn7",
+      "urlToImage": "https://developer.apple.com/news/images/og/wwdc22/wwdc22-og-v3.jpg",
+      "publishedAt": "2022-06-10T21:16:16Z",
+      "content": "Thank you to everyone who joined us for an amazing week. We hope you found value, connection, and fun. You can continue to:\r\nWed love to know what you thought of this years conference. If youd like t… [+83 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Further updates on StoreKit External Entitlement for dating apps in the Netherlands storefront",
+      "description": "Following productive conversations with the Netherlands Authority for Consumers and Markets (ACM), today we’re introducing additional adjustments to Apple’s plan to comply with the regulator’s order pertaining to dating apps on the App Store in the Netherland…",
+      "url": "https://developer.apple.com/news/?id=3bttqj0z",
+      "urlToImage": "https://developer.apple.com/news/images/og/apple-developer-og.png",
+      "publishedAt": "2022-06-10T20:28:26Z",
+      "content": "Following productive conversations with the Netherlands Authority for Consumers and Markets (ACM), today were introducing additional adjustments to Apples plan to comply with the regulators order per… [+1425 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "WWDC22 Daily Digest: Friday",
+      "description": "Welcome! It's time for our final morning briefing. (We know — we can't believe it's Friday, either.) Before we power down for the week, however, we’ve got one more great day of events and activities.\nLet’s begin by catching up on Day 4:\n\n\n\n\n\n\n\r\n\n\n<ul>\n<li>WWD…",
+      "url": "https://developer.apple.com/news/?id=e1uqfh2v",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/articles/images/D143D096-5493-4C52-BF06-F3C16350AC04/2048.jpeg",
+      "publishedAt": "2022-06-10T14:00:07Z",
+      "content": "Welcome! It's time for our final morning briefing. (We know  we can't believe it's Friday, either.) Before we power down for the week, however, weve got one more great day of events and activities.\r\n… [+3573 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Best of WWDC22",
+      "description": "Best of WWDC22WWDC may have come to a close, but there's still so much to explore. Catch up on the highlights and enjoy videos from WWDC all year long.WWDC22 daily dispatchesIf it's a quick daily report you need or a catchup on all the special events of the w…",
+      "url": "https://developer.apple.com/news/?id=3lmt0p0f",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/articles/images/061D0916-E565-438F-BD71-8F67F508E704/2048.jpeg",
+      "publishedAt": "2022-06-09T23:33:11Z",
+      "content": "Create ML makes it easy to build custom machine learning models for image classification, object detection, sound classification, hand pose classification, action classification, tabular data regress… [+98 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "WWDC22 Daily Digest: Thursday",
+      "description": "It's Day 4 of WWDC and a fresh round of Digital Lounges, labs, and activities awaits you. Before we kick off Thursday, catch up on yesterday's dispatch:\n\n\n\n\n\n\n\r\n\n\n<ul>\n<li>WWDC22</li> \n</ul>\n\nWednesday@WWDC22\r\n\n\n\n\n\r\n\n\r\n\nSpotlight on sessions, Digital Lounges,…",
+      "url": "https://developer.apple.com/news/?id=h5e3xipj",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/articles/images/250FD591-6435-46FB-908F-2FCE02B2502D/2048.jpeg",
+      "publishedAt": "2022-06-09T14:00:28Z",
+      "content": "It's Day 4 of WWDC and a fresh round of Digital Lounges, labs, and activities awaits you. Before we kick off Thursday, catch up on yesterday's dispatch:\r\nSpotlight on sessions, Digital Lounges, and l… [+2332 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Sound advice",
+      "description": "An immersive app doesn’t only look and feel great — it has to sound incredible, too. During WWDC, we spoke with four Apple Design Award finalists about the sensational sounds of their apps and games. Come with us as we travel on a musical journey through cool…",
+      "url": "https://developer.apple.com/news/?id=k8jj66ki",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/articles/images/C2FBDE78-F360-4AC3-9F05-82C406C3563E/2048.jpeg",
+      "publishedAt": "2022-06-09T14:00:02Z",
+      "content": "An immersive app doesnt only look and feel great  it has to sound incredible, too. During WWDC, we spoke with four Apple Design Award finalists about the sensational sounds of their apps and games. C… [+8811 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": "daskaja",
+      "title": "https://developer.apple.com/videos/play/wwdc2022/10092/",
+      "description": "It's time for a security upgrade: Learn how to add support for passkeys to create a quick and easy sign in experience for people, all...",
+      "url": "https://developer.apple.com/videos/play/wwdc2022/10092/",
+      "urlToImage": "https://devimages-cdn.apple.com/wwdc-services/images/124/6586/6586_wide_250x141_2x.jpg",
+      "publishedAt": "2022-06-09T05:47:01Z",
+      "content": "Mellow instrumental hip-hop music Hi, I'm Garrett, an engineer on the Authentication Experience team. And in this video, I'm excited to talk about passkeys, a next-generation authentication technolog… [+26414 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Apple Freeform - Collaborate in real time",
+      "description": "iPadOS 16 brings full external display support, Stage Manager, Weather app, redesigned Game Center, and systemwide app enhancements to iPad.",
+      "url": "https://www.apple.com/ipados/ipados-16-preview/",
+      "urlToImage": "https://www.apple.com/v/ipados/ipados-16-preview/a/images/meta/ipados-16-preview__fz9uwg1fldme_og.png?202206031320",
+      "publishedAt": "2022-06-08T16:49:00Z",
+      "content": "Notes.\r\nLock a note using just your device passcode, eliminating the need to remember a separate password. New, customizable filters in Smart Folders let you organize based on creation date, attachme… [+120 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Sign up now for WWDC22 labs and lounges",
+      "description": "Register for labs and Digital Lounges to connect with Apple engineers, designers, and experts online all week long.Digital LoungesA wide variety of exciting activities are happening daily on Slack.<ul>\n<li>Ask questions at engineering and design Q&As.</li>\n<l…",
+      "url": "https://developer.apple.com/news/?id=kvwb7ph4",
+      "urlToImage": "https://developer.apple.com/news/images/og/wwdc22/wwdc22-labs-lounges-og.jpg",
+      "publishedAt": "2022-06-08T15:48:26Z",
+      "content": "Register for labs and Digital Lounges to connect with Apple engineers, designers, and experts online all week long.\r\nDigital Lounges\r\nA wide variety of exciting activities are happening daily on Slac… [+985 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Duncan Robinson On Lack Of Playing Time: It Sucks In A Lot Of Ways",
+      "description": "Duncan Robinson knows playing time with the Miami Heat is earned, not given. But that didn't take the sting out of being largely removed from Miami's rotation late in the season.\nWhen asked about it not feeling good to go from being a starter to barely playin…",
+      "url": "https://podcasts.apple.com/us/podcast/duncan-robinson-on-the-heat-playoff-run-his-playing/id1547871383?i=1000565607061",
+      "urlToImage": "https://basketball.realgm.com/images/nba/4.2/wiretap/photos/2006/Robinson_Duncan_mia_200330.jpg",
+      "publishedAt": "2022-06-08T13:18:29Z",
+      "content": "Duncan Robinson knows playing time with the Miami Heat is earned, not given. But that didn't take the sting out of being largely removed from Miami's rotation late in the season.\r\nWhen asked about it… [+637 chars]"
+    },
+    {
+      "source": {
+        "id": null,
+        "name": "Apple Newsroom"
+      },
+      "author": null,
+      "title": "Deploying Transformers on the Apple Neural Engine",
+      "description": "An increasing number of the machine learning (ML) models we build at Apple each year are either partly or fully adopting the [Transformer…",
+      "url": "https://machinelearning.apple.com/research/neural-engine-transformers",
+      "urlToImage": "https://mlr.cdn-apple.com/media/open_Graph_d53fcef327.jpg",
+      "publishedAt": "2022-06-08T12:48:21Z",
+      "content": "An increasing number of the machine learning (ML) models we build at Apple each year are either partly or fully adopting the Transformer architecture. This architecture helps enable experiences such … [+16615 chars]"
+    }
+  ]
+}

@@ -6,6 +6,24 @@ data class NewsData(
     val articles: MutableList<ArticlesBean>?,
 ) {
     var currentPage: Int = 0
+
+    companion object {
+        fun mock(): NewsData {
+            val articles = mutableListOf(
+                ArticlesBean(
+                    source = null,
+                    author = "GeorgeHsu",
+                    title = "This is a fake article",
+                    description = "",
+                    url = "https://www.google.com",
+                    urlToImage = "",
+                    publishedAt = "",
+                    content = ""
+                )
+            )
+            return NewsData(status = "ok", totalResults = 1, articles = articles)
+        }
+    }
 }
 
 data class ArticlesBean(

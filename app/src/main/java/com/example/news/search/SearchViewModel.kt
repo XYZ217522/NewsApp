@@ -17,6 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 import java.time.LocalDate
 
 
@@ -97,8 +98,12 @@ class SearchViewModel(
             .subscribe(
                 {
                     searchResultLiveData.value = Event(it)
-                    viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
-                    viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
+                    viewStatusLiveData.value = if (it.articles.isNullOrEmpty()) {
+                        errorEvent(Exception("articles Empty "))
+                    } else {
+                        Event(ViewStatus.GetDataSuccess)
+                        Event(ViewStatus.ScrollToUp)
+                    }
                 },
                 {
                     Log.e(TAG, "error=$it")
