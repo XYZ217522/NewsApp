@@ -8,7 +8,7 @@ data class NewsData(
     var currentPage: Int = 0
 
     companion object {
-        fun mock(): NewsData {
+        fun mock(totalResults: Int? = null): NewsData {
             val articles = mutableListOf(
                 ArticlesBean(
                     source = null,
@@ -21,7 +21,7 @@ data class NewsData(
                     content = ""
                 )
             )
-            return NewsData(status = "ok", totalResults = 1, articles = articles)
+            return NewsData(status = "ok", totalResults = totalResults ?: 1, articles = articles)
         }
     }
 }
