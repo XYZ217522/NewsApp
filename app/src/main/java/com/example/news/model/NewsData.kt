@@ -9,18 +9,19 @@ data class NewsData(
 
     companion object {
         fun mock(totalResults: Int? = null): NewsData {
-            val articles = mutableListOf(
+            val articles = mutableListOf<ArticlesBean>()
+            for (i in 0..(totalResults ?: 1)) {
                 ArticlesBean(
                     source = null,
                     author = "GeorgeHsu",
-                    title = "This is a fake article",
+                    title = "This is a fake article #${i + 1}",
                     description = "",
                     url = "https://www.google.com",
                     urlToImage = "",
                     publishedAt = "",
                     content = ""
-                )
-            )
+                ).let { articles.add(it) }
+            }
             return NewsData(status = "ok", totalResults = totalResults ?: 1, articles = articles)
         }
     }

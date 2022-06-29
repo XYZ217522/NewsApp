@@ -1,21 +1,13 @@
 package com.example.news
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.news.home.HomeViewModel
 import com.example.news.home.HomeViewModel.Companion.DEFAULT_DOMAIN
 import com.example.news.model.NewsData
-import com.example.news.repository.NewsRepository
 import com.example.news.sharepreferences.PreferenceConst.SELECT_DOMAIN
 import com.example.news.sharepreferences.Preferences
 import com.example.news.util.ViewStatus
-import io.reactivex.Scheduler
 import io.reactivex.Single
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.internal.schedulers.ExecutorScheduler
-import io.reactivex.plugins.RxJavaPlugins
 import org.junit.Assert
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -25,31 +17,10 @@ import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class HomeViewModelUnitTest {
-
-    @Mock
-    lateinit var repository: NewsRepository
+class HomeViewModelUnitTest : BaseUnitTest() {
 
     @Mock
     lateinit var newsViewModel: HomeViewModel
-
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    private val immediateScheduler = object : Scheduler() {
-        override fun createWorker(): Worker {
-            return ExecutorScheduler.ExecutorWorker({ it.run() }, false)
-        }
-    }
-
-    @Before
-    fun init() {
-        RxJavaPlugins.setInitIoSchedulerHandler { immediateScheduler }
-        RxJavaPlugins.setComputationSchedulerHandler { immediateScheduler }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediateScheduler }
-        repository = mock(NewsRepository::class.java)
-    }
 
     @Test
     fun repository_TEST() {
@@ -106,7 +77,8 @@ class HomeViewModelUnitTest {
         newsViewModel = HomeViewModel(repository, mockPreferences)
 
         // mock loadMore load page = 2
-        `when`(repository.getEverything(testDomain, 2))
+        testPage = 2
+        `when`(repository.getEverything(testDomain, testPage))
             .thenReturn(Single.just(mockNewsData))
 
         newsViewModel.loadMore(false)
