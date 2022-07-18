@@ -7,7 +7,7 @@ This is a simple app with Android MVVM architecture and LiveData Example
 - rxjava2
 - epoxy
 
-# Setting up
+### Setting up
 - Register a [NewsApi API key](https://newsapi.org/)
 - Create a ```const.gradle``` file and code like this
 ```

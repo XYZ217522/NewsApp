@@ -98,11 +98,11 @@ class SearchViewModel(
             .subscribe(
                 {
                     searchResultLiveData.value = Event(it)
-                    viewStatusLiveData.value = if (it.articles.isNullOrEmpty()) {
-                        errorEvent(Exception("articles Empty "))
+                    if (it.articles.isNullOrEmpty()) {
+                        viewStatusLiveData.value = errorEvent(Exception("articles Empty "))
                     } else {
-                        Event(ViewStatus.GetDataSuccess)
-                        Event(ViewStatus.ScrollToUp)
+                        viewStatusLiveData.value = Event(ViewStatus.GetDataSuccess)
+                        viewStatusLiveData.value = Event(ViewStatus.ScrollToUp)
                     }
                 },
                 {
