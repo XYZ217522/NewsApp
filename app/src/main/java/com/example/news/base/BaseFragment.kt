@@ -1,24 +1,37 @@
 package com.example.news.base
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.example.news.NewsActivity
 import com.example.news.R
 import com.example.news.model.ArticlesBean
 import com.example.news.util.messageDialog
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     protected open var navigationVisibility = View.GONE
 
     protected open var isRootFragment = false
 
     protected open var optionsMenuId: Int? = null
+
+    private lateinit var _binding: VB
+    protected val mBinding get() = _binding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        _binding = initViewBinding(inflater, container, false)
+        return _binding.root
+    }
+
+    abstract fun initViewBinding(inflater: LayoutInflater, container: ViewGroup?, boolean: Boolean)
+            : VB
+
 
     protected open fun getSupportActionBar(): Toolbar? {
         return null
@@ -58,7 +71,7 @@ abstract class BaseFragment : Fragment() {
         inflater.inflate(menuId, menu)
     }
 
-    fun pushFragment(fragment: BaseFragment) {
+    fun pushFragment(fragment: Fragment) {
         if (activity is NewsActivity) {
             (activity as NewsActivity).pushFragment(fragment)
         }

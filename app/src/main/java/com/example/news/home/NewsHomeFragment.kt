@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.base.BaseFragment
@@ -19,7 +18,7 @@ import com.example.news.search.SearchFragment
 import com.example.news.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
+class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallback {
 
     companion object {
         const val TAG = "NewsHomeFragment"
@@ -27,8 +26,6 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     }
 
     private val mHomeViewModel: HomeViewModel by viewModel()
-
-    private lateinit var mBinding: FragmentNewsHomeBinding
 
     private val mHomeEpoxyController by lazy { HomeEpoxyController(this) }
 
@@ -39,22 +36,6 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     override var optionsMenuId: Int? = R.menu.home_menu
 
     override fun getSupportActionBar(): Toolbar = mBinding.homeActionbar
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        super.onCreateView(inflater, viewGroup, savedInstanceState)
-        mBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_news_home,
-            viewGroup,
-            false
-        )
-        mBinding.lifecycleOwner = viewLifecycleOwner
-        return mBinding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -140,5 +121,10 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     override fun onArticleClick(articlesBean: ArticlesBean) {
         Log.d(TAG, "onArticleClick articlesBean:$articlesBean")
         pushWebViewFragment(articlesBean)
+    }
+
+    override fun initViewBinding(inflater: LayoutInflater, container: ViewGroup?, boolean: Boolean):
+            FragmentNewsHomeBinding {
+        return FragmentNewsHomeBinding.inflate(inflater, container, boolean)
     }
 }

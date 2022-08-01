@@ -1,11 +1,10 @@
 package com.example.news.epoxy
 
-import android.widget.ImageView
-import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
-import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
+import com.example.news.base.BaseEpoxyModel
+import com.example.news.databinding.AdapterSimpleNewsBinding
 import com.example.news.model.ArticlesBean
 import com.example.news.model.getExtraInfoText
 import com.example.news.util.formatStringToDate
@@ -13,7 +12,7 @@ import com.example.news.util.loadUrl
 import com.example.news.util.setTextOrGone
 
 @EpoxyModelClass
-abstract class SimpleNewsModel : EpoxyModelWithHolder<SimpleNewsModel.Holder>() {
+abstract class SimpleNewsModel : BaseEpoxyModel<AdapterSimpleNewsBinding>() {
 
     @EpoxyAttribute
     var articlesBean: ArticlesBean? = null
@@ -23,20 +22,15 @@ abstract class SimpleNewsModel : EpoxyModelWithHolder<SimpleNewsModel.Holder>() 
 
     override fun getDefaultLayout() = R.layout.adapter_simple_news
 
-    override fun bind(holder: Holder) {
+    override fun AdapterSimpleNewsBinding.bind() {
         articlesBean?.let { article: ArticlesBean ->
-            holder.ivNews.loadUrl(article.urlToImage)
-            holder.tvTitle.setTextOrGone(article.title)
-            holder.tvPublished.setTextOrGone(article.publishedAt?.formatStringToDate())
-            holder.tvExtraInfo.setTextOrGone(article.getExtraInfoText())
-            holder.view.setOnClickListener { listener?.onArticleClick(article) }
+            ivNews.loadUrl(article.urlToImage)
+            tvTitle.setTextOrGone(article.title)
+            tvPublished.setTextOrGone(article.publishedAt?.formatStringToDate())
+            tvExtraInfo.setTextOrGone(article.getExtraInfoText())
+            binding.root.setOnClickListener { listener?.onArticleClick(article) }
         }
     }
 
-    class Holder : KotlinEpoxyHolder() {
-        val ivNews by bind<ImageView>(R.id.iv_news)
-        val tvTitle by bind<TextView>(R.id.tv_title)
-        val tvPublished by bind<TextView>(R.id.tv_published)
-        val tvExtraInfo by bind<TextView>(R.id.tv_extra_info)
-    }
+
 }

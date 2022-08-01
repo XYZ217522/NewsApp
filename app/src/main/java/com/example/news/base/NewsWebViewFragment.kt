@@ -13,12 +13,11 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
-import androidx.databinding.DataBindingUtil
 import com.example.news.R
 import com.example.news.databinding.FragmentWebviewBinding
 import com.example.news.util.shareDialog
 
-class NewsWebViewFragment : BaseFragment() {
+class NewsWebViewFragment : BaseFragment<FragmentWebviewBinding>() {
 
     companion object {
         private const val TAG = "NewsWebViewFragment"
@@ -35,29 +34,11 @@ class NewsWebViewFragment : BaseFragment() {
         }
     }
 
-    private lateinit var mBinding: FragmentWebviewBinding
-
     private lateinit var mTitle: String
 
     override var optionsMenuId: Int? = R.menu.web_menu
 
     override fun getSupportActionBar(): Toolbar = mBinding.webActionbar
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        super.onCreateView(inflater, viewGroup, savedInstanceState)
-        mBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_webview,
-            viewGroup,
-            false
-        )
-        mBinding.lifecycleOwner = viewLifecycleOwner
-        return mBinding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -118,5 +99,13 @@ class NewsWebViewFragment : BaseFragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun initViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        boolean: Boolean
+    ): FragmentWebviewBinding {
+        return FragmentWebviewBinding.inflate(inflater, container, boolean)
     }
 }

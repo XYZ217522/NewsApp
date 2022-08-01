@@ -5,6 +5,7 @@ import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import com.example.news.R
 import com.example.news.epoxy.LoadingFooterModel_
+import com.example.news.epoxy.SimpleNewsModel_
 import com.example.news.epoxy.simpleNews
 import com.example.news.model.ArticlesBean
 import com.example.news.model.NewsData
@@ -28,12 +29,12 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
 
         if (isSelectDomainMode) {
             domainList.forEachIndexed { index, domain ->
-                domain {
-                    id(domain + index)
-                    domain(domain)
-                    isSelected(mSelectDomain == domain)
-                    listener(mCallback)
-                }
+                DomainModel_()
+                    .id(domain + index)
+                    .domain(domain)
+                    .isSelected(mSelectDomain == domain)
+                    .listener(mCallback)
+                    .addTo(this)
             }
             return
         }
@@ -41,11 +42,11 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
         mNewsData?.let {
             val articles = mNewsData?.articles ?: emptyList()
             articles.forEachIndexed { index, articlesBean ->
-                simpleNews {
-                    id(index)
-                    articlesBean(articlesBean)
-                    listener(mCallback)
-                }
+                SimpleNewsModel_()
+                    .id(index)
+                    .articlesBean(articlesBean)
+                    .listener(mCallback)
+                    .addTo(this)
             }
 
             loadingLoadingFooterModel.addIf(checkIsLoading(articles), this)
@@ -62,7 +63,7 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
     }
 
     fun setNewsData(newsData: NewsData) {
-        Log.d(TAG,"setNewsData:${newsData.currentPage}")
+        Log.d(TAG, "setNewsData:${newsData.currentPage}")
         mNewsData?.let {
             it.currentPage = newsData.currentPage
             it.articles?.addAll(newsData.articles ?: emptyList())

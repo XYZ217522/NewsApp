@@ -7,11 +7,12 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
-import com.example.news.epoxy.KotlinEpoxyHolder
+import com.example.news.base.BaseEpoxyModel
+import com.example.news.databinding.AdapterSingleTextBinding
 import com.example.news.model.ArticlesBean
 
 @EpoxyModelClass
-abstract class HeadLineTextModel : EpoxyModelWithHolder<HeadLineTextModel.Holder>() {
+abstract class HeadLineTextModel : BaseEpoxyModel<AdapterSingleTextBinding>() {
 
     @EpoxyAttribute
     var articlesBean: ArticlesBean? = null
@@ -21,25 +22,14 @@ abstract class HeadLineTextModel : EpoxyModelWithHolder<HeadLineTextModel.Holder
 
     override fun getDefaultLayout() = R.layout.adapter_single_text
 
-    override fun bind(holder: Holder) {
+    override fun AdapterSingleTextBinding.bind() {
+        tvText.textSize = 14.0f
+        ivArrow.visibility = View.VISIBLE
+        fullWidthDivider.visibility = View.GONE
+        divider.visibility = View.VISIBLE
         articlesBean?.let { article: ArticlesBean ->
-            holder.tvHeadline.text = article.title ?: ""
-            holder.view.setOnClickListener { listener?.onArticleClick(article) }
-        }
-    }
-
-    class Holder : KotlinEpoxyHolder() {
-        val tvHeadline by bind<TextView>(R.id.tv_text)
-        private val ivArrow by bind<ImageView>(R.id.iv_arrow)
-        private val fullWidthDivider by bind<View>(R.id.full_width_divider)
-        private val divider by bind<View>(R.id.divider)
-
-        override fun bindView(itemView: View) {
-            super.bindView(itemView)
-            tvHeadline.textSize = 14.0f
-            ivArrow.visibility = View.VISIBLE
-            fullWidthDivider.visibility = View.GONE
-            divider.visibility = View.VISIBLE
+            tvText.text = article.title ?: ""
+            binding.root.setOnClickListener { listener?.onArticleClick(article) }
         }
     }
 }

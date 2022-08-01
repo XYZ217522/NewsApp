@@ -8,10 +8,11 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
-import com.example.news.epoxy.KotlinEpoxyHolder
+import com.example.news.base.BaseEpoxyModel
+import com.example.news.databinding.AdapterGridCellBinding
 
 @EpoxyModelClass
-abstract class GridCellModel : EpoxyModelWithHolder<GridCellModel.Holder>() {
+abstract class GridCellModel : BaseEpoxyModel<AdapterGridCellBinding>() {
 
     @EpoxyAttribute
     var cellName: String = ""
@@ -29,17 +30,14 @@ abstract class GridCellModel : EpoxyModelWithHolder<GridCellModel.Holder>() {
 
     override fun getDefaultLayout() = R.layout.adapter_grid_cell
 
-    override fun bind(holder: Holder) {
-
-        val context = holder.view.context ?: return
-
+    override fun AdapterGridCellBinding.bind() {
         // 選中時改變顏色
         val timeColor = if (isSelected) Color.WHITE else Color.parseColor("#3296FB")
-        holder.tvLabel.setTextColor(timeColor)
-        holder.tvLabel.text = cellName
+        tvLabel.setTextColor(timeColor)
+        tvLabel.text = cellName
 
         val bg = if (isSelected) R.drawable.country_cell_selected_bg else R.drawable.country_cell_bg
-        holder.csBackground.apply {
+        csRoot.apply {
             this.background = ContextCompat.getDrawable(context, bg)
             this.setOnClickListener {
                 listener?.let {
@@ -47,10 +45,5 @@ abstract class GridCellModel : EpoxyModelWithHolder<GridCellModel.Holder>() {
                 }
             }
         }
-    }
-
-    class Holder : KotlinEpoxyHolder() {
-        val csBackground by bind<ConstraintLayout>(R.id.cs_root)
-        val tvLabel by bind<TextView>(R.id.tv_label)
     }
 }
