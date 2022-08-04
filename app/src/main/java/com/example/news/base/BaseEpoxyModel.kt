@@ -27,10 +27,17 @@ abstract class BaseEpoxyModel<T : ViewBinding> :
         (holder.viewBinding as T).unbind()
     }
 
+    open fun T.onViewHolderBinding() {}
+
+    @Suppress("UNCHECKED_CAST")
+    private fun onViewHolderBindView(viewBinding: ViewBinding) {
+        (viewBinding as T).onViewHolderBinding()
+    }
+
     open fun T.unbind() {}
 
     override fun createNewHolder(parent: ViewParent): ViewBindingHolder {
-        return ViewBindingHolder(this::class.java)
+        return ViewBindingHolder(this::class.java, this::onViewHolderBindView)
     }
 }
 
@@ -53,7 +60,7 @@ private fun getSuperclassParameterizedType(klass: Class<*>): ParameterizedType {
         ?: getSuperclassParameterizedType(genericSuperclass as Class<*>)
 }
 
-class ViewBindingHolder(private val epoxyModelClass: Class<*>) : EpoxyHolder() {
+class ViewBindingHolder(private val epoxyModelClass: Class<*>, val function: (ViewBinding) -> Unit) : EpoxyHolder() {
     // Using reflection to get the static binding method.
     // Lazy so it's computed only once by instance, when the 1st ViewHolder is actually created.
     private val bindingMethod by lazy { getBindMethodFrom(epoxyModelClass) }
@@ -62,5 +69,6 @@ class ViewBindingHolder(private val epoxyModelClass: Class<*>) : EpoxyHolder() {
     override fun bindView(itemView: View) {
         // The 1st param is null because the binding method is static.
         viewBinding = bindingMethod.invoke(null, itemView) as ViewBinding
+        function.invoke(viewBinding)
     }
 }
