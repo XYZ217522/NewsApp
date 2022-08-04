@@ -138,7 +138,8 @@ class PopularityViewModel(
         return Event(ViewStatus.ShowDialog(throwable?.toString() ?: "unknown error."))
     }
 
-    fun unsubscribe() {
+    override fun onCleared() {
+        super.onCleared()
         compositeDisposable.clear()
     }
 

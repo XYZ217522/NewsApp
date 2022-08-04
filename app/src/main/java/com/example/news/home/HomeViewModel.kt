@@ -110,7 +110,9 @@ class HomeViewModel(
             .doOnNext { mCurrentDomain = run { preferences.setValue(SELECT_DOMAIN, it);it } }
     }
 
-    fun unsubscribe() {
+
+    override fun onCleared() {
+        super.onCleared()
         compositeDisposable.clear()
     }
 
