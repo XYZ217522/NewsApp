@@ -92,9 +92,9 @@ android {
         androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.8.1'
 
         //Epoxy
-        implementation "com.airbnb.android:epoxy:5.0.0-beta05"
-        annotationProcessor "com.airbnb.android:epoxy-processor:5.0.0-beta05"
-        kapt "com.airbnb.android:epoxy-processor:5.0.0-beta05"
+        implementation "com.airbnb.android:epoxy:4.6.3"
+        annotationProcessor "com.airbnb.android:epoxy-processor:4.6.3"
+        kapt "com.airbnb.android:epoxy-processor:4.6.3"
 
         //mockito
         testImplementation "org.mockito:mockito-inline:4.6.1"
