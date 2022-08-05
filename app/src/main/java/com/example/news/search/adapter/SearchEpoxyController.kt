@@ -39,6 +39,7 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
                     .id(HistoryTextModel::class.simpleName + index)
                     .historyText(text)
                     .listener(mCallback)
+                    .addTo(this)
             }
 
             historyFooterModel.listener(mCallback).addIf(mHistoryList.isNotEmpty(), this)
@@ -62,6 +63,7 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
                 .id(SimpleNewsModel::class.simpleName + index)
                 .articlesBean(articlesBean)
                 .listener(mCallback)
+                .addTo(this)
         }
     }
 
