@@ -12,4 +12,6 @@ sealed class HomeViewState {
     object ScrollToUp : HomeViewState()
 
     class GetDataSuccess(val isShow: Boolean) : HomeViewState()
+
+    object GetLoadMoreDataFail : HomeViewState()
 }

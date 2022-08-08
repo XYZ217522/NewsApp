@@ -83,7 +83,7 @@ class SearchViewModel(
             .apply { historyLiveData.postValue(this) }
     }
 
-    // todo 
+    // todo
     fun search(searchText: String) {
         Log.d(TAG, "search:$searchText")
         Flowable

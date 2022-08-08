@@ -75,9 +75,9 @@ class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallb
     override fun observeData() {
         mHomeViewModel.titleLiveData.observe(viewLifecycleOwner) {
             Log.d(TAG, "titleLiveData = $it")
-            it ?: return@observe
-            mBinding.tvTitle.text = it
-            mHomeEpoxyController.mSelectDomain = it
+            val title = it ?: return@observe
+            mBinding.tvTitle.text = title
+            mHomeEpoxyController.mSelectDomain = title
         }
 
         mHomeViewModel.newsEverythingLiveData.observe(viewLifecycleOwner) {
@@ -90,11 +90,7 @@ class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallb
             Log.d(TAG, "viewStatusLiveData = ${it.print()}")
             val viewStatus = it?.getContentIfNotHandled() ?: return@observe
             when (viewStatus) {
-                is HomeViewState.ShowDialog -> {
-                    activity?.messageDialog(viewStatus.msg, viewStatus.title)?.show()
-                }
-                is HomeViewState.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
-                is HomeViewState.Loading -> {
+                is HomeViewState.ShowToast -> {
                     mHomeEpoxyController.clearNewsData()
                     showRecyclerView(false)
                 }
@@ -104,8 +100,13 @@ class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallb
                 }
                 is HomeViewState.GetDataFail -> {
                     showRecyclerView(true)
-                    activity?.messageDialog(viewStatus.msg)?.show()
+                    if (viewStatus.msg.isNotEmpty()) activity?.messageDialog(viewStatus.msg)?.show()
                 }
+                is HomeViewState.ShowDialog -> {
+                    activity?.messageDialog(viewStatus.msg, viewStatus.title)?.show()
+                }
+                is HomeViewState.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
+                is HomeViewState.GetLoadMoreDataFail -> showRecyclerView(true)
                 else -> Log.d(TAG, "not implement.")
             }
         }
@@ -113,6 +114,7 @@ class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallb
 
     // start viewmodel process ex: getData, FetchAPI
     override fun initAction() {
+        Log.e(TAG, "initAction")
         mHomeViewModel.onStartRequestEveryThing()
     }
 
@@ -138,6 +140,8 @@ class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallb
 
     override fun onDomainClick(domain: String) {
         Log.d(TAG, "onDomainClick domain:$domain")
+        mHomeEpoxyController.clearNewsData()
+        mHomeEpoxyController.changeDomainMode()
         mHomeViewModel.onDomainClickRequestEveryThing(domain)
     }
 

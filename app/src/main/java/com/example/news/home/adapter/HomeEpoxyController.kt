@@ -18,10 +18,14 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
         const val TAG = "HomeEpoxyController"
     }
 
-    var mSelectDomain = ""
-
     var isSelectDomainMode = false
         private set
+
+    var mSelectDomain = ""
+        set(value) {
+            field = value
+            requestModelBuild()
+        }
 
     var mAlArticles: MutableList<ArticlesBean> = mutableListOf()
         set(value) {
@@ -39,7 +43,6 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
     lateinit var loadingLoadingFooterModel: LoadingFooterModel_
 
     override fun buildModels() {
-
         when (isSelectDomainMode) {
             true -> {
                 domainList.forEachIndexed { index, domain ->

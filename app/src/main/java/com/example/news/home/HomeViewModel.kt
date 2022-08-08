@@ -37,17 +37,17 @@ class HomeViewModel(
 
     fun onLoadMoreEveryThing() {
         Log.e(TAG, "onLoadMoreEveryThing")
-        getEverythingByDomain(mCurrentDomain, resetPage = false, isFirst = getEveryThingUseCase.mIsCanLoadMore)
+        getEverythingByDomain(mCurrentDomain, resetPage = false, isFirst = false)
     }
 
     fun onStartRequestEveryThing() {
         Log.e(TAG, "onStartRequestEveryThing")
-        getEverythingByDomain(requestDomain = mCurrentDomain, resetPage = true, isFirst = false)
+        getEverythingByDomain(requestDomain = mCurrentDomain, resetPage = true, isFirst = true)
     }
 
     fun onDomainClickRequestEveryThing(domain: String) {
         Log.e(TAG, "onDomainClickRequestEveryThing")
-        getEverythingByDomain(domain, resetPage = true, isFirst = false)
+        getEverythingByDomain(domain, resetPage = true, isFirst = true)
     }
 
     private fun getEverythingByDomain(requestDomain: String, resetPage: Boolean = false, isFirst: Boolean) {
@@ -55,7 +55,7 @@ class HomeViewModel(
 
         if (resetPage) getEveryThingUseCase.resetCurrentPage()
 
-        if (!isFirst) viewStatusLiveData.value = Event(HomeViewState.Loading)
+        if (isFirst) viewStatusLiveData.value = Event(HomeViewState.Loading)
 
         val isNotCurrentDomain = mCurrentDomain != requestDomain
 
@@ -70,27 +70,32 @@ class HomeViewModel(
                 .doOnSubscribe { }
         }
 
-        val subscribe = object : ResourceSubscriber<Any>() {
+        Single
+            .concat(domainFlowable, getEverythingObservable)
+            .compose(SwitchSchedulers.applyFlowableSchedulers())
+            .subscribeWith(createGetEveryThingSubject(isNotCurrentDomain, !isFirst))
+            .addTo(compositeDisposable)
+    }
+
+    private fun createGetEveryThingSubject(isNotCurrentDomain: Boolean, isFirst: Boolean): ResourceSubscriber<Any> {
+        return object : ResourceSubscriber<Any>() {
             override fun onNext(response: Any) {
                 Log.d(TAG, "onNext = $response")
                 when (response) {
                     is String -> updateTitle(response)
-                    is NewsData -> handleNewsData(response, isNotCurrentDomain)
+                    is NewsData ->
+                        if (response.isValid()) handleNewsData(response, isNotCurrentDomain)
+                        else handleError("Articles Empty.", isFirst)
                 }
             }
 
             override fun onError(t: Throwable?) {
                 Log.e(TAG, "onError = $t")
-                handleError(t.toString())
+                handleError(t.toString(), isFirst)
             }
 
             override fun onComplete() {}
         }
-
-        Single
-            .concat(domainFlowable, getEverythingObservable)
-            .compose(SwitchSchedulers.applyFlowableSchedulers())
-            .subscribeWith(subscribe).addTo(compositeDisposable)
     }
 
     private fun updateTitle(domain: String) {
@@ -100,23 +105,19 @@ class HomeViewModel(
         titleLiveData.value = domain
     }
 
-    private fun handleError(message: String?) {
-        val msg = message ?: "unknown error"
-        viewStatusLiveData.value = Event(HomeViewState.GetDataFail(msg))
+    private fun handleError(message: String?, isFirst: Boolean) {
+        if (isFirst) {
+            viewStatusLiveData.value = Event(HomeViewState.GetDataFail(message ?: "unknown error"))
+        } else {
+            viewStatusLiveData.value = Event(HomeViewState.GetLoadMoreDataFail)
+        }
     }
 
     private fun handleNewsData(newsData: NewsData, isNotDefaultDomain: Boolean) {
         Log.d(TAG, "handleNewsData: ${newsData.isValid()}")
-        when {
-            newsData.isValid() -> {
-                newsEverythingLiveData.value = Event(newsData)
-                viewStatusLiveData.value = Event(HomeViewState.GetDataSuccess(getEveryThingUseCase.mIsCanLoadMore))
-                if (isNotDefaultDomain) viewStatusLiveData.value = Event(HomeViewState.ScrollToUp)
-            }
-            !newsData.isValid() -> {
-                handleError("Articles Empty.")
-            }
-        }
+        newsEverythingLiveData.value = Event(newsData)
+        viewStatusLiveData.value = Event(HomeViewState.GetDataSuccess(getEveryThingUseCase.mIsCanLoadMore))
+        if (isNotDefaultDomain) viewStatusLiveData.value = Event(HomeViewState.ScrollToUp)
     }
 
     override fun onCleared() {
