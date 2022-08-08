@@ -32,6 +32,11 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     abstract fun initViewBinding(inflater: LayoutInflater, container: ViewGroup?, boolean: Boolean)
             : VB
 
+    protected open fun initView() {}
+
+    protected open fun initAction() {}
+
+    protected open fun observeData() {}
 
     protected open fun getSupportActionBar(): Toolbar? {
         return null

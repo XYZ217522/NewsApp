@@ -47,7 +47,7 @@ class NewsWebViewFragment : BaseFragment<FragmentWebviewBinding>() {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun initView() {
+    override fun initView() {
         Log.i(TAG, "initView.")
         mTitle = arguments?.getString(ARGS_TITLE, "Title") ?: "Title"
         mBinding.tvTitle.text = mTitle

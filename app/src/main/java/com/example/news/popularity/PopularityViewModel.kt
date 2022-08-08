@@ -13,7 +13,6 @@ import com.example.news.sharepreferences.Preferences
 import com.example.news.util.Event
 import com.example.news.util.SwitchSchedulers
 import com.example.news.util.ViewStatus
-import com.example.news.util.getTotalPage
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -93,7 +92,7 @@ class PopularityViewModel(
     }
 
     private fun NewsData.handleNewsData() {
-        if (this.currentPage == 1 && this.articles.isNullOrEmpty()) {
+        if (!isValid()) {
             viewStatusLiveData.value = Event(ViewStatus.ShowDialog("Articles Empty."))
             return
         }
@@ -121,7 +120,7 @@ class PopularityViewModel(
         val single = titleFlowable?.defaultSinglePair() ?: getTitleFlowable().single(DEFAULT_PAIR)
         return single
             .flatMap { repository.searchPopularity(it.second, mCurrentPage, it.first) }
-            .map { it.apply { currentPage = mCurrentPage } }
+//            .map { it.apply { currentPage = mCurrentPage } }
     }
 
     private fun Flowable<Pair<String, String>>?.defaultSinglePair(): Single<Pair<String, String>> {
@@ -147,7 +146,7 @@ class PopularityViewModel(
         Log.d(TAG, "loadMore，mCurrentPage=$mCurrentPage")
         if (selectMode) run { Log.d(TAG, "is selectMode can't loadMore."); return }
         val nextPage = mCurrentPage + 1
-        val totalPage = mTotalResults.getTotalPage()
+        val totalPage = mTotalResults
         if (nextPage <= totalPage && nextPage <= MAX_POPULARITY_PAGE) {
             Log.d(TAG, "loadMore，fetch next page data!")
             mCurrentPage++

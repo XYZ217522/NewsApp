@@ -1,13 +1,23 @@
 package com.example.news.model
 
+import com.example.news.repository.NewsRepository
+import kotlin.math.ceil
+
 data class NewsData(
     val status: String?,
     val totalResults: Int,
     val articles: MutableList<ArticlesBean>?,
-) {
-    var currentPage: Int = 0
+) : Valid {
+    override fun isValid(): Boolean = !articles.isNullOrEmpty()
 
     companion object {
+        /** 利用api回傳的總數，取得api全部totalPage */
+        fun NewsData.totalPage(): Int {
+            val perSize = NewsRepository.PAGE_SIZE
+            return if (totalResults > perSize) ceil(totalResults.toDouble() / perSize.toDouble()).toInt() else 1
+        }
+
+
         fun mock(totalResults: Int? = null): NewsData {
             val articles = mutableListOf<ArticlesBean>()
             for (i in 0..(totalResults ?: 1)) {

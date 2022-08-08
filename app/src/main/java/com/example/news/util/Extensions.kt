@@ -26,12 +26,6 @@ fun Int.dp(): Int {
 
 }
 
-/** 利用api回傳的總數，取得api全部totalPage */
-fun Int.getTotalPage(): Int {
-    val perSize = NewsRepository.PAGE_SIZE
-    return if (this > perSize) ceil((this.toDouble() / perSize.toDouble())).toInt() else 1
-}
-
 /**
  * Format: yyyy-MM-dd'T'HH:mm:ss'Z'
  * 用來把日期由字串轉換成 Date

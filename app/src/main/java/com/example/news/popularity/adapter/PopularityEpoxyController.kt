@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.text.style.TextAppearanceSpan
 import android.util.Log
-import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import com.example.news.R
 import com.example.news.epoxy.*
@@ -13,7 +12,6 @@ import com.example.news.model.*
 import com.example.news.popularity.PopularityViewModel.Companion.MAX_POPULARITY_PAGE
 import com.example.news.util.createSpannableString
 import com.example.news.util.dp
-import com.example.news.util.getTotalPage
 
 class PopularityEpoxyController(
     private val mCallback: PopularityEpoxyCallback,
@@ -135,19 +133,20 @@ class PopularityEpoxyController(
 
 
     private fun checkIsLoading(articles: List<ArticlesBean>): Boolean {
-        if (articles.isEmpty()) return true
-        return mPopularityData?.let {
-            val totalPage = it.totalResults.getTotalPage()
-            it.currentPage < totalPage && it.currentPage < MAX_POPULARITY_PAGE
-        } ?: true
+//        if (articles.isEmpty()) return true
+//        return mPopularityData?.let {
+//            val totalPage = it.totalResults.totalPage
+//            it.currentPage < totalPage && it.currentPage < MAX_POPULARITY_PAGE
+//        } ?: true
+        return true
     }
 
     fun setPopularityData(newsData: NewsData) {
-        Log.d(TAG, "setPopularityData:${newsData.currentPage}")
-        mPopularityData?.let {
-            it.currentPage = newsData.currentPage
-            it.articles?.addAll(newsData.articles ?: emptyList())
-        } ?: run { mPopularityData = newsData }
+//        Log.d(TAG, "setPopularityData:${newsData.currentPage}")
+//        mPopularityData?.let {
+//            it.currentPage = newsData.currentPage
+//            it.articles?.addAll(newsData.articles ?: emptyList())
+//        } ?: run { mPopularityData = newsData }
         requestModelBuild()
     }
 
