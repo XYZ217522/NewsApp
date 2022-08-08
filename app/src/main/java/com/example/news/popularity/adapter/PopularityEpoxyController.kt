@@ -132,6 +132,7 @@ class PopularityEpoxyController(
     ): TopHeadlinesAdapter = TopHeadlinesAdapter(articles, startNumber, isBigType, mCallback)
 
 
+    // todo
     private fun checkIsLoading(articles: List<ArticlesBean>): Boolean {
 //        if (articles.isEmpty()) return true
 //        return mPopularityData?.let {
@@ -141,6 +142,7 @@ class PopularityEpoxyController(
         return true
     }
 
+    // todo
     fun setPopularityData(newsData: NewsData) {
 //        Log.d(TAG, "setPopularityData:${newsData.currentPage}")
 //        mPopularityData?.let {

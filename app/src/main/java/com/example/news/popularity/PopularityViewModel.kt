@@ -116,6 +116,7 @@ class PopularityViewModel(
         return Flowable.just(Pair(country, category))
     }
 
+    // todo
     private fun getPopularitySingle(titleFlowable: Flowable<Pair<String, String>>? = null): Single<NewsData> {
         val single = titleFlowable?.defaultSinglePair() ?: getTitleFlowable().single(DEFAULT_PAIR)
         return single
