@@ -1,23 +1,17 @@
 package com.example.news
 
-import androidx.lifecycle.Observer
 import com.example.news.model.NewsData
 import com.example.news.search.SearchViewModel
-import com.example.news.sharepreferences.PreferenceConst
 import com.example.news.sharepreferences.PreferenceConst.SEARCH_HISTORY
 import com.example.news.sharepreferences.Preferences
-import com.example.news.util.Event
-import com.example.news.util.ViewStatus
 import com.google.gson.Gson
 import io.mockk.every
 import io.mockk.mockk
 import io.reactivex.Single
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 import java.time.LocalDate
@@ -45,7 +39,7 @@ class SearchViewModelUnitTest : BaseUnitTest() {
     @Test
     fun search_TEST() {
         val mockHistoryList = listOf("a1", "b2", "c3")
-        val mockSearchResult = NewsData.mock(1)
+        val mockSearchResult = NewsData.mockPage1()
         val mockPreferences = mock(Preferences::class.java)
         val searchText = "NBA"
         val searchStartDay by lazy { LocalDate.now().minusMonths(1).toString() }

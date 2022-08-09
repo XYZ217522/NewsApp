@@ -31,14 +31,14 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        dataBinding true
+        viewBinding true
     }
     testOptions {
         unitTests.returnDefaultValues = true
     }
 
 
-    def apiKey = rootProject.ext.newsApiKey
+    def apiKey = "26993dfe3bd1477d8d20cf647dfcc8e3"
     // You have to register a API KEY,url = https://newsapi.org/account
     flavorDimensions "default"
 
@@ -92,9 +92,9 @@ android {
         androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.8.1'
 
         //Epoxy
-        implementation "com.airbnb.android:epoxy:3.5.0"
-        annotationProcessor "com.airbnb.android:epoxy-processor:3.5.0"
-        kapt "com.airbnb.android:epoxy-processor:3.5.0"
+        implementation "com.airbnb.android:epoxy:4.6.3"
+        annotationProcessor "com.airbnb.android:epoxy-processor:4.6.3"
+        kapt "com.airbnb.android:epoxy-processor:4.6.3"
 
         //mockito
         testImplementation "org.mockito:mockito-inline:4.6.1"

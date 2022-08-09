@@ -4,9 +4,9 @@ import android.util.Log
 import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import com.example.news.epoxy.SimpleNewsModel
-import com.example.news.epoxy.simpleNews
+import com.example.news.epoxy.SimpleNewsModel_
 import com.example.news.model.NewsData
-import com.example.news.util.dateToStamp
+import com.example.news.util.extensions.dateToStamp
 
 class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyController() {
 
@@ -34,11 +34,11 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
 
         if (isHistoryListMode) {
             mHistoryList.forEachIndexed { index, text ->
-                historyText {
-                    id(HistoryTextModel::class.simpleName + index)
-                    historyText(text)
-                    listener(mCallback)
-                }
+                HistoryTextModel_()
+                    .id(HistoryTextModel::class.simpleName + index)
+                    .historyText(text)
+                    .listener(mCallback)
+                    .addTo(this)
             }
 
             historyFooterModel.listener(mCallback).addIf(mHistoryList.isNotEmpty(), this)
@@ -58,11 +58,11 @@ class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyC
         }
         Log.d(TAG, "articles=$articles")
         articles.forEachIndexed { index, articlesBean ->
-            simpleNews {
-                id(SimpleNewsModel::class.simpleName + index)
-                articlesBean(articlesBean)
-                listener(mCallback)
-            }
+            SimpleNewsModel_()
+                .id(SimpleNewsModel::class.simpleName + index)
+                .articlesBean(articlesBean)
+                .listener(mCallback)
+                .addTo(this)
         }
     }
 

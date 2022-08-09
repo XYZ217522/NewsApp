@@ -5,10 +5,12 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
+import com.example.news.base.BaseEpoxyModel
+import com.example.news.databinding.AdapterSingleTextBinding
 import com.example.news.epoxy.KotlinEpoxyHolder
 
 @EpoxyModelClass
-abstract class HistoryTextModel : EpoxyModelWithHolder<HistoryTextModel.Holder>() {
+abstract class HistoryTextModel : BaseEpoxyModel<AdapterSingleTextBinding>() {
 
     @EpoxyAttribute
     var historyText: String? = null
@@ -18,16 +20,12 @@ abstract class HistoryTextModel : EpoxyModelWithHolder<HistoryTextModel.Holder>(
 
     override fun getDefaultLayout() = R.layout.adapter_single_text
 
-    override fun bind(holder: Holder) {
-        holder.tvDomain.apply {
+    override fun AdapterSingleTextBinding.bind() {
+        tvText.apply {
             historyText?.let {
                 this.text = it
-                holder.view.setOnClickListener { listener?.onHistoryTextClick(historyText!!) }
+                binding.root.setOnClickListener { listener?.onHistoryTextClick(historyText!!) }
             }
         }
-    }
-
-    class Holder : KotlinEpoxyHolder() {
-        val tvDomain by bind<TextView>(R.id.tv_text)
     }
 }

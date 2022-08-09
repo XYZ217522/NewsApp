@@ -7,10 +7,11 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
-import com.example.news.epoxy.KotlinEpoxyHolder
+import com.example.news.base.BaseEpoxyModel
+import com.example.news.databinding.AdapterGridSelectorBinding
 
 @EpoxyModelClass
-abstract class GridGroupModel : EpoxyModelWithHolder<GridGroupModel.Holder>() {
+abstract class GridGroupModel : BaseEpoxyModel<AdapterGridSelectorBinding>() {
 
     @EpoxyAttribute
     lateinit var countryAdapter: GridCellAdapter
@@ -21,26 +22,13 @@ abstract class GridGroupModel : EpoxyModelWithHolder<GridGroupModel.Holder>() {
     override fun getDefaultLayout() = R.layout.adapter_grid_selector
 
 
-    override fun bind(holder: Holder) {
-        holder.rvCountry.swapAdapter(countryAdapter, false)
-        holder.rvCategory.swapAdapter(categoryAdapter, false)
+    override fun AdapterGridSelectorBinding.bind() {
+        rvCountry.swapAdapter(countryAdapter, false)
+        rvCategory.swapAdapter(categoryAdapter, false)
     }
 
-    override fun unbind(holder: Holder) {
-        super.unbind(holder)
-        holder.rvCountry.swapAdapter(null, false)
-        holder.rvCategory.swapAdapter(null, false)
-    }
-
-    class Holder : KotlinEpoxyHolder() {
-
-        val rvCountry by bind<RecyclerView>(R.id.rv_country)
-        val rvCategory by bind<RecyclerView>(R.id.rv_category)
-
-        override fun bindView(itemView: View) {
-            super.bindView(itemView)
-            rvCountry.layoutManager = GridLayoutManager(this.view.context, 6)
-            rvCategory.layoutManager = GridLayoutManager(this.view.context, 3)
-        }
+    override fun AdapterGridSelectorBinding.unbind() {
+        rvCountry.swapAdapter(null, false)
+        rvCategory.swapAdapter(null, false)
     }
 }

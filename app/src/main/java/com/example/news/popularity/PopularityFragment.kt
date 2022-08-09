@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.base.BaseFragment
@@ -17,7 +16,7 @@ import com.example.news.popularity.adapter.PopularityEpoxyController
 import com.example.news.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
+class PopularityFragment : BaseFragment<FragmentPopularityBinding>(), PopularityEpoxyCallback {
 
     companion object {
         private const val TAG = "PopularityFragment"
@@ -26,8 +25,6 @@ class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
 
     private val mPopularityViewModel: PopularityViewModel by viewModel()
 
-    private lateinit var mBinding: FragmentPopularityBinding
-
     private val mPopularityEpoxyController by lazy { PopularityEpoxyController(this) }
 
     override var navigationVisibility = View.VISIBLE
@@ -35,22 +32,6 @@ class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
     override var isRootFragment = true
 
     override fun getSupportActionBar(): Toolbar = mBinding.popularityActionbar
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        super.onCreateView(inflater, viewGroup, savedInstanceState)
-        mBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_popularity,
-            viewGroup,
-            false
-        )
-        mBinding.lifecycleOwner = viewLifecycleOwner
-        return mBinding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -153,5 +134,13 @@ class PopularityFragment : BaseFragment(), PopularityEpoxyCallback {
     override fun onArticleClick(articlesBean: ArticlesBean) {
         Log.d(TAG, "onArticleClick articlesBean:$articlesBean")
         pushWebViewFragment(articlesBean)
+    }
+
+    override fun initViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        boolean: Boolean
+    ): FragmentPopularityBinding {
+        return FragmentPopularityBinding.inflate(inflater, container, boolean)
     }
 }

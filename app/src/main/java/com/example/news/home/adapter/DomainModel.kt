@@ -6,10 +6,11 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
-import com.example.news.epoxy.KotlinEpoxyHolder
+import com.example.news.base.BaseEpoxyModel
+import com.example.news.databinding.AdapterSingleTextBinding
 
 @EpoxyModelClass
-abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {
+abstract class DomainModel : BaseEpoxyModel<AdapterSingleTextBinding>() {
 
     @EpoxyAttribute
     var domain: String? = null
@@ -23,18 +24,10 @@ abstract class DomainModel : EpoxyModelWithHolder<DomainModel.Holder>() {
 
     override fun getDefaultLayout() = R.layout.adapter_single_text
 
-    override fun bind(holder: Holder) {
+    override fun AdapterSingleTextBinding.bind() {
         val color = if (isSelected) Color.parseColor("#3296fb") else Color.BLACK
-        holder.tvDomain.apply {
-            domain?.let {
-                this.text = it
-                this.setTextColor(color)
-                holder.view.setOnClickListener { listener?.onDomainClick(domain!!) }
-            }
-        }
-    }
-
-    class Holder : KotlinEpoxyHolder() {
-        val tvDomain by bind<TextView>(R.id.tv_text)
+        tvText.text = domain
+        tvText.setTextColor(color)
+        binding.root.setOnClickListener { listener?.onDomainClick(domain!!) }
     }
 }

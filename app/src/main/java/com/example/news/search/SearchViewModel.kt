@@ -83,6 +83,7 @@ class SearchViewModel(
             .apply { historyLiveData.postValue(this) }
     }
 
+    // todo
     fun search(searchText: String) {
         Log.d(TAG, "search:$searchText")
         Flowable
@@ -93,7 +94,7 @@ class SearchViewModel(
             .map { getToSaveList(it) }
             .map { preferences.setValue(SEARCH_HISTORY, mGson.toJson(it)).run { searchText } }
             .flatMap { repository.search(it, mSearchStartDay).toFlowable() }
-            .map { it.apply { this.currentPage = 1 }.also { mSearchText = searchText } }
+//            .map { it.apply { this.currentPage = 1 }.also { mSearchText = searchText } }
             .compose(SwitchSchedulers.applyFlowableSchedulers())
             .subscribe(
                 {

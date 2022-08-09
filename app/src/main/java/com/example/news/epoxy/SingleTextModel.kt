@@ -7,9 +7,12 @@ import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.example.news.R
+import com.example.news.base.BaseEpoxyModel
+import com.example.news.databinding.AdapterOneTextBinding
+import com.example.news.databinding.AdapterSingleTextBinding
 
 @EpoxyModelClass
-abstract class SingleTextModel : EpoxyModelWithHolder<SingleTextModel.Holder>() {
+abstract class SingleTextModel : BaseEpoxyModel<AdapterOneTextBinding>() {
 
     @EpoxyAttribute
     var spannableString: SpannableString? = null
@@ -24,13 +27,10 @@ abstract class SingleTextModel : EpoxyModelWithHolder<SingleTextModel.Holder>() 
 
     override fun getDefaultLayout(): Int = R.layout.adapter_one_text
 
-    override fun bind(holder: Holder) {
-        holder.tvTitle.setTextColor(textColor)
-        holder.tvTitle.text = spannableString ?: ""
-        holder.view.setBackgroundColor(backgroundColor)
-    }
+    override fun AdapterOneTextBinding.bind() {
+        tvText.setTextColor(textColor)
+        tvText.text = spannableString ?: ""
+        binding.root.setBackgroundColor(backgroundColor)
 
-    class Holder : KotlinEpoxyHolder() {
-        val tvTitle by bind<TextView>(R.id.tv_text)
     }
 }

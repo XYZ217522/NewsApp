@@ -1,16 +1,17 @@
 package com.example.news.model
 
+
 data class NewsData(
     val status: String?,
     val totalResults: Int,
     val articles: MutableList<ArticlesBean>?,
-) {
-    var currentPage: Int = 0
+) : Valid {
+    override fun isValid(): Boolean = !articles.isNullOrEmpty()
 
     companion object {
-        fun mock(totalResults: Int? = null): NewsData {
+        fun mock(): NewsData {
             val articles = mutableListOf<ArticlesBean>()
-            for (i in 0..(totalResults ?: 1)) {
+            for (i in 0..20) {
                 ArticlesBean(
                     source = null,
                     author = "GeorgeHsu",
@@ -22,7 +23,41 @@ data class NewsData(
                     content = ""
                 ).let { articles.add(it) }
             }
-            return NewsData(status = "ok", totalResults = totalResults ?: 1, articles = articles)
+            return NewsData(status = "ok", totalResults = 20, articles = articles)
+        }
+
+        fun mockPage1(): NewsData {
+            val articles = mutableListOf<ArticlesBean>()
+            for (i in 0..20) {
+                ArticlesBean(
+                    source = null,
+                    author = "GeorgeHsu",
+                    title = "This is a fake article #${i + 1}",
+                    description = "",
+                    url = "https://www.google.com",
+                    urlToImage = "",
+                    publishedAt = "",
+                    content = ""
+                ).let { articles.add(it) }
+            }
+            return NewsData(status = "ok", totalResults = 30, articles = articles)
+        }
+
+        fun mockPage2(): NewsData {
+            val articles = mutableListOf<ArticlesBean>()
+            for (i in 0..10) {
+                ArticlesBean(
+                    source = null,
+                    author = "GeorgeHsu",
+                    title = "This is a fake article #${i + 1}",
+                    description = "",
+                    url = "https://www.google.com",
+                    urlToImage = "",
+                    publishedAt = "",
+                    content = ""
+                ).let { articles.add(it) }
+            }
+            return NewsData(status = "ok", totalResults = 30, articles = articles)
         }
     }
 }

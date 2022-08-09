@@ -1,35 +1,23 @@
-package com.example.news.util
+package com.example.news.util.extensions
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.TextAppearanceSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
-import com.example.news.R
-import com.example.news.model.ArticlesBean
-import com.example.news.repository.NewsRepository
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.ceil
 
 fun Int.dp(): Int {
     val metrics = Resources.getSystem().displayMetrics
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()
 
-}
-
-/** 利用api回傳的總數，取得api全部totalPage */
-fun Int.getTotalPage(): Int {
-    val perSize = NewsRepository.PAGE_SIZE
-    return if (this > perSize) ceil((this.toDouble() / perSize.toDouble())).toInt() else 1
 }
 
 /**

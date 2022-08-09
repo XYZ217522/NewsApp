@@ -10,18 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.news.R
 import com.example.news.base.BaseFragment
 import com.example.news.databinding.FragmentSearchBinding
 import com.example.news.model.ArticlesBean
 import com.example.news.search.adapter.SearchEpoxyCallback
 import com.example.news.search.adapter.SearchEpoxyController
 import com.example.news.util.*
+import com.example.news.util.extensions.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchFragment : BaseFragment(), SearchEpoxyCallback {
+class SearchFragment : BaseFragment<FragmentSearchBinding>(), SearchEpoxyCallback {
 
     companion object {
         const val TAG = "SearchFragment"
@@ -29,26 +28,9 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
     }
 
     private val mSearchViewModel: SearchViewModel by viewModel()
-    private lateinit var mBinding: FragmentSearchBinding
     private val mSearchEpoxyController by lazy { SearchEpoxyController(this) }
 
     override fun getSupportActionBar(): Toolbar = mBinding.searchActionbar
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        super.onCreateView(inflater, viewGroup, savedInstanceState)
-        mBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_search,
-            viewGroup,
-            false
-        )
-        mBinding.lifecycleOwner = viewLifecycleOwner
-        return mBinding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -137,5 +119,13 @@ class SearchFragment : BaseFragment(), SearchEpoxyCallback {
     override fun onArticleClick(articlesBean: ArticlesBean) {
         Log.d(TAG, "onArticleClick articlesBean:$articlesBean")
         pushWebViewFragment(articlesBean)
+    }
+
+    override fun initViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        boolean: Boolean
+    ): FragmentSearchBinding {
+        return FragmentSearchBinding.inflate(inflater, container, boolean)
     }
 }

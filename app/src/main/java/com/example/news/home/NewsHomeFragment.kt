@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.news.R
 import com.example.news.base.BaseFragment
@@ -19,7 +18,7 @@ import com.example.news.search.SearchFragment
 import com.example.news.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
+class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallback {
 
     companion object {
         const val TAG = "NewsHomeFragment"
@@ -27,8 +26,6 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     }
 
     private val mHomeViewModel: HomeViewModel by viewModel()
-
-    private lateinit var mBinding: FragmentNewsHomeBinding
 
     private val mHomeEpoxyController by lazy { HomeEpoxyController(this) }
 
@@ -40,74 +37,88 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
 
     override fun getSupportActionBar(): Toolbar = mBinding.homeActionbar
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        viewGroup: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        super.onCreateView(inflater, viewGroup, savedInstanceState)
-        mBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_news_home,
-            viewGroup,
-            false
-        )
-        mBinding.lifecycleOwner = viewLifecycleOwner
-        return mBinding.root
-    }
+    override fun initViewBinding(inflater: LayoutInflater, container: ViewGroup?, boolean: Boolean) =
+        FragmentNewsHomeBinding.inflate(inflater, container, boolean)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e(TAG, "onViewCreated")
+        initView()
+        observeData()
+        initAction()
+    }
 
+    override fun initView() {
         mBinding.rvHome.apply {
             this.adapter = mHomeEpoxyController.adapter
             val layoutManager = LinearLayoutManager(activity)
             this.layoutManager = layoutManager
             this.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
                 override fun onLoadMore(currentPage: Int) {
-                    mHomeViewModel.loadMore(mHomeEpoxyController.isSelectDomainMode)
+                    if (!mHomeEpoxyController.isSelectDomainMode) {
+                        mHomeViewModel.onLoadMoreEveryThing()
+                    }
                 }
             })
-//            mHomeEpoxyController.requestModelBuild()
         }
 
         mBinding.tvTitle.setOnClickListener {
-            mHomeEpoxyController.changeMode().let { mBinding.rvHome.setAnimation(it) }
+            mHomeEpoxyController.changeDomainMode()
+            val animation = mHomeEpoxyController.getSelectDomainAnimation()
+            mBinding.rvHome.setAnimation(animation)
         }
-
-        binding()
     }
 
-    private fun binding() {
+    // 應該要在 ViewModel 寫 LoadMore 是否觸發的邏輯，Epoxy只是被控制的 View
+    // 用 ViewState 是因為如果有多隻 API ，用 Intent 很容易造成 UI 上的錯亂，畢竟每隻 API Call 的狀態都不一樣會互相干擾
 
-        mHomeViewModel.titleLiveData.observe(viewLifecycleOwner) {
-            Log.d(TAG, "title = $it")
-            it ?: return@observe
-            mBinding.tvTitle.text = it
-            mHomeEpoxyController.mSelectDomain = it
+    override fun observeData() {
+        mHomeViewModel.mTitleLiveData.observe(viewLifecycleOwner) {
+            Log.d(TAG, "titleLiveData = $it")
+            val title = it ?: return@observe
+            mBinding.tvTitle.text = title
+            mHomeEpoxyController.mSelectDomain = title
         }
 
-        mHomeViewModel.newsEverythingLiveData.observe(viewLifecycleOwner) {
-            Log.d(TAG, "data = ${it.print()}")
-            val newsData = it?.getContentIfNotHandled() ?: return@observe
-            mHomeEpoxyController.setNewsData(newsData)
+        mHomeViewModel.mArticlesLiveData.observe(viewLifecycleOwner) {
+            Log.d(TAG, "newsEverythingLiveData = ${it.print()}")
+            val articles = it?.getContentIfNotHandled() ?: return@observe
+            mHomeEpoxyController.mAlArticles = articles
         }
 
-        mHomeViewModel.viewStatusLiveData.observe(viewLifecycleOwner) {
-            Log.d(TAG, "view status = ${it.print()}")
+        mHomeViewModel.mViewStatusLiveData.observe(viewLifecycleOwner) {
+            Log.d(TAG, "viewStatusLiveData = ${it.print()}")
             val viewStatus = it?.getContentIfNotHandled() ?: return@observe
             when (viewStatus) {
-                is ViewStatus.ShowDialog -> {
+                is HomeViewState.ShowToast -> {
+                    mHomeEpoxyController.clearNewsData()
+                    showRecyclerView(false)
+                }
+                is HomeViewState.GetDataSuccess -> {
+                    mHomeEpoxyController.mIsLoadMore = viewStatus.isShow
+                    showRecyclerView(true)
+                }
+                is HomeViewState.GetDataFail -> {
+                    Log.d(TAG, "viewStatusLiveData.msg = ${viewStatus.msg}")
+                    showRecyclerView(true)
+                    if (viewStatus.msg.isNotEmpty()) activity?.messageDialog(viewStatus.msg)?.show()
+                }
+                is HomeViewState.ShowDialog -> {
                     activity?.messageDialog(viewStatus.msg, viewStatus.title)?.show()
                 }
-                is ViewStatus.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
-                is ViewStatus.Loading -> showRecyclerView(false)
-                is ViewStatus.GetDataSuccess -> showRecyclerView(true)
-                is ViewStatus.GetDataFail -> showRecyclerView(true)
+                is HomeViewState.ScrollToUp -> mBinding.rvHome.scrollToPosition(0)
+                is HomeViewState.GetLoadMoreDataFail -> showRecyclerView(true)
                 else -> Log.d(TAG, "not implement.")
             }
         }
     }
+
+    // start viewmodel process ex: getData, FetchAPI
+    override fun initAction() {
+        Log.e(TAG, "initAction")
+        mHomeViewModel.onStartRequestEveryThing()
+    }
+
 
     private fun showRecyclerView(show: Boolean) {
         mBinding.rvHome.apply { if (show) visible() else invisible() }
@@ -118,8 +129,6 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
         mBinding.rvHome.adapter = null
         mBinding.rvHome.clearOnScrollListeners()
         super.onDestroyView()
-//        mHomeViewModel.unsubscribe()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -133,8 +142,8 @@ class NewsHomeFragment : BaseFragment(), HomeEpoxyCallback {
     override fun onDomainClick(domain: String) {
         Log.d(TAG, "onDomainClick domain:$domain")
         mHomeEpoxyController.clearNewsData()
-        mHomeViewModel.resetDataPage()
-        mHomeViewModel.getEverythingByDomain(domain, true)
+        mHomeEpoxyController.changeDomainMode()
+        mHomeViewModel.onDomainClickRequestEveryThing(domain)
     }
 
     override fun onArticleClick(articlesBean: ArticlesBean) {
