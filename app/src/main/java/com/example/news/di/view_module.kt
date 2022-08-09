@@ -1,9 +1,9 @@
 package com.example.news.di
 
-import com.example.news.home.GetEveryThingUseCase
 import com.example.news.home.HomeViewModel
 import com.example.news.popularity.PopularityViewModel
 import com.example.news.search.SearchViewModel
+import com.example.news.usecase.GetEveryThingUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

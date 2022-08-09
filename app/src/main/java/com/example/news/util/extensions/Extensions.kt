@@ -1,24 +1,18 @@
-package com.example.news.util
+package com.example.news.util.extensions
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.TextAppearanceSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
-import com.example.news.R
-import com.example.news.model.ArticlesBean
-import com.example.news.repository.NewsRepository
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.ceil
 
 fun Int.dp(): Int {
     val metrics = Resources.getSystem().displayMetrics

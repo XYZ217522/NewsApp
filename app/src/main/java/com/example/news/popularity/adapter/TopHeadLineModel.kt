@@ -9,7 +9,7 @@ import com.example.news.R
 import com.example.news.epoxy.KotlinEpoxyHolder
 import com.example.news.model.ArticlesBean
 import com.example.news.model.getExtraInfoText
-import com.example.news.util.formatStringToDate
+import com.example.news.util.extensions.formatStringToDate
 import com.example.news.util.gone
 import com.example.news.util.loadUrl
 import com.example.news.util.setTextOrGone

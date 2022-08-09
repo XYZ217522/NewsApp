@@ -9,9 +9,8 @@ import com.airbnb.epoxy.EpoxyController
 import com.example.news.R
 import com.example.news.epoxy.*
 import com.example.news.model.*
-import com.example.news.popularity.PopularityViewModel.Companion.MAX_POPULARITY_PAGE
-import com.example.news.util.createSpannableString
-import com.example.news.util.dp
+import com.example.news.util.extensions.createSpannableString
+import com.example.news.util.extensions.dp
 
 class PopularityEpoxyController(
     private val mCallback: PopularityEpoxyCallback,

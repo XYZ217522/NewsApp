@@ -11,13 +11,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.news.R
 import com.example.news.base.BaseFragment
 import com.example.news.databinding.FragmentSearchBinding
 import com.example.news.model.ArticlesBean
 import com.example.news.search.adapter.SearchEpoxyCallback
 import com.example.news.search.adapter.SearchEpoxyController
 import com.example.news.util.*
+import com.example.news.util.extensions.hideKeyboard
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(), SearchEpoxyCallback {

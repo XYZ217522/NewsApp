@@ -29,7 +29,7 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
 
     var mAlArticles: MutableList<ArticlesBean> = mutableListOf()
         set(value) {
-            field.addAll(value)
+            field = value
             requestModelBuild()
         }
 
@@ -69,13 +69,12 @@ class HomeEpoxyController(private val mCallback: HomeEpoxyCallback) : EpoxyContr
 
     fun clearNewsData() {
         mIsLoadMore = false
-        isSelectDomainMode = false
         mAlArticles.clear()
         requestModelBuild()
     }
 
     fun changeDomainMode() {
-        Log.d(TAG, "changeMode.")
+        Log.d(TAG, "changeMode: $isSelectDomainMode")
         isSelectDomainMode = !isSelectDomainMode
         requestModelBuild()
     }

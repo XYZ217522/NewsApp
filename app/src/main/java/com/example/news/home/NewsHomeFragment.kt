@@ -73,20 +73,20 @@ class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallb
     // 用 ViewState 是因為如果有多隻 API ，用 Intent 很容易造成 UI 上的錯亂，畢竟每隻 API Call 的狀態都不一樣會互相干擾
 
     override fun observeData() {
-        mHomeViewModel.titleLiveData.observe(viewLifecycleOwner) {
+        mHomeViewModel.mTitleLiveData.observe(viewLifecycleOwner) {
             Log.d(TAG, "titleLiveData = $it")
             val title = it ?: return@observe
             mBinding.tvTitle.text = title
             mHomeEpoxyController.mSelectDomain = title
         }
 
-        mHomeViewModel.newsEverythingLiveData.observe(viewLifecycleOwner) {
+        mHomeViewModel.mArticlesLiveData.observe(viewLifecycleOwner) {
             Log.d(TAG, "newsEverythingLiveData = ${it.print()}")
-            val newsData = it?.getContentIfNotHandled() ?: return@observe
-            mHomeEpoxyController.mAlArticles = newsData.articles ?: mutableListOf()
+            val articles = it?.getContentIfNotHandled() ?: return@observe
+            mHomeEpoxyController.mAlArticles = articles
         }
 
-        mHomeViewModel.viewStatusLiveData.observe(viewLifecycleOwner) {
+        mHomeViewModel.mViewStatusLiveData.observe(viewLifecycleOwner) {
             Log.d(TAG, "viewStatusLiveData = ${it.print()}")
             val viewStatus = it?.getContentIfNotHandled() ?: return@observe
             when (viewStatus) {
@@ -99,6 +99,7 @@ class NewsHomeFragment : BaseFragment<FragmentNewsHomeBinding>(), HomeEpoxyCallb
                     showRecyclerView(true)
                 }
                 is HomeViewState.GetDataFail -> {
+                    Log.d(TAG, "viewStatusLiveData.msg = ${viewStatus.msg}")
                     showRecyclerView(true)
                     if (viewStatus.msg.isNotEmpty()) activity?.messageDialog(viewStatus.msg)?.show()
                 }

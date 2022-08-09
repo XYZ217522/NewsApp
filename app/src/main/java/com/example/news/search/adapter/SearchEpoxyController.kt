@@ -5,9 +5,8 @@ import com.airbnb.epoxy.AutoModel
 import com.airbnb.epoxy.EpoxyController
 import com.example.news.epoxy.SimpleNewsModel
 import com.example.news.epoxy.SimpleNewsModel_
-import com.example.news.epoxy.simpleNews
 import com.example.news.model.NewsData
-import com.example.news.util.dateToStamp
+import com.example.news.util.extensions.dateToStamp
 
 class SearchEpoxyController(private val mCallback: SearchEpoxyCallback) : EpoxyController() {
 

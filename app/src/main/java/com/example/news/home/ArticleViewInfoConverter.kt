@@ -1,9 +1,8 @@
 package com.example.news.home
 
 import com.example.news.model.ArticlesBean
-import com.example.news.model.NewsData
 import com.example.news.model.getExtraInfoText
-import com.example.news.util.formatStringToDate
+import com.example.news.util.extensions.formatStringToDate
 
 object ArticleViewInfoConverter {
 

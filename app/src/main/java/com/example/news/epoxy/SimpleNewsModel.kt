@@ -5,11 +5,8 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.example.news.R
 import com.example.news.base.BaseEpoxyModel
 import com.example.news.databinding.AdapterSimpleNewsBinding
-import com.example.news.home.ArticleViewInfo
 import com.example.news.home.ArticleViewInfoConverter
 import com.example.news.model.ArticlesBean
-import com.example.news.model.getExtraInfoText
-import com.example.news.util.formatStringToDate
 import com.example.news.util.loadUrl
 import com.example.news.util.setTextOrGone
 
