@@ -1,4 +1,4 @@
-package com.example.news
+package com.example.news.home
 
 import android.media.metrics.Event
 import com.example.news.home.HomeViewModel

@@ -1,4 +1,4 @@
-//package com.example.news
+package com.example.news.home//package com.example.news
 //
 //import com.example.news.home.HomeViewModel
 //import com.example.news.home.HomeViewModel.Companion.DEFAULT_DOMAIN

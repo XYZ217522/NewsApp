@@ -38,7 +38,7 @@ android {
     }
 
 
-    def apiKey = "4427f64bdd604b158826cf22dbecb892"
+    def apiKey = "26993dfe3bd1477d8d20cf647dfcc8e3"
     // You have to register a API KEY,url = https://newsapi.org/account
     flavorDimensions "default"
 

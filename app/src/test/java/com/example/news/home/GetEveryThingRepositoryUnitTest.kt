@@ -1,4 +1,4 @@
-package com.example.news
+package com.example.news.home
 
 import com.example.news.model.NewsData
 import com.example.news.repository.NewsRepository
