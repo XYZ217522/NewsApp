@@ -7,17 +7,21 @@ import io.reactivex.Single
 
 class GetEveryThingUseCase(private val repository: NewsRepository) {
     var pagingParam = PagingParamByPage.getEveryThingPagingParam()
+    private var currentDomain = ""
 
+    /** currentPage.default = 0 ，等取值成功後才改為1，避免失敗時有誤加 currentPage 的問題
+    * */
     fun getEveryThing(domain: String): Single<NewsData> {
+
+        if (currentDomain != domain) {
+            currentDomain = domain
+            pagingParam.reset()
+        }
         return repository
-            .getEverything(domain, pagingParam.offsetPage)
+            .getEverything(domain, pagingParam.currentPage + 1)
             .doOnSuccess {
                 pagingParam.setTotalItem(it.totalResults)
                 pagingParam.offsetNextPage()
             }
-    }
-
-    fun resetCurrentPage() {
-        pagingParam.reset()
     }
 }

@@ -53,18 +53,18 @@ class HomeViewModel(
 
     fun onLoadMoreEveryThing() {
         Log.e(TAG, "onLoadMoreEveryThing")
-        getEverythingByDomain(mCurrentDomain, resetPage = false, isFirst = false)
+        getEverythingByDomain(requestDomain = mCurrentDomain, isFirst = false)
     }
 
     fun onStartRequestEveryThing() {
         Log.e(TAG, "onStartRequestEveryThing")
-        getEverythingByDomain(requestDomain = mCurrentDomain, resetPage = true, isFirst = true)
+        getEverythingByDomain(requestDomain = mCurrentDomain, isFirst = true)
     }
 
     fun onDomainClickRequestEveryThing(domain: String) {
         Log.e(TAG, "onDomainClickRequestEveryThing")
         mArticlesLiveData.lambdaMutableList { it.clear() }
-        getEverythingByDomain(domain, resetPage = true, isFirst = true)
+        getEverythingByDomain(requestDomain = domain, isFirst = true)
     }
 
     /**
@@ -73,10 +73,8 @@ class HomeViewModel(
      * (2) resetPage 為 true 時 useCase ０
      * (3) isFirst 為 true 時，
      * */
-    private fun getEverythingByDomain(requestDomain: String, resetPage: Boolean = false, isFirst: Boolean) {
+    private fun getEverythingByDomain(requestDomain: String, isFirst: Boolean) {
         Log.d(TAG, "getEverythingByDomain domain=$requestDomain")
-
-        if (resetPage) getEveryThingUseCase.resetCurrentPage()
 
         if (isFirst) mViewStatusLiveData.value = Event(HomeViewState.Loading)
 

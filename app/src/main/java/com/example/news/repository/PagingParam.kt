@@ -6,26 +6,26 @@ data class PagingParamByItem(val offsetItem: Int = 0, val limit: Int = 10)
 
 data class PagingParamByPage(
     private var _totalItem: Int,
-    private var _offsetPage: Int = 1,
+    private var _currentPage: Int = 1,
     private val _perPageSize: Int = 20
 ) {
     companion object {
         const val GET_EVERYTHING_PAGE_SIZE = 20
 
         fun getEveryThingPagingParam(): PagingParamByPage =
-            PagingParamByPage(_totalItem = 0, _offsetPage = 1, _perPageSize = GET_EVERYTHING_PAGE_SIZE)
+            PagingParamByPage(_totalItem = 0, _currentPage = 1, _perPageSize = GET_EVERYTHING_PAGE_SIZE)
     }
 
-    val offsetPage: Int
-        get() = _offsetPage
+    val currentPage: Int
+        get() = _currentPage
 
     /** 利用api回傳的總數，取得api全部totalPage */
-    private fun totalPage(): Int {
+    fun totalPage(): Int {
         return if (_totalItem > _perPageSize) ceil(_totalItem.toDouble() / _perPageSize.toDouble()).toInt() else 1
     }
 
     fun offsetNextPage() {
-        _offsetPage += 1
+        _currentPage += 1
     }
 
     /**
@@ -35,11 +35,12 @@ data class PagingParamByPage(
         this._totalItem = totalItem
     }
 
-    fun isCanLoadMore() = totalPage() > _offsetPage
+    /** _offsetPage 是下一次打API的位移數*/
+    fun isCanLoadMore() = totalPage() > (_currentPage)
 
     fun reset() {
         _totalItem = 0
-        _offsetPage = 1
+        _currentPage = 0
     }
 
 }
