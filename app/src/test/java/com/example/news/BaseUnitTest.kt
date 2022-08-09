@@ -36,6 +36,7 @@ abstract class BaseUnitTest {
     @MockK
     lateinit var kRepository: NewsRepository
 
+    /** 避免 LiveData 在 isMainThread 發生 NullPointException */
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
